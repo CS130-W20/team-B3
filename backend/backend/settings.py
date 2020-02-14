@@ -78,7 +78,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': True,
         'NAME': 'swipex-db',
+        'CLIENT': {
+            'host': 'cluster0-vr8vz.mongodb.net',
+            'username': 'dev',
+            'password': 'kFSiLx0DlgGg0XOM',
+            'authSource': 'swipex',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
 
