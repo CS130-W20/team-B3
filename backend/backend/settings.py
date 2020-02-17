@@ -81,11 +81,7 @@ DATABASES = {
         'ENFORCE_SCHEMA': True,
         'NAME': 'swipex-db',
         'CLIENT': {
-            'host': 'cluster0-vr8vz.mongodb.net',
-            'username': 'dev',
-            'password': 'kFSiLx0DlgGg0XOM',
-            'authSource': 'swipex',
-            'authMechanism': 'SCRAM-SHA-1'
+            'host': 'mongodb+srv://dev:kFSiLx0DlgGg0XOM@cluster0-vr8vz.mongodb.net/test?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority'
         }
     }
 }
