@@ -29,10 +29,10 @@ class DiningHallSerializer(serializers.Serializer):
         return api.DiningHall.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.open_at = serializers.TimeField()
-        instance.close_at = serializers.TimeField()
-        instance.name = serializers.CharField(max_length=50)
-        instance.description = serializers.CharField(max_length=200)
-        instance.picture = serializers.URLField()
+        instance.open_at = validated_data.get('open_at', instance.open_at)
+        instance.close_at = validated_data.get('close_at', instance.close_at)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.picture = validated_data.get('picture', instance.picture)
         instance.save()
         return instance
