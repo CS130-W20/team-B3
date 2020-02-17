@@ -51,3 +51,12 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = api.Transaction
         fields = ['from', 'to', 'paid', 'total', 'details']
+
+
+class ListingSerializer(serializers.ModelSerializer):
+    swipe = SwipeSerializer()
+    seller_loc = LocationSerializer()
+
+    class Meta:
+        model = api.Listing
+        fields = ['swipe', 'seller_loc', 'description']
