@@ -52,3 +52,11 @@ class UserSerializer(serializers.Serializer):
         instance.pp_email = serializers.EmailField('pp_email', instance.pp_email)
         instance.save()
         return instance
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    home_loc = LocationSerializer()
+
+    class Meta:
+        model = api.Account
+        fields = ['home_loc', 'pw', 'phone']
