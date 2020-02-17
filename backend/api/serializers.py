@@ -8,10 +8,10 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = ['id', 'lat', 'lng']
 
 
-class DiningHallSerializer(serializers.ModelSerializer):
-    class Meta:
+class DiningHallSerializer(LocationSerializer):
+    class Meta(LocationSerializer.Meta):
         model = api.DiningHall
-        fields = ['open_at', 'close_at', 'name', 'description', 'picture']
+        fields = LocationSerializer.Meta.fields + ['open_at', 'close_at', 'name', 'description', 'picture']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,12 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['status', 'id', 'pp_email']
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class AccountSerializer(UserSerializer):
     home_loc = LocationSerializer()
 
-    class Meta:
+    class Meta(UserSerializer.Meta):
         model = api.Account
-        fields = ['home_loc', 'pw', 'phone']
+        fields = UserSerializer.Meta.fields + ['home_loc', 'pw', 'phone']
 
 
 class SwipeSerializer(serializers.ModelSerializer):
