@@ -24,7 +24,7 @@ class User(models.Model):
 	pp_email = models.EmailField()
 
 class Account(User):
-	home_loc = models.OneToOneField(Location)
+	home_loc = models.OneToOneField(Location, on_delete=models.DO_NOTHING)
 	pw = models.CharField()
 	phone = models.CharField() #Doesn't make sense to use numerical, we'll need to validate though
 
@@ -36,8 +36,8 @@ class Swipe(models.Model):
 		('3', 'Refunded')
 	]
 	status = models.CharField(max_length=1, choices=SWIPE_STATES)
-	seller = models.OneToOneField(User)
-	location = models.ForeignKey(DiningHall) #possibly add on_delete=models.CASCADE, but we might want to keep data around
+	seller = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+	location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING) #possibly add on_delete=models.CASCADE, but we might want to keep data around
 	price = models.DecimalField(decimal_places=2)
 
 class Bid(models.Model):
@@ -47,18 +47,18 @@ class Bid(models.Model):
 		('2', 'Rejected')
 	]
 	status = models.CharField(max_length=1, choices=BID_STATES)
-	swipe = models.ForeignKey(Swipe)
-	buyer = models.ForeignKey(User)
+	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
+	buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	bid_price = models.DecimalField(decimal_places=2)
 
 class Transaction(models.Model):
-	from = models.CharField()
-	to = models.CharField()
+	sender = models.CharField()
+	recipient = models.CharField()
 	paid = models.DateTimeField()
 	total = models.DecimalField(decimal_places=2)
-	details = model.CharField()
+	details = models.CharField()
 
 class Listing(models.Model):
-	swipe = models.ForeignKey(Swipe)
-	seller_loc = models.ForeignKey(Location)
+	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
+	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
 	description = models.CharField(max_length=300)

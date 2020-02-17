@@ -50,7 +50,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = api.Transaction
-        fields = ['from', 'to', 'paid', 'total', 'details']
+        fields = ['sender', 'receipient', 'paid', 'total', 'details']
 
 
 class ListingSerializer(serializers.ModelSerializer):
