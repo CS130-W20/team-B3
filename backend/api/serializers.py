@@ -34,3 +34,12 @@ class SwipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = api.Swipe
         fields = ['status', 'seller', 'location', 'price']
+
+
+class BidSerializer(serializers.ModelSerializer):
+    swipe = SwipeSerializer()
+    buyer = UserSerializer()
+
+    class Meta:
+        model = api.Bid
+        fields = ['status', 'swipe', 'buyer', 'bid_price']
