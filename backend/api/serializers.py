@@ -30,6 +30,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
 class SwipeSerializer(serializers.ModelSerializer):
     seller = UserSerializer()
+    location = LocationSerializer()
 
     class Meta:
         model = api.Swipe
