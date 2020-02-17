@@ -59,4 +59,4 @@ class ListingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = api.Listing
-        fields = ['swipe', 'seller_loc', 'description']
+        fields = ['swipe', 'seller_loc', 'description', 'visible_from', 'visible_to']

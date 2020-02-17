@@ -62,3 +62,5 @@ class Listing(models.Model):
 	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
 	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
 	description = models.CharField(max_length=300)
+	visible_from = models.TimeField()
+	visible_to = models.TimeField()
