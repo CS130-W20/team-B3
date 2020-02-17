@@ -36,3 +36,19 @@ class DiningHallSerializer(serializers.Serializer):
         instance.picture = validated_data.get('picture', instance.picture)
         instance.save()
         return instance
+
+
+class UserSerializer(serializers.Serializer):
+    id = serializers.CharField(read_only=True)
+    status = serializers.CharField(max_length=1)
+    pp_email = serializers.EmailField()
+
+    def create(self, validated_data):
+        return api.User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = serializers.get('id', instance.id)
+        instance.status = serializers.get('status', instance.status)
+        instance.pp_email = serializers.EmailField('pp_email', instance.pp_email)
+        instance.save()
+        return instance
