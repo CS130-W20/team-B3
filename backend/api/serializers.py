@@ -26,3 +26,11 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = api.Account
         fields = ['home_loc', 'pw', 'phone']
+
+
+class SwipeSerializer(serializers.ModelSerializer):
+    seller = UserSerializer()
+
+    class Meta:
+        model = api.Swipe
+        fields = ['status', 'seller', 'location', 'price']
