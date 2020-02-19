@@ -7,6 +7,9 @@ yarn-error.log*
 lerna-debug.log*
 
 # Misc
+#Python cache folders
+**/__pycache__
+
 .DS_Store
 .vscode
 
