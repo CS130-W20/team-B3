@@ -10,5 +10,5 @@ urlpatterns = [
     path('listings/create/', listingviews.listing_create),
     path('listings/bid/place/', listingviews.listing_placebid),
     path('listings/bid/update/', listingviews.listing_updatebid),
-    path('listings/bid/bget/', listingviews.buyergetbids)
+    path('listings/bid/bget/', listingviews.listing_buyergetbids)
 ]

@@ -49,19 +49,20 @@ def listing_placebid(request):
         listing_obj = Listing.objects.get(listing_id=data['listing_id']) # Attempt to get the listing associated with the given ID
     except Listing.DoesNotExist:
         return Response({'STATUS': '1', 'REASON': 'NO LISTING EXISTS WITH GIVEN LISTING_ID'}, status=status.HTTP_400_BAD_REQUEST)
-    bid_status = 0 # Default to a regular bid aka pending transaction
-    if (data['bid_price'] >= listing_obj.swipe.price) { # If the user's bid is greater than the asking price, automatically confirm it, aka buy-it-now
-        bid_status = 1
-    }
-    bid_data = {'status': bid_status, 'swipe': listing_obj.swipe.swipe_id, 'buyer': data['user_id'], 'bid_price': data['bid_price']}
-    bid_serializer = BidSerializer(data=bid_data)
-    if bid_serializer.is_valid():
-        bid_serializer.save()
-        # TODO: Generate and send appropriate notification to the seller based on bid status
-        return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
+    active_bidset = Bid.objects.filter(buyer=data['user_id'], swipe=listing_obj.swipe.swipe_id)
+    if active_bidset.filter(status=1).exists(): # If the user has already placed a bid that's been accepted, then we shouldn't allow placing another bid
+        return Response({'STATUS': '1', 'REASON': 'CONFIRMED BID ALREADY PLACED'}, status=status.HTTP_400_BAD_REQUEST)
+    existing_bid = active_bidset.filter(status=0).first()
+    if existing_bid is not None:
+        return bid_update(existing_bid, data)
     else:
-        return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        bid_data = {'swipe': listing_obj.swipe.swipe_id, 'buyer': data['user_id'], 'bid_price': 0}
+        bid_serializer = BidSerializer(data=bid_data)
+        if bid_serializer.is_valid():
+            bid_obj = bid_serializer.save()
+            return bid_update(bid_obj, data)
+        else:
+            return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def listing_updatebid(request):
@@ -75,17 +76,21 @@ def listing_updatebid(request):
         bid_obj = Bid.objects.get(bid_id=data['bid_id'])
     except Bid.DoesNotExist:
         return Response({'STATUS': '1', 'REASON': 'NO BID EXISTS WITH GIVEN BID_ID'})
+    return bid_update(bid_obj, data)
+
+def bid_update(bid_obj, data): # This function is only called by other API endpoints, it's not a dedicated endpoint
     if bid_obj.buyer.user_id == data['user_id']:
-        if bid_obj.status == 0:
+        if int(bid_obj.status) == 0:
             bid_status = 0 # Default to pending transaction
-            bid_price = data.get('bid_price', bid_obj.bid_price) # Attempt to get their new price, default to the existing bid price if they didn't specify one
-            if bid_price >= bid_obj.swipe.price: # They hit the buy-it-now criteria
+            bid_price = float(data.get('bid_price', bid_obj.bid_price)) # Attempt to get their new price, default to the existing bid price if they didn't specify one
+            if bid_price >= float(bid_obj.swipe.price): # They hit the buy-it-now criteria
                 bid_status = 1
             bid_data = {'status': bid_status, 'bid_price': bid_price}
             bid_serializer = BidSerializer(bid_obj, data=bid_data, partial=True) # Partial data update since we're only updating a couple fields
             if bid_serializer.is_valid():
                 bid_serializer.save()
-                if (bid_obj.bid_price != bid_price && bid_price > bid_obj.bid_price):
+                if (float(bid_obj.bid_price) != bid_price and bid_price > float(bid_obj.bid_price)):
+                    pass
                     # Only send a notification to the seller that a bid has been updated if they RAISE their price
                 return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
             else: # This is another one that should never be triggered unless the bid_price from the POST is an invalid number
@@ -94,12 +99,13 @@ def listing_updatebid(request):
             return Response({'STATUS': '1', 'REASON': 'BID HAS ALREADY BEEN FINALIZED'})
     else:
         return Response({'STATUS': '1', 'REASON': 'BIDDER ID MISMATCHES SUPPLIED USER'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
-@api_view(['GET'])
+@api_view(['POST'])
 def listing_buyergetbids(request):
     data = request.data
     # TODO: Turn this into an enum, but for now -1 gets all bids, 0 gets pending bids, 1 gets accepted, and 2 gets rejected, this matches up with BID_STATES in the Bid model
-    filter_type = data.get('bid_filter_type', -1)
+    filter_type = int(data.get('bid_filter_type', -1))
     if 'user_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
     bids = None
