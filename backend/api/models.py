@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 
 # Create your models here.
 class Location(models.Model):
@@ -8,8 +8,7 @@ class Location(models.Model):
 
 class DiningHall(Location):
 	hall_id = models.AutoField(primary_key=True)
-	open_at = models.TimeField()
-	close_at = models.TimeField()
+	hours = models.ListField()
 	name = models.CharField(max_length=50)
 	description = models.CharField(max_length=255)
 	picture = models.URLField()
@@ -29,6 +28,12 @@ class Account(User):
 	pw = models.CharField(max_length=255)
 	phone = models.CharField(max_length=30) #Doesn't make sense to use numerical, we'll need to validate though
 
+class Listing(models.Model):
+	listing_id = models.AutoField(primary_key=True)
+	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
+	description = models.CharField(max_length=300, null=True)
+	visibility = models.ListField()
+
 class Swipe(models.Model):
 	SWIPE_STATES = [
 		('0', 'Available'),
@@ -37,6 +42,7 @@ class Swipe(models.Model):
 		('3', 'Refunded')
 	]
 	swipe_id = models.AutoField(primary_key=True)
+	listing = models.ForeignKey(Listing, on_delete=models.DO_NOTHING) # We need a many-to-one relationship here, multiple swipes can all be tied to one listing
 	status = models.CharField(max_length=1, choices=SWIPE_STATES, default=0)
 	seller = models.OneToOneField(User, on_delete=models.DO_NOTHING)
 	location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING) #possibly add on_delete=models.CASCADE, but we might want to keep data around
@@ -44,9 +50,10 @@ class Swipe(models.Model):
 
 class Bid(models.Model):
 	BID_STATES = [
-		('0', 'Pending'),
-		('1', 'Accepted'),
-		('2', 'Rejected')
+		('0', 'Pending'), #  Doesn't meet minimum, needs to be approved by the seller
+		('1', 'Accepted'), # Meets minimum, auto-accepted but seller still hasn't confirmed they can provide it
+		('2', 'Confirmed'), # Approved by seller
+		('3', 'Rejected') # Rejected by seller
 	]
 	bid_id = models.AutoField(primary_key=True)
 	status = models.CharField(max_length=1, choices=BID_STATES, default=0)
@@ -62,10 +69,3 @@ class Transaction(models.Model):
 	total = models.DecimalField(max_digits=5, decimal_places=2)
 	details = models.CharField(max_length=255)
 
-class Listing(models.Model):
-	listing_id = models.AutoField(primary_key=True)
-	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
-	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
-	description = models.CharField(max_length=300, null=True)
-	visible_from = models.TimeField()
-	visible_to = models.TimeField()
