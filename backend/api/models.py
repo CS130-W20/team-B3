@@ -2,11 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Location(models.Model):
-	id = models.CharField(max_length=255, primary_key=True)
+	loc_id = models.AutoField(primary_key=True)
 	lat = models.DecimalField(max_digits=9, decimal_places=6)
 	lng = models.DecimalField(max_digits=9, decimal_places=6)
 
 class DiningHall(Location):
+	hall_id = models.AutoField(primary_key=True)
 	open_at = models.TimeField()
 	close_at = models.TimeField()
 	name = models.CharField(max_length=50)
@@ -19,8 +20,8 @@ class User(models.Model):
 		('1', 'Active'),
 		('2', 'Banned')
 	]
-	status = models.CharField(max_length=1, choices=USER_STATES)
-	id = models.CharField(max_length=255, primary_key=True)
+	status = models.CharField(max_length=1, choices=USER_STATES, default=0)
+	user_id = models.CharField(max_length=255, primary_key=True)
 	pp_email = models.EmailField()
 
 class Account(User):
@@ -35,7 +36,8 @@ class Swipe(models.Model):
 		('2', 'Finalized'),
 		('3', 'Refunded')
 	]
-	status = models.CharField(max_length=1, choices=SWIPE_STATES)
+	swipe_id = models.AutoField(primary_key=True)
+	status = models.CharField(max_length=1, choices=SWIPE_STATES, default=0)
 	seller = models.OneToOneField(User, on_delete=models.DO_NOTHING)
 	location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING) #possibly add on_delete=models.CASCADE, but we might want to keep data around
 	price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -46,12 +48,14 @@ class Bid(models.Model):
 		('1', 'Accepted'),
 		('2', 'Rejected')
 	]
-	status = models.CharField(max_length=1, choices=BID_STATES)
+	bid_id = models.AutoField(primary_key=True)
+	status = models.CharField(max_length=1, choices=BID_STATES, default=0)
 	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
 	buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	bid_price = models.DecimalField(max_digits=5, decimal_places=2)
 
 class Transaction(models.Model):
+	t_id = models.AutoField(primary_key=True)
 	sender = models.CharField(max_length=255)
 	recipient = models.CharField(max_length=255)
 	paid = models.DateTimeField()
@@ -59,8 +63,9 @@ class Transaction(models.Model):
 	details = models.CharField(max_length=255)
 
 class Listing(models.Model):
+	listing_id = models.AutoField(primary_key=True)
 	swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
-	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
+	seller_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
 	description = models.CharField(max_length=300)
 	visible_from = models.TimeField()
 	visible_to = models.TimeField()
