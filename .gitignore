@@ -9,6 +9,7 @@ lerna-debug.log*
 # Misc
 #Python cache folders
 **/__pycache__
+*.pyc
 
 .DS_Store
 .vscode
