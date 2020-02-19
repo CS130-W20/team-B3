@@ -3,9 +3,10 @@ from rest_framework import routers
 from . import views, accountviews, listingviews
 
 router = routers.DefaultRouter()
-#Code to register API urls will go here
+# Code to register API urls will go here
 urlpatterns = [
-	path('accounts/create/', accountviews.account_create),
-	path('accounts/update/', accountviews.account_update),
-	path('listings/create/', listingviews.listing_create)
+    path('accounts/create/', accountviews.account_create),
+    path('accounts/update/', accountviews.account_update),
+    path('listings/create/', listingviews.listing_create),
+    path('listings/buy/', listingviews.listing_buy)
 ]
