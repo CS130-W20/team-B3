@@ -58,7 +58,7 @@ class Bid(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)
     bid_price = models.DecimalField(max_digits=5, decimal_places=2)
-    desired_time = models.DateTimeField(null=True)
+    desired_time = models.TimeField(null=True)
 
 
 class Transaction(models.Model):
