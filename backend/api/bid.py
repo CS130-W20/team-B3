@@ -6,15 +6,7 @@ from api.models import DiningHall, Swipe, Bid
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
 
-@api_view(['POST'])
-def place_bid(request):
-    data = request.data
-    if 'user_id' not in data:
-        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
-    if 'bid_price' not in data:
-        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED BID_PRICE ARGUMENT FOR BID'}, status=status.HTTP_400_BAD_REQUEST)
-
-def bid_getcheapestswipe(hall_id, swipe_time=None):
+def bid_geteligibleswipe(hall_id, swipe_time=None, swipe_price=None):
 	if swipe_time is None:
 		swipe_time = datetime.datetime.now().time()
 	else:
@@ -22,28 +14,42 @@ def bid_getcheapestswipe(hall_id, swipe_time=None):
 	try:
 		paired_swipe = None
 		swipe_candidates = Swipe.objects.filter(status=0, hall_id=hall_id).order_by('price')
-		for 
-		
+		for swipe in swipe_candidates:
+			if swipe_price is not None and swipe_price < swipe.price: # If a swipe price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
+				return None
+			for hours in swipe.hours:
+				if hours['start'].time() <= data['swipe_time'].time() and hours['end'].time() >= data['swipe_time'].time(): # Assuming the desired swipe time falls within the listing's range, it's a match
+					paired_swipe = swipe
+			if paired_swipe is not None:
+				break
+		return paired_swipe
 	except Swipe.DoesNotExist:
 		return None
+
 @api_view(['POST'])
-def bid_pairlowest(request):
+def bid_placebid(request):
 	data = request.data
 	if 'user_id' not in data:
 		return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
 	if 'hall_id' not in data:
-		return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
-	swipe_candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price')
-	paired_swipe = None
-	for swipe in swipe_candidates:
-		for hours in swipe.hours:
-			if hours['start'].time() <= data['swipe_time'].time() and hours['end'].time() >= data['swipe_time'].time():
-				paired_swipe = swipe
-				break
-		if paired_swipe is not None:
-			break
-	if paired_swipe is None:
-		return Response({'STATUS': '1', 'REASON': 'NO SWIPE MATCHING CRITERIA AVAILABLE FOR GIVEN TIME'}, status=status.HTTP_400_BAD_REQUEST)
-	swipe_serializer = SwipeSerializer(paired_swipe, data={}, partial=True)
-    
-		
+		return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
+	if 'swipe_time' not in data:
+		data['swipe_time'] = None
+	if 'swipe_price' not in data:
+		data['swipe_price'] = None
+	swipe = bid_getcheapestswipe(data['hall_id'], data['swipe_time'], data['swipe_price']) # Get the cheapest swipe for that hall at a given time
+	bid_data = {'buyer': data['user_id']}
+	if swipe is not None: # This performs the actual pairing between buyer and seller, because a match exists
+		swipe_serializer = SwipeSerializer(swipe, data={'status': '1'}, partial=True)
+		if swipe_serializer.is_valid():
+			swipe = swipe_serializer.save()
+			bid_data['status'] = '1'
+			bid_data['swipe'] = swipe.swipe_id
+		else:
+			return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	bid_serializer = BidSerializer(data=bid_data)
+	if bid_serializer.is_valid():
+		bid_serializer.save()
+		return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
+	else:
+		return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
