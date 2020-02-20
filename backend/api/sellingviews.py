@@ -8,7 +8,7 @@ from api.serializers import SwipeSerializer
 @api_view(['POST'])
 def sell_swipe(request):
     data = request.data
-    data['status'] = '1'
+    data['status'] = '0'
     swipe = SwipeSerializer(data=data)
     if swipe.is_valid():
         swipe.save()
