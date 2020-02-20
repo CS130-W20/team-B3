@@ -2,11 +2,11 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.models import DiningHall, Account, User, Swipe, Listing, Bid
-from api.serializers import SwipeSerializer, ListingSerializer, BidSerializer
+from api.models import DiningHall, Account, User, Swipe, Bid
+from api.serializers import SwipeSerializer, BidSerializer
 
 
-@api_view(['POST'])
+""" @api_view(['POST'])
 def listing_create(request):
     data = request.data
     # Need to create the Swipe first with user ID, dining hall ID, price
@@ -118,4 +118,4 @@ def listing_buyergetbids(request):
     elif filter_type == 2:
         bids = Bid.objects.filter(buyer=data['user_id'], status=2)
     bid_serializer = BidSerializer(bids, many=True)
-    return Response(bid_serializer.data, status=status.HTTP_200_OK)
+    return Response(bid_serializer.data, status=status.HTTP_200_OK) """

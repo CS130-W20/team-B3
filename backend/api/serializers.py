@@ -41,9 +41,19 @@ class AccountSerializer(UserSerializer):
 
 
 class SwipeSerializer(serializers.ModelSerializer):
+	visibility = TimeRangeSerializer(many=True)
 	class Meta:
 		model = api.Swipe
-		fields = ['listing', 'status', 'seller', 'location', 'price']
+		fields = ['status', 'seller', 'location', 'price', 'visibility']
+	
+	def create(self, validated_data):
+		visibility_data = validated_data.pop('visibility')
+		visibility_objs = []
+		for hour_range in visibility_data:
+			visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v) for k, v in dict(hour_range).items()})
+		validated_data['visibility'] = visibility_objs
+		swipe = api.Swipe.objects.create(**validated_data)
+		return swipe
 
 
 class BidSerializer(serializers.ModelSerializer):
@@ -56,20 +66,3 @@ class TransactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = api.Transaction
 		fields = ['sender', 'recipient', 'paid', 'total', 'details']
-
-
-class ListingSerializer(serializers.ModelSerializer):
-	visibility = TimeRangeSerializer(many=True) # Since we have a nested serializer, we need to override the create method :|
-	class Meta:
-		model = api.Listing
-		fields = ['seller_loc', 'description', 'visibility']
-
-	def create(self, validated_data):
-		visibility_data = validated_data.pop('visibility')
-		visibility_objs = []
-		for hour_range in visibility_data:
-			visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v) for k, v in dict(hour_range).items()})
-		validated_data['visibility'] = visibility_objs
-		listing = api.Listing.objects.create(**validated_data)
-		return listing
-	
