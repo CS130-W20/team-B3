@@ -6,19 +6,19 @@ from api.models import DiningHall, Swipe, Bid
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
 
-def bid_geteligibleswipe(hall_id, swipe_time=None, swipe_price=None):
+def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
 	if swipe_time is None:
 		swipe_time = datetime.datetime.now().time()
 	else:
 		swipe_time = datetime.datetime.strptime(swipe_time, "%H:%M").time()
 	try:
 		paired_swipe = None
-		swipe_candidates = Swipe.objects.filter(status=0, hall_id=hall_id).order_by('price', 'swipe_id')
+		swipe_candidates = Swipe.objects.filter(status=0, location=hall_id).order_by('price', 'swipe_id')
 		for swipe in swipe_candidates:
 			if swipe_price is not None and swipe_price < swipe.price: # If a swipe price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
 				return None
-			for hours in swipe.hours:
-				if hours['start'].time() <= data['swipe_time'].time() and hours['end'].time() >= data['swipe_time'].time(): # Assuming the desired swipe time falls within the listing's range, it's a match
+			for hours in swipe.visibility:
+				if hours['start'].time() <= swipe_time and hours['end'].time() >= swipe_time: # Assuming the desired swipe time falls within the listing's range, it's a match
 					paired_swipe = swipe
 			if paired_swipe is not None:
 				break
