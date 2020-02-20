@@ -97,7 +97,7 @@ class SwipeSerializer(serializers.ModelSerializer):
 class BidSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = api.Bid
-		fields = ['status', 'swipe', 'buyer', 'bid_price']
+		fields = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
