@@ -10,5 +10,5 @@ urlpatterns = [
 
     path('selling/sell/', sellingviews.sell_swipe),
 
-    path('swipe/sget', swipeviews.get_swipes)
+    path('swipes/sget/', swipeviews.get_swipes)
 ]
