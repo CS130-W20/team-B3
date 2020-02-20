@@ -34,6 +34,8 @@ def bid_placebid(request):
 	if 'hall_id' not in data:
 		return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
 	swipe = bid_getcheapestswipe(data['hall_id'], data.get('desired_time', None), data.get('price', None)) # Get the cheapest swipe for that hall at a given time
+	if swipe is None and data.get('desired_time', None) is None:
+		return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED TIME GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
 	bid_data = {'buyer': data['user_id'], 'bid_price': data.get('price', None), 'location': data['hall_id'], 'desired_time': data.get('desired_time', None)}
 	if swipe is not None: # This performs the actual pairing between buyer and seller, because a match exists
 		swipe_serializer = SwipeSerializer(swipe, data={'status': '1'}, partial=True)
@@ -45,7 +47,7 @@ def bid_placebid(request):
 		else:
 			return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	if bid_data['bid_price'] is None:
-		return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED PRICE GIVEN TO CREATE BID'})
+		return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED PRICE GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
 	bid_serializer = BidSerializer(data=bid_data)
 	if bid_serializer.is_valid():
 		bid_serializer.save()
