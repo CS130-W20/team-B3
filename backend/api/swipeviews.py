@@ -1,32 +1,63 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from api.models import DiningHall, Account, User, Swipe, Bid
+from api.models import DiningHall, Swipe, Bid
 from api.serializers import SwipeSerializer, BidSerializer
+import datetime
 
-import json
-
-# @param request Has a time range and we return the swipes available
+# @param request Has a desired time and we return the swipes available
 #                at each dining hall
 # TODO: implement location filtering too
 # returns a JSON of dining hall names with lowest ask and highest bid
 
-@api_view(['GET'])
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
 def get_swipes(request):
+	data = request.data
+	hallData = {}
+	desired_time = data.get('desired_time', None)
+	if desired_time is None:
+		desired_time = datetime.datetime.now().time()
+	else:
+		desired_time = datetime.datetime.strptime(desired_time, "%H:%M").time()
+	halls = DiningHall.objects.all()
+	for hall in halls:
+		swipes = Swipe.objects.filter(location=hall.hall_id, status=0).order_by('price', 'swipe_id')
+		swipes_filtered = []
+		for swipe in swipes:
+			for hours in swipe.visibility:
+				if hours['start'].time() <= desired_time and hours['end'].time() >= desired_time:
+					swipes_filtered.append(swipe)
+		hours = []
+		for hour_range in hall.hours:
+			hours.append({k: v.strftime("%H:%M") for k, v in dict(hour_range).items()}) # The hours objects will all be in Python datetime form, but if we're giving them to the UI they need to be JSON'able aka strings
+		hallData[hall.hall_id] = {'lowest': swipes_filtered[0].price if len(swipes_filtered) > 0 else None, 'count': len(swipes_filtered), 'hours': hours, 'picture': hall.picture}
+	return Response(hallData, status=status.HTTP_200_OK)
 
-    hallData = {}
-
-    halls = DiningHall.objects.all()
-
-    for hall in halls:
-
-        currId   = hall.hall_id
-
-        hallBids = Swipe.objects.filter(location=currId)
-        lowest = hallBids.order_by('price')[0].price
-        count  = hallBids.count()
-
-        hallData[hall.name] = {"lowest": lowest, "count": count}
-
-    return Response(json.dumps(hallData), status=status.HTTP_200_OK)
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+def get_hall_stats(request):
+	data = request.data
+	offerData = {}
+	if 'hall_id' not in data:
+		return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+	desired_time = data.get('desired_time', None)
+	if desired_time is None:
+		desired_time = datetime.datetime.now()
+	else:
+		desired_time = datetime.datetime.strptime(desired_time, "%H:%M")
+	swipes = Swipe.objects.filter(location=data['hall_id'], status=0).order_by('price', 'swipe_id')
+	swipes_filtered = []
+	for swipe in swipes:
+		for hours in swipe.visibility:
+			if hours['start'].time() <= desired_time.time() and hours['end'].time() >= desired_time.time():
+				swipes_filtered.append(swipe)
+	bids = Bid.objects.filter(location=data['hall_id'], status=0).order_by('-bid_price', 'bid_id')
+	bids_filtered = []
+	for bid in bids:
+		if bid.desired_time is None or ((desired_time - datetime.timedelta(minutes=45)).time() <= bid.desired_time.time() and (desired_time + datetime.timedelta(minutes=45)).time() >= bid.desired_time.time()):
+			bids_filtered.append(bid)
+	offerData = {'swipe_count': len(swipes_filtered), 'bid_count': len(bids_filtered), 'lowest_ask': swipes_filtered[0].price if len(swipes_filtered) > 0 else None, 'highest_bid': bids_filtered[0].bid_price if len(bids_filtered) > 0 else None}
+	return Response(offerData, status=status.HTTP_200_OK)

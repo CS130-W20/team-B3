@@ -13,7 +13,7 @@ def bid_geteligibleswipe(hall_id, swipe_time=None, swipe_price=None):
 		swipe_time = datetime.datetime.strptime(swipe_time, "%H:%M").time()
 	try:
 		paired_swipe = None
-		swipe_candidates = Swipe.objects.filter(status=0, hall_id=hall_id).order_by('price')
+		swipe_candidates = Swipe.objects.filter(status=0, hall_id=hall_id).order_by('price', 'swipe_id')
 		for swipe in swipe_candidates:
 			if swipe_price is not None and swipe_price < swipe.price: # If a swipe price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
 				return None
@@ -51,6 +51,8 @@ def bid_placebid(request):
 	bid_serializer = BidSerializer(data=bid_data)
 	if bid_serializer.is_valid():
 		bid_serializer.save()
-		return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
+		if swipe is not None:
+			return Response({'STATUS': '0', 'REASON': 'BID CREATED, PAIRED WITH SWIPE'}, status=status.HTTP_200_OK)
+		return Response({'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'}, status=status.HTTP_200_OK)
 	else:
 		return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

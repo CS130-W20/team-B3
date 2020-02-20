@@ -9,7 +9,7 @@ import datetime
 def swipe_geteligiblebid(hall_id, time_intervals=None, desired_price=None):
 	try:
 		paired_bid = None
-		bid_candidates = Bid.objects.filter(status=0, location=swipe.hall_id).order_by('-bid_price', 'bid_id') # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
+		bid_candidates = Bid.objects.filter(status=0, location=hall_id).order_by('-bid_price', 'bid_id') # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
 
 		for bid in bid_candidates:
 			if desired_price is not None and desired_price > bid.bid_price: # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
@@ -60,8 +60,10 @@ def swipe_sellswipe(request):
         	bid_serializer = BidSerializer(bid, data={'status': '1', 'swipe': swipe.swipe_id}, partial=True)
         	if bid_serializer.is_valid():
         		bid_serializer.save()
-        		return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
+        		return Response({'STATUS': '0', 'REASON': 'SWIPE CREATED, PAIRED WITH EXISTING BID'}, status=status.HTTP_200_OK)
         	else:
         		return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'STATUS': '0', 'REASON': 'SWIPE CREATED, NO PAIRING'}, status=status.HTTP_200_OK)
     else:
         return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
