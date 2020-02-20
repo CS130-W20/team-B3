@@ -27,6 +27,26 @@ class DiningHallSerializer(LocationSerializer):
 		hall = api.DiningHall.objects.create(**validated_data)
 		return hall
 
+	def update(self, instance, validated_data):
+		instance.name = validated_data.get('name', instance.name)
+		instance.picture = validated_data.get('picture', instance.picture)
+		instance.description = validated_data.get('description', instance.description)
+		instance.lat = validated_data.get('lat', instance.lat)
+		instance.lng = validated_data.get('lng', instance.lng)
+		hour_data = validated_data.get('hours', instance.hours)
+		hour_objs = []
+		for hour_range in hour_data:
+			hour_obj = {}
+			for k, v in dict(hour_range).items():
+				if isinstance(v, datetime.datetime):
+					hour_obj[k] = v
+				else:
+					hour_obj[k] = datetime.datetime.combine(datetime.date.today(), v)
+			hour_objs.append(hour_obj)
+		instance.hours = hour_objs
+		instance.save()
+		return instance
+
 
 class UserSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -55,6 +75,24 @@ class SwipeSerializer(serializers.ModelSerializer):
 		swipe = api.Swipe.objects.create(**validated_data)
 		return swipe
 
+	def update(self, instance, validated_data):
+		instance.status = validated_data.get('status', instance.status)
+		instance.seller = validated_data.get('seller', instance.seller)
+		instance.location = validated_data.get('location', instance.location)
+		instance.price = validated_data.get('price', instance.price)
+		visibility_data = validated_data.get('visibility', instance.visibility)
+		visibility_objs = []
+		for hour_range in visibility_data:
+			hour_obj = {}
+			for k, v in dict(hour_range).items():
+				if isinstance(v, datetime.datetime):
+					hour_obj[k] = v
+				else:
+					hour_obj[k] = datetime.datetime.combine(datetime.date.today(), v)
+			visibility_objs.append(hour_obj)
+		instance.visibility = visibility_objs
+		instance.save()
+		return instance
 
 class BidSerializer(serializers.ModelSerializer):
 	class Meta:
