@@ -58,7 +58,7 @@ class Bid(models.Model):
     ]
     bid_id = models.AutoField(primary_key=True)
     status = models.CharField(max_length=1, choices=BID_STATES, default=0)
-    swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE)
+    swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE, null=True)
     buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     bid_price = models.DecimalField(max_digits=5, decimal_places=2)
 
