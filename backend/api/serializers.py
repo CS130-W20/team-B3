@@ -22,9 +22,9 @@ class TimeRangeSerializer(serializers.Serializer):
 
 
 class DiningHallSerializer(LocationSerializer):
-	"""
-	Serializer for DiningHall objects. Inherits from LocationSerializer.
-	"""
+    """
+    Serializer for DiningHall objects. Inherits from LocationSerializer.
+    """
     # Nested serializer used for verifying that the various hours a dining hall is open (different meal periods) are valid
     hours = TimeRangeSerializer(many=True)
 
@@ -33,17 +33,17 @@ class DiningHallSerializer(LocationSerializer):
         fields = LocationSerializer.Meta.fields + ['hours', 'name', 'description', 'picture']
 
     def create(self, validated_data):
-		"""
-		Creates a new DiningHall object.
+        """
+        Creates a new DiningHall object.
 
-		Args:
-			validated_data (dict): Validated DiningHall data used to create the DiningHall object.
+        Args:
+            validated_data (dict): Validated DiningHall data used to create the DiningHall object.
 
-		Returns:
-			DiningHall: Newly created dining hall object.
-		"""
+        Returns:
+            DiningHall: Newly created dining hall object.
+        """
 
-		hour_data = validated_data.pop('hours')
+        hour_data = validated_data.pop('hours')
         hour_objs = []
         for hour_range in hour_data:
             hour_objs.append({k: datetime.datetime.combine(datetime.date.today(), v)
@@ -53,18 +53,18 @@ class DiningHallSerializer(LocationSerializer):
         return hall
 
     def update(self, instance, validated_data):
-		"""
-		Updates data in the database corresponding to a specific DiningHall object.
+        """
+        Updates data in the database corresponding to a specific DiningHall object.
 
-		Args:
-			instance (DiningHall): An instance of a DiningHall.
-			validated_data (dict): The updated data.
+        Args:
+            instance (DiningHall): An instance of a DiningHall.
+            validated_data (dict): The updated data.
 
-		Returns:
-			DiningHall: The updated DiningHall object.
-		"""
+        Returns:
+            DiningHall: The updated DiningHall object.
+        """
 
-		instance.name = validated_data.get('name', instance.name)
+        instance.name = validated_data.get('name', instance.name)
         instance.picture = validated_data.get('picture', instance.picture)
         instance.description = validated_data.get('description', instance.description)
         instance.lat = validated_data.get('lat', instance.lat)
@@ -85,27 +85,27 @@ class DiningHallSerializer(LocationSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for User objects.
-	"""
+    """
+    Serializer for User objects.
+    """
     class Meta:
         model = api.User
         fields = ['status', 'user_id', 'pp_email']
 
 
 class AccountSerializer(UserSerializer):
-	"""
-	Serializer for Account objects.
-	"""
+    """
+    Serializer for Account objects.
+    """
     class Meta(UserSerializer.Meta):
         model = api.Account
         fields = UserSerializer.Meta.fields + ['home_loc', 'pw', 'phone']
 
 
 class SwipeSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for Swipe objects.
-	"""
+    """
+    Serializer for Swipe objects.
+    """
     visibility = TimeRangeSerializer(many=True)
 
     class Meta:
@@ -113,17 +113,17 @@ class SwipeSerializer(serializers.ModelSerializer):
         fields = ['status', 'seller', 'location', 'price', 'visibility']
 
     def create(self, validated_data):
-		"""
-		Creates a new Swipe object.
+        """
+        Creates a new Swipe object.
 
-		Args:
-			validated_data (dict): The data used to create a new Swipe object.
+        Args:
+            validated_data (dict): The data used to create a new Swipe object.
 
-		Returns:
-			Swipe: The new Swipe object.
-		"""
+        Returns:
+            Swipe: The new Swipe object.
+        """
 
-		visibility_data = validated_data.pop('visibility')
+        visibility_data = validated_data.pop('visibility')
         visibility_objs = []
         for hour_range in visibility_data:
             visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v)
@@ -133,18 +133,18 @@ class SwipeSerializer(serializers.ModelSerializer):
         return swipe
 
     def update(self, instance, validated_data):
-		"""
-		Updates an existing Swipe object and the data corresponding to it in the database.
+        """
+        Updates an existing Swipe object and the data corresponding to it in the database.
 
-		Args:
-			instance (Swipe): The outdated Swipe object.
-			validated_data (dict): The new data to be placed in the outdated Swipe object.
+        Args:
+            instance (Swipe): The outdated Swipe object.
+            validated_data (dict): The new data to be placed in the outdated Swipe object.
 
-		Returns:
-			Swipe: The updated Swipe object.
-		"""
+        Returns:
+            Swipe: The updated Swipe object.
+        """
 
-		instance.status = validated_data.get('status', instance.status)
+        instance.status = validated_data.get('status', instance.status)
         instance.seller = validated_data.get('seller', instance.seller)
         instance.location = validated_data.get('location', instance.location)
         instance.price = validated_data.get('price', instance.price)
@@ -164,18 +164,18 @@ class SwipeSerializer(serializers.ModelSerializer):
 
 
 class BidSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for Bid objects.
-	"""
+    """
+    Serializer for Bid objects.
+    """
     class Meta:
         model = api.Bid
         fields = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for Transaction objects.
-	"""
+    """
+    Serializer for Transaction objects.
+    """
     class Meta:
         model = api.Transaction
         fields = ['sender', 'recipient', 'paid', 'total', 'details']

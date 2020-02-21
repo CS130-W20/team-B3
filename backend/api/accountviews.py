@@ -18,6 +18,7 @@ def account_create(request):
             Reponse: An HTTP response indicating that the new Account was successfully saved in the database or that there
             was an error and the Account object was not created.
     """
+
     data = request.data
     loc_data = data.pop('loc')
     if type(loc_data) == dict:  # If we've got a dict, that means the Location object should be created from the lat/lng
@@ -39,15 +40,16 @@ def account_create(request):
 
 @api_view(['POST'])
 def account_update(request):
-	"""
-	Updates the information in an existing Account within the database.
+    """
+    Updates the information in an existing Account within the database.
 
-	Args:
-		request (Request): An object containing the new data to be placed into the Account object.
+    Args:
+        request (Request): An object containing the new data to be placed into the Account object.
 
-	Returns:
-		Response: An HTTP response that indicates whether the Account was successfully updated or if there was an error.
-	"""
+    Returns:
+        Response: An HTTP response that indicates whether the Account was successfully updated or if there was an error.
+    """
+
     data = request.data
     if 'user_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
