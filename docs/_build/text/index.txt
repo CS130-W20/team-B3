@@ -1,0 +1,18 @@
+Welcome to SwipeX’s documentation!
+**********************************
+
+Contents:
+
+* api
+
+  * api package
+
+
+Indices and tables
+******************
+
+* Index
+
+* Module Index
+
+* Search Page

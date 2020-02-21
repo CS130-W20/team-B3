@@ -1,0 +1,1205 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>api package &#8212; SwipeX 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="api" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api-package">
+<h1>api package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-api.accountviews">
+<span id="api-accountviews-module"></span><h2>api.accountviews module<a class="headerlink" href="#module-api.accountviews" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="api.accountviews.account_create">
+<code class="sig-name descname">account_create</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Account and saves it in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – An object containing data needed to create a new Account.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An HTTP response indicating that the new Account was successfully saved in the database or that there
+was an error and the Account object was not created.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.accountviews.account_update">
+<code class="sig-name descname">account_update</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the information in an existing Account within the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – An object containing the new data to be placed into the Account object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An HTTP response that indicates whether the Account was successfully updated or if there was an error.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.buyviews">
+<span id="api-buyviews-module"></span><h2>api.buyviews module<a class="headerlink" href="#module-api.buyviews" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="api.buyviews.bid_getcheapestswipe">
+<code class="sig-name descname">bid_getcheapestswipe</code><span class="sig-paren">(</span><em class="sig-param">hall_id</em>, <em class="sig-param">swipe_time=None</em>, <em class="sig-param">swipe_price=None</em><span class="sig-paren">)</span><a class="headerlink" href="#api.buyviews.bid_getcheapestswipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the cheapest Swipe object that meets the criteria for a specific Bid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hall_id</strong> (<em>string</em>) – The DiningHall identifier.</p></li>
+<li><p><strong>swipe_time</strong> (<em>DateTime</em><em>, </em><em>optional</em>) – The time range specified on the Bid. Defaults to None.</p></li>
+<li><p><strong>swipe_price</strong> (<em>Float</em><em>, </em><em>optional</em>) – The desired swipe price. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A swipe that meets the criteria specified in the Bid, or None if no Swipes meet the criteria.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe">Swipe</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.buyviews.bid_placebid">
+<code class="sig-name descname">bid_placebid</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.buyviews.bid_placebid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Bid object and saves it in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – An object containing the data needed to create a new Bid object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An HTTP response indicating that a new Bid was successfully created or an HTTP error reponse</dt><dd><p>indicating that the Bid was not created.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.models">
+<span id="api-models-module"></span><h2>api.models module<a class="headerlink" href="#module-api.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.models.Account">
+<em class="property">class </em><code class="sig-name descname">Account</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.models.User" title="api.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.User</span></code></a></p>
+<p>Account object. Each user has an account. Inherits from User.</p>
+<dl class="exception">
+<dt id="api.models.Account.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.Account.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Account.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.Account.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.home_loc">
+<code class="sig-name descname">home_loc</code><a class="headerlink" href="#api.models.Account.home_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.home_loc_id">
+<code class="sig-name descname">home_loc_id</code><a class="headerlink" href="#api.models.Account.home_loc_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.phone">
+<code class="sig-name descname">phone</code><a class="headerlink" href="#api.models.Account.phone" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.pw">
+<code class="sig-name descname">pw</code><a class="headerlink" href="#api.models.Account.pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.user_ptr">
+<code class="sig-name descname">user_ptr</code><a class="headerlink" href="#api.models.Account.user_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.user_ptr_id">
+<code class="sig-name descname">user_ptr_id</code><a class="headerlink" href="#api.models.Account.user_ptr_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.Bid">
+<em class="property">class </em><code class="sig-name descname">Bid</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Bid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Bid object. The criteria a buyer specifies for a swipe such that he/she is willing to purchase the swipe.</p>
+<dl class="attribute">
+<dt id="api.models.Bid.BID_STATES">
+<code class="sig-name descname">BID_STATES</code><em class="property"> = [('0', 'Pending'), ('1', 'Accepted'), ('2', 'Confirmed')]</em><a class="headerlink" href="#api.models.Bid.BID_STATES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Bid.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.Bid.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Bid.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.Bid.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.bid_id">
+<code class="sig-name descname">bid_id</code><a class="headerlink" href="#api.models.Bid.bid_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.bid_price">
+<code class="sig-name descname">bid_price</code><a class="headerlink" href="#api.models.Bid.bid_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.buyer">
+<code class="sig-name descname">buyer</code><a class="headerlink" href="#api.models.Bid.buyer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.buyer_id">
+<code class="sig-name descname">buyer_id</code><a class="headerlink" href="#api.models.Bid.buyer_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.desired_time">
+<code class="sig-name descname">desired_time</code><a class="headerlink" href="#api.models.Bid.desired_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.Bid.get_status_display">
+<code class="sig-name descname">get_status_display</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.CharField: status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Bid.get_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.location">
+<code class="sig-name descname">location</code><a class="headerlink" href="#api.models.Bid.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.location_id">
+<code class="sig-name descname">location_id</code><a class="headerlink" href="#api.models.Bid.location_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.Bid.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.status">
+<code class="sig-name descname">status</code><a class="headerlink" href="#api.models.Bid.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.swipe">
+<code class="sig-name descname">swipe</code><a class="headerlink" href="#api.models.Bid.swipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.swipe_id">
+<code class="sig-name descname">swipe_id</code><a class="headerlink" href="#api.models.Bid.swipe_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.DiningHall">
+<em class="property">class </em><code class="sig-name descname">DiningHall</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.DiningHall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.models.Location" title="api.models.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Location</span></code></a></p>
+<p>DiningHall object. Used as filtering criteria for buyers and sellers to specify where they want to use / sell
+their Swipes at. Inherits from Location.</p>
+<dl class="exception">
+<dt id="api.models.DiningHall.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.DiningHall.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.DiningHall.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.DiningHall.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.bid_set">
+<code class="sig-name descname">bid_set</code><a class="headerlink" href="#api.models.DiningHall.bid_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.description">
+<code class="sig-name descname">description</code><a class="headerlink" href="#api.models.DiningHall.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.hall_id">
+<code class="sig-name descname">hall_id</code><a class="headerlink" href="#api.models.DiningHall.hall_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.hours">
+<code class="sig-name descname">hours</code><a class="headerlink" href="#api.models.DiningHall.hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.location_ptr">
+<code class="sig-name descname">location_ptr</code><a class="headerlink" href="#api.models.DiningHall.location_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.location_ptr_id">
+<code class="sig-name descname">location_ptr_id</code><a class="headerlink" href="#api.models.DiningHall.location_ptr_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#api.models.DiningHall.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.picture">
+<code class="sig-name descname">picture</code><a class="headerlink" href="#api.models.DiningHall.picture" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DiningHall.swipe_set">
+<code class="sig-name descname">swipe_set</code><a class="headerlink" href="#api.models.DiningHall.swipe_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.Location">
+<em class="property">class </em><code class="sig-name descname">Location</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Location object. Various locations are stored in this table, including those for dining halls, home locations of
+users, and (later) current locations of sellers</p>
+<dl class="exception">
+<dt id="api.models.Location.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.Location.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Location.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.Location.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.account">
+<code class="sig-name descname">account</code><a class="headerlink" href="#api.models.Location.account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.dininghall">
+<code class="sig-name descname">dininghall</code><a class="headerlink" href="#api.models.Location.dininghall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.lat">
+<code class="sig-name descname">lat</code><a class="headerlink" href="#api.models.Location.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.lng">
+<code class="sig-name descname">lng</code><a class="headerlink" href="#api.models.Location.lng" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.loc_id">
+<code class="sig-name descname">loc_id</code><a class="headerlink" href="#api.models.Location.loc_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Location.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.Location.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.Swipe">
+<em class="property">class </em><code class="sig-name descname">Swipe</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Swipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Swipe object. The commodity.</p>
+<dl class="exception">
+<dt id="api.models.Swipe.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.Swipe.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Swipe.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.Swipe.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.SWIPE_STATES">
+<code class="sig-name descname">SWIPE_STATES</code><em class="property"> = [('0', 'Available'), ('1', 'Sold'), ('2', 'Finalized'), ('3', 'Refunded')]</em><a class="headerlink" href="#api.models.Swipe.SWIPE_STATES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.bid_set">
+<code class="sig-name descname">bid_set</code><a class="headerlink" href="#api.models.Swipe.bid_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.Swipe.get_status_display">
+<code class="sig-name descname">get_status_display</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.CharField: status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Swipe.get_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.location">
+<code class="sig-name descname">location</code><a class="headerlink" href="#api.models.Swipe.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.location_id">
+<code class="sig-name descname">location_id</code><a class="headerlink" href="#api.models.Swipe.location_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.Swipe.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.price">
+<code class="sig-name descname">price</code><a class="headerlink" href="#api.models.Swipe.price" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.seller">
+<code class="sig-name descname">seller</code><a class="headerlink" href="#api.models.Swipe.seller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.seller_id">
+<code class="sig-name descname">seller_id</code><a class="headerlink" href="#api.models.Swipe.seller_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.status">
+<code class="sig-name descname">status</code><a class="headerlink" href="#api.models.Swipe.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.swipe_id">
+<code class="sig-name descname">swipe_id</code><a class="headerlink" href="#api.models.Swipe.swipe_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Swipe.visibility">
+<code class="sig-name descname">visibility</code><a class="headerlink" href="#api.models.Swipe.visibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.Transaction">
+<em class="property">class </em><code class="sig-name descname">Transaction</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Transaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Transaction object. Represents the agreement between seller and buyer for exchanging money for a swipe.</p>
+<dl class="exception">
+<dt id="api.models.Transaction.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.Transaction.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.Transaction.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.Transaction.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.details">
+<code class="sig-name descname">details</code><a class="headerlink" href="#api.models.Transaction.details" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.Transaction.get_next_by_paid">
+<code class="sig-name descname">get_next_by_paid</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: paid&gt;</em>, <em class="sig-param">is_next=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Transaction.get_next_by_paid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.models.Transaction.get_previous_by_paid">
+<code class="sig-name descname">get_previous_by_paid</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: paid&gt;</em>, <em class="sig-param">is_next=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Transaction.get_previous_by_paid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.Transaction.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.paid">
+<code class="sig-name descname">paid</code><a class="headerlink" href="#api.models.Transaction.paid" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.recipient">
+<code class="sig-name descname">recipient</code><a class="headerlink" href="#api.models.Transaction.recipient" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.sender">
+<code class="sig-name descname">sender</code><a class="headerlink" href="#api.models.Transaction.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.t_id">
+<code class="sig-name descname">t_id</code><a class="headerlink" href="#api.models.Transaction.t_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Transaction.total">
+<code class="sig-name descname">total</code><a class="headerlink" href="#api.models.Transaction.total" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.User">
+<em class="property">class </em><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>User object. Both buyers and sellers are users.</p>
+<dl class="exception">
+<dt id="api.models.User.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#api.models.User.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.User.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.User.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.USER_STATES">
+<code class="sig-name descname">USER_STATES</code><em class="property"> = [('0', 'New'), ('1', 'Active'), ('2', 'Banned')]</em><a class="headerlink" href="#api.models.User.USER_STATES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.account">
+<code class="sig-name descname">account</code><a class="headerlink" href="#api.models.User.account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.bid_set">
+<code class="sig-name descname">bid_set</code><a class="headerlink" href="#api.models.User.bid_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.User.get_status_display">
+<code class="sig-name descname">get_status_display</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.CharField: status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.User.get_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.User.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.pp_email">
+<code class="sig-name descname">pp_email</code><a class="headerlink" href="#api.models.User.pp_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.status">
+<code class="sig-name descname">status</code><a class="headerlink" href="#api.models.User.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.swipe_set">
+<code class="sig-name descname">swipe_set</code><a class="headerlink" href="#api.models.User.swipe_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.user_id">
+<code class="sig-name descname">user_id</code><a class="headerlink" href="#api.models.User.user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.sellviews">
+<span id="api-sellviews-module"></span><h2>api.sellviews module<a class="headerlink" href="#module-api.sellviews" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="api.sellviews.swipe_geteligiblebid">
+<code class="sig-name descname">swipe_geteligiblebid</code><span class="sig-paren">(</span><em class="sig-param">hall_id</em>, <em class="sig-param">time_intervals=None</em>, <em class="sig-param">desired_price=None</em><span class="sig-paren">)</span><a class="headerlink" href="#api.sellviews.swipe_geteligiblebid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all bids that match the specified swipe criteria and pairs them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hall_id</strong> (<em>string</em>) – The dining hall identifier.</p></li>
+<li><p><strong>time_intervals</strong> (<em>Datatime</em><em>, </em><em>optional</em>) – The desired time intervals. Defaults to None.</p></li>
+<li><p><strong>desired_price</strong> (<em>Float</em><em>, </em><em>optional</em>) – The desired price. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The paired bid.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Bid" title="api.models.Bid">Bid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.sellviews.swipe_sellswipe">
+<code class="sig-name descname">swipe_sellswipe</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.sellviews.swipe_sellswipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a swipe to sell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – The data needed to create a new Swipe listing.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reponse saying either the swipe was successfully created or there was an error.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.serializers">
+<span id="api-serializers-module"></span><h2>api.serializers module<a class="headerlink" href="#module-api.serializers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.serializers.AccountSerializer">
+<em class="property">class </em><code class="sig-name descname">AccountSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.AccountSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.serializers.UserSerializer" title="api.serializers.UserSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.UserSerializer</span></code></a></p>
+<p>Serializer for Account objects.</p>
+<dl class="class">
+<dt id="api.serializers.AccountSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.AccountSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.Meta</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.AccountSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'pp_email', 'home_loc', 'pw', 'phone']</em><a class="headerlink" href="#api.serializers.AccountSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.AccountSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.AccountSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.Account" title="api.models.Account"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Account</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.BidSerializer">
+<em class="property">class </em><code class="sig-name descname">BidSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.BidSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<p>Serializer for Bid objects.</p>
+<dl class="class">
+<dt id="api.serializers.BidSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.BidSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.BidSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']</em><a class="headerlink" href="#api.serializers.BidSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.BidSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.BidSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.Bid" title="api.models.Bid"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Bid</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.DiningHallSerializer">
+<em class="property">class </em><code class="sig-name descname">DiningHallSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.DiningHallSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.serializers.LocationSerializer" title="api.serializers.LocationSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.LocationSerializer</span></code></a></p>
+<p>Serializer for DiningHall objects. Inherits from LocationSerializer.</p>
+<dl class="class">
+<dt id="api.serializers.DiningHallSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.DiningHallSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.Meta</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.DiningHallSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['lat', 'lng', 'hours', 'name', 'description', 'picture']</em><a class="headerlink" href="#api.serializers.DiningHallSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.DiningHallSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.DiningHallSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.DiningHall" title="api.models.DiningHall"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.DiningHall</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.DiningHallSerializer.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.DiningHallSerializer.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new DiningHall object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>validated_data</strong> (<em>dict</em>) – Validated DiningHall data used to create the DiningHall object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Newly created dining hall object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.DiningHall" title="api.models.DiningHall">DiningHall</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.DiningHallSerializer.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">instance</em>, <em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.DiningHallSerializer.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates data in the database corresponding to a specific DiningHall object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instance</strong> (<a class="reference internal" href="#api.models.DiningHall" title="api.models.DiningHall"><em>DiningHall</em></a>) – An instance of a DiningHall.</p></li>
+<li><p><strong>validated_data</strong> (<em>dict</em>) – The updated data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The updated DiningHall object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.DiningHall" title="api.models.DiningHall">DiningHall</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.LocationSerializer">
+<em class="property">class </em><code class="sig-name descname">LocationSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.LocationSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<p>Serializer class for Location Obejcts.</p>
+<dl class="class">
+<dt id="api.serializers.LocationSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.LocationSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.LocationSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['lat', 'lng']</em><a class="headerlink" href="#api.serializers.LocationSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.LocationSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.LocationSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.Location" title="api.models.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Location</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.SwipeSerializer">
+<em class="property">class </em><code class="sig-name descname">SwipeSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.SwipeSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<p>Serializer for Swipe objects.</p>
+<dl class="class">
+<dt id="api.serializers.SwipeSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.SwipeSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.SwipeSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'seller', 'location', 'price', 'visibility']</em><a class="headerlink" href="#api.serializers.SwipeSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.SwipeSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.SwipeSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Swipe</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.SwipeSerializer.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.SwipeSerializer.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Swipe object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>validated_data</strong> (<em>dict</em>) – The data used to create a new Swipe object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new Swipe object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe">Swipe</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.SwipeSerializer.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">instance</em>, <em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.SwipeSerializer.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing Swipe object and the data corresponding to it in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instance</strong> (<a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe"><em>Swipe</em></a>) – The outdated Swipe object.</p></li>
+<li><p><strong>validated_data</strong> (<em>dict</em>) – The new data to be placed in the outdated Swipe object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The updated Swipe object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe">Swipe</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.TimeRangeSerializer">
+<em class="property">class </em><code class="sig-name descname">TimeRangeSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.TimeRangeSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.Serializer</span></code></p>
+<p>Serializer class for TimeRange Objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.TransactionSerializer">
+<em class="property">class </em><code class="sig-name descname">TransactionSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.TransactionSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<p>Serializer for Transaction objects.</p>
+<dl class="class">
+<dt id="api.serializers.TransactionSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.TransactionSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.TransactionSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['sender', 'recipient', 'paid', 'total', 'details']</em><a class="headerlink" href="#api.serializers.TransactionSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.TransactionSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.TransactionSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.Transaction" title="api.models.Transaction"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Transaction</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.serializers.UserSerializer">
+<em class="property">class </em><code class="sig-name descname">UserSerializer</code><span class="sig-paren">(</span><em class="sig-param">instance=None</em>, <em class="sig-param">data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.UserSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<p>Serializer for User objects.</p>
+<dl class="class">
+<dt id="api.serializers.UserSerializer.Meta">
+<em class="property">class </em><code class="sig-name descname">Meta</code><a class="headerlink" href="#api.serializers.UserSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="api.serializers.UserSerializer.Meta.fields">
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'pp_email']</em><a class="headerlink" href="#api.serializers.UserSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.serializers.UserSerializer.Meta.model">
+<code class="sig-name descname">model</code><a class="headerlink" href="#api.serializers.UserSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.User" title="api.models.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.User</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.swipeviews">
+<span id="api-swipeviews-module"></span><h2>api.swipeviews module<a class="headerlink" href="#module-api.swipeviews" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="api.swipeviews.get_hall_stats">
+<code class="sig-name descname">get_hall_stats</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_hall_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds swipes and bids for a given hall at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – Object that contains the user specified hall_id and time.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>HTML response containing the swipe counts, bid counts, lowest ask and highest bid meeting the user</dt><dd><p>specified criteria, or it returns an error HTML response.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.swipeviews.get_swipes">
+<code class="sig-name descname">get_swipes</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_swipes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets swipes that meet specified criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – Object that contains the criteria for filtering swipes.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An HTML response containing the filtered swipes or an error response.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.urls">
+<span id="api-urls-module"></span><h2>api.urls module<a class="headerlink" href="#module-api.urls" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">SwipeX</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">api</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">api package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">api</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">api</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Taasin Saquib, Eric Dang, Ashwin Vivekanandh, Jonathan Schultz, Xuesen Cui.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>api.migrations package &#8212; SwipeX 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="api package" href="api.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api-migrations-package">
+<h1>api.migrations package<a class="headerlink" href="#api-migrations-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-api.migrations.0001_initial">
+<span id="api-migrations-0001-initial-module"></span><h2>api.migrations.0001_initial module<a class="headerlink" href="#module-api.migrations.0001_initial" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.migrations.0001_initial.Migration">
+<em class="property">class </em><code class="sig-name descname">Migration</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#api.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="api.migrations.0001_initial.Migration.dependencies">
+<code class="sig-name descname">dependencies</code><em class="property"> = []</em><a class="headerlink" href="#api.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.migrations.0001_initial.Migration.initial">
+<code class="sig-name descname">initial</code><em class="property"> = True</em><a class="headerlink" href="#api.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.migrations.0001_initial.Migration.operations">
+<code class="sig-name descname">operations</code><em class="property"> = [&lt;CreateModel  name='Location', fields=[('loc_id', &lt;django.db.models.fields.AutoField&gt;), ('lat', &lt;django.db.models.fields.DecimalField&gt;), ('lng', &lt;django.db.models.fields.DecimalField&gt;)]&gt;, &lt;CreateModel  name='Transaction', fields=[('t_id', &lt;django.db.models.fields.AutoField&gt;), ('sender', &lt;django.db.models.fields.CharField&gt;), ('recipient', &lt;django.db.models.fields.CharField&gt;), ('paid', &lt;django.db.models.fields.DateTimeField&gt;), ('total', &lt;django.db.models.fields.DecimalField&gt;), ('details', &lt;django.db.models.fields.CharField&gt;)]&gt;, &lt;CreateModel  name='User', fields=[('status', &lt;django.db.models.fields.CharField&gt;), ('user_id', &lt;django.db.models.fields.CharField&gt;), ('pp_email', &lt;django.db.models.fields.EmailField&gt;)]&gt;, &lt;CreateModel  name='DiningHall', fields=[('location_ptr', &lt;django.db.models.fields.related.OneToOneField&gt;), ('hall_id', &lt;django.db.models.fields.AutoField&gt;), ('hours', &lt;djongo.models.fields.ListField&gt;), ('name', &lt;django.db.models.fields.CharField&gt;), ('description', &lt;django.db.models.fields.CharField&gt;), ('picture', &lt;django.db.models.fields.URLField&gt;)], bases=('api.location',)&gt;, &lt;CreateModel  name='Swipe', fields=[('swipe_id', &lt;django.db.models.fields.AutoField&gt;), ('status', &lt;django.db.models.fields.CharField&gt;), ('price', &lt;django.db.models.fields.DecimalField&gt;), ('visibility', &lt;djongo.models.fields.ListField&gt;), ('seller', &lt;django.db.models.fields.related.ForeignKey&gt;), ('location', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='Bid', fields=[('bid_id', &lt;django.db.models.fields.AutoField&gt;), ('status', &lt;django.db.models.fields.CharField&gt;), ('bid_price', &lt;django.db.models.fields.DecimalField&gt;), ('desired_time', &lt;django.db.models.fields.DateTimeField&gt;), ('buyer', &lt;django.db.models.fields.related.ForeignKey&gt;), ('swipe', &lt;django.db.models.fields.related.ForeignKey&gt;), ('location', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='Account', fields=[('user_ptr', &lt;django.db.models.fields.related.OneToOneField&gt;), ('pw', &lt;django.db.models.fields.CharField&gt;), ('phone', &lt;django.db.models.fields.CharField&gt;), ('home_loc', &lt;django.db.models.fields.related.OneToOneField&gt;)], bases=('api.user',)&gt;]</em><a class="headerlink" href="#api.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.migrations.0002_auto_20200220_0158">
+<span id="api-migrations-0002-auto-20200220-0158-module"></span><h2>api.migrations.0002_auto_20200220_0158 module<a class="headerlink" href="#module-api.migrations.0002_auto_20200220_0158" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.migrations.0002_auto_20200220_0158.Migration">
+<em class="property">class </em><code class="sig-name descname">Migration</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#api.migrations.0002_auto_20200220_0158.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="api.migrations.0002_auto_20200220_0158.Migration.dependencies">
+<code class="sig-name descname">dependencies</code><em class="property"> = [('api', '0001_initial')]</em><a class="headerlink" href="#api.migrations.0002_auto_20200220_0158.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.migrations.0002_auto_20200220_0158.Migration.operations">
+<code class="sig-name descname">operations</code><em class="property"> = [&lt;AlterField  model_name='swipe', name='seller', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#api.migrations.0002_auto_20200220_0158.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.migrations.0002_auto_20200220_1500">
+<span id="api-migrations-0002-auto-20200220-1500-module"></span><h2>api.migrations.0002_auto_20200220_1500 module<a class="headerlink" href="#module-api.migrations.0002_auto_20200220_1500" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.migrations.0002_auto_20200220_1500.Migration">
+<em class="property">class </em><code class="sig-name descname">Migration</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#api.migrations.0002_auto_20200220_1500.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="api.migrations.0002_auto_20200220_1500.Migration.dependencies">
+<code class="sig-name descname">dependencies</code><em class="property"> = [('api', '0001_initial')]</em><a class="headerlink" href="#api.migrations.0002_auto_20200220_1500.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.migrations.0002_auto_20200220_1500.Migration.operations">
+<code class="sig-name descname">operations</code><em class="property"> = [&lt;AlterField  model_name='bid', name='desired_time', field=&lt;django.db.models.fields.TimeField&gt;&gt;]</em><a class="headerlink" href="#api.migrations.0002_auto_20200220_1500.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api.migrations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">SwipeX</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">api</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html">api package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">api</a><ul>
+  <li><a href="api.html">api package</a><ul>
+      <li>Previous: <a href="api.html" title="previous chapter">api package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Taasin Saquib, Eric Dang, Ashwin Vivekanandh, Jonathan Schultz, Xuesen Cui.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

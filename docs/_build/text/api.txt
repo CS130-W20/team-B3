@@ -1,0 +1,878 @@
+api package
+***********
+
+
+Subpackages
+===========
+
+
+Submodules
+==========
+
+
+api.accountviews module
+=======================
+
+account_create(self, request, *args, **kwargs)
+
+   Creates a new Account and saves it in the database.
+
+   Parameters:
+      **request** (*Request*) – An object containing data needed to
+      create a new Account.
+
+   Returns:
+      An HTTP response indicating that the new Account was
+      successfully saved in the database or that there was an error
+      and the Account object was not created.
+
+   Return type:
+      Reponse
+
+account_update(self, request, *args, **kwargs)
+
+   Updates the information in an existing Account within the database.
+
+   Parameters:
+      **request** (*Request*) – An object containing the new data to
+      be placed into the Account object.
+
+   Returns:
+      An HTTP response that indicates whether the Account was
+      successfully updated or if there was an error.
+
+   Return type:
+      Response
+
+
+api.buyviews module
+===================
+
+bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None)
+
+   Gets the cheapest Swipe object that meets the criteria for a
+   specific Bid.
+
+   Parameters:
+      * **hall_id** (*string*) – The DiningHall identifier.
+
+      * **swipe_time** (*DateTime**, **optional*) – The time range
+        specified on the Bid. Defaults to None.
+
+      * **swipe_price** (*Float**, **optional*) – The desired swipe
+        price. Defaults to None.
+
+   Returns:
+      A swipe that meets the criteria specified in the Bid, or None if
+      no Swipes meet the criteria.
+
+   Return type:
+      Swipe
+
+bid_placebid(self, request, *args, **kwargs)
+
+   Creates a new Bid object and saves it in the database.
+
+   Parameters:
+      **request** (*Request*) – An object containing the data needed
+      to create a new Bid object.
+
+   Returns:
+      An HTTP response indicating that a new Bid was successfully
+      created or an HTTP error reponse
+         indicating that the Bid was not created.
+
+   Return type:
+      Response
+
+
+api.models module
+=================
+
+class Account(*args, **kwargs)
+
+   Bases: "api.models.User"
+
+   Account object. Each user has an account. Inherits from User.
+
+   exception DoesNotExist
+
+      Bases: "api.models.DoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "api.models.MultipleObjectsReturned"
+
+   home_loc
+
+      Accessor to the related object on the forward side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Restaurant.place" is a "ForwardOneToOneDescriptor" instance.
+
+   home_loc_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   phone
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   pw
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   user_ptr
+
+      Accessor to the related object on the forward side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Restaurant.place" is a "ForwardOneToOneDescriptor" instance.
+
+   user_ptr_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+class Bid(*args, **kwargs)
+
+   Bases: "django.db.models.base.Model"
+
+   Bid object. The criteria a buyer specifies for a swipe such that
+   he/she is willing to purchase the swipe.
+
+   BID_STATES = [('0', 'Pending'), ('1', 'Accepted'), ('2', 'Confirmed')]
+
+   exception DoesNotExist
+
+      Bases: "django.core.exceptions.ObjectDoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "django.core.exceptions.MultipleObjectsReturned"
+
+   bid_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   bid_price
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   buyer
+
+      Accessor to the related object on the forward side of a many-to-
+      one or one-to-one (via ForwardOneToOneDescriptor subclass)
+      relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Child.parent" is a "ForwardManyToOneDescriptor" instance.
+
+   buyer_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   desired_time
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   get_status_display(*, field=<django.db.models.fields.CharField: status>)
+
+   location
+
+      Accessor to the related object on the forward side of a many-to-
+      one or one-to-one (via ForwardOneToOneDescriptor subclass)
+      relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Child.parent" is a "ForwardManyToOneDescriptor" instance.
+
+   location_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   objects = <django.db.models.manager.Manager object>
+
+   status
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   swipe
+
+      Accessor to the related object on the forward side of a many-to-
+      one or one-to-one (via ForwardOneToOneDescriptor subclass)
+      relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Child.parent" is a "ForwardManyToOneDescriptor" instance.
+
+   swipe_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+class DiningHall(*args, **kwargs)
+
+   Bases: "api.models.Location"
+
+   DiningHall object. Used as filtering criteria for buyers and
+   sellers to specify where they want to use / sell their Swipes at.
+   Inherits from Location.
+
+   exception DoesNotExist
+
+      Bases: "api.models.DoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "api.models.MultipleObjectsReturned"
+
+   bid_set
+
+      Accessor to the related objects manager on the reverse side of a
+      many-to-one relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Parent.children" is a "ReverseManyToOneDescriptor" instance.
+
+      Most of the implementation is delegated to a dynamically defined
+      manager class built by "create_forward_many_to_many_manager()"
+      defined below.
+
+   description
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   hall_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   hours
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   location_ptr
+
+      Accessor to the related object on the forward side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Restaurant.place" is a "ForwardOneToOneDescriptor" instance.
+
+   location_ptr_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   name
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   picture
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   swipe_set
+
+      Accessor to the related objects manager on the reverse side of a
+      many-to-one relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Parent.children" is a "ReverseManyToOneDescriptor" instance.
+
+      Most of the implementation is delegated to a dynamically defined
+      manager class built by "create_forward_many_to_many_manager()"
+      defined below.
+
+class Location(*args, **kwargs)
+
+   Bases: "django.db.models.base.Model"
+
+   Location object. Various locations are stored in this table,
+   including those for dining halls, home locations of users, and
+   (later) current locations of sellers
+
+   exception DoesNotExist
+
+      Bases: "django.core.exceptions.ObjectDoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "django.core.exceptions.MultipleObjectsReturned"
+
+   account
+
+      Accessor to the related object on the reverse side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Place.restaurant" is a "ReverseOneToOneDescriptor" instance.
+
+   dininghall
+
+      Accessor to the related object on the reverse side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Place.restaurant" is a "ReverseOneToOneDescriptor" instance.
+
+   lat
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   lng
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   loc_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   objects = <django.db.models.manager.Manager object>
+
+class Swipe(*args, **kwargs)
+
+   Bases: "django.db.models.base.Model"
+
+   Swipe object. The commodity.
+
+   exception DoesNotExist
+
+      Bases: "django.core.exceptions.ObjectDoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "django.core.exceptions.MultipleObjectsReturned"
+
+   SWIPE_STATES = [('0', 'Available'), ('1', 'Sold'), ('2', 'Finalized'), ('3', 'Refunded')]
+
+   bid_set
+
+      Accessor to the related objects manager on the reverse side of a
+      many-to-one relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Parent.children" is a "ReverseManyToOneDescriptor" instance.
+
+      Most of the implementation is delegated to a dynamically defined
+      manager class built by "create_forward_many_to_many_manager()"
+      defined below.
+
+   get_status_display(*, field=<django.db.models.fields.CharField: status>)
+
+   location
+
+      Accessor to the related object on the forward side of a many-to-
+      one or one-to-one (via ForwardOneToOneDescriptor subclass)
+      relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Child.parent" is a "ForwardManyToOneDescriptor" instance.
+
+   location_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   objects = <django.db.models.manager.Manager object>
+
+   price
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   seller
+
+      Accessor to the related object on the forward side of a many-to-
+      one or one-to-one (via ForwardOneToOneDescriptor subclass)
+      relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Child.parent" is a "ForwardManyToOneDescriptor" instance.
+
+   seller_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   status
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   swipe_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   visibility
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+class Transaction(*args, **kwargs)
+
+   Bases: "django.db.models.base.Model"
+
+   Transaction object. Represents the agreement between seller and
+   buyer for exchanging money for a swipe.
+
+   exception DoesNotExist
+
+      Bases: "django.core.exceptions.ObjectDoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "django.core.exceptions.MultipleObjectsReturned"
+
+   details
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   get_next_by_paid(*, field=<django.db.models.fields.DateTimeField: paid>, is_next=True, **kwargs)
+
+   get_previous_by_paid(*, field=<django.db.models.fields.DateTimeField: paid>, is_next=False, **kwargs)
+
+   objects = <django.db.models.manager.Manager object>
+
+   paid
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   recipient
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   sender
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   t_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   total
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+class User(*args, **kwargs)
+
+   Bases: "django.db.models.base.Model"
+
+   User object. Both buyers and sellers are users.
+
+   exception DoesNotExist
+
+      Bases: "django.core.exceptions.ObjectDoesNotExist"
+
+   exception MultipleObjectsReturned
+
+      Bases: "django.core.exceptions.MultipleObjectsReturned"
+
+   USER_STATES = [('0', 'New'), ('1', 'Active'), ('2', 'Banned')]
+
+   account
+
+      Accessor to the related object on the reverse side of a one-to-
+      one relation.
+
+      In the example:
+
+         class Restaurant(Model):
+             place = OneToOneField(Place, related_name='restaurant')
+
+      "Place.restaurant" is a "ReverseOneToOneDescriptor" instance.
+
+   bid_set
+
+      Accessor to the related objects manager on the reverse side of a
+      many-to-one relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Parent.children" is a "ReverseManyToOneDescriptor" instance.
+
+      Most of the implementation is delegated to a dynamically defined
+      manager class built by "create_forward_many_to_many_manager()"
+      defined below.
+
+   get_status_display(*, field=<django.db.models.fields.CharField: status>)
+
+   objects = <django.db.models.manager.Manager object>
+
+   pp_email
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   status
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+   swipe_set
+
+      Accessor to the related objects manager on the reverse side of a
+      many-to-one relation.
+
+      In the example:
+
+         class Child(Model):
+             parent = ForeignKey(Parent, related_name='children')
+
+      "Parent.children" is a "ReverseManyToOneDescriptor" instance.
+
+      Most of the implementation is delegated to a dynamically defined
+      manager class built by "create_forward_many_to_many_manager()"
+      defined below.
+
+   user_id
+
+      A wrapper for a deferred-loading field. When the value is read
+      from this object the first time, the query is executed.
+
+
+api.sellviews module
+====================
+
+swipe_geteligiblebid(hall_id, time_intervals=None, desired_price=None)
+
+   Finds all bids that match the specified swipe criteria and pairs
+   them.
+
+   Parameters:
+      * **hall_id** (*string*) – The dining hall identifier.
+
+      * **time_intervals** (*Datatime**, **optional*) – The desired
+        time intervals. Defaults to None.
+
+      * **desired_price** (*Float**, **optional*) – The desired price.
+        Defaults to None.
+
+   Returns:
+      The paired bid.
+
+   Return type:
+      Bid
+
+swipe_sellswipe(self, request, *args, **kwargs)
+
+   Creates a swipe to sell.
+
+   Parameters:
+      **request** (*Request*) – The data needed to create a new Swipe
+      listing.
+
+   Returns:
+      A reponse saying either the swipe was successfully created or
+      there was an error.
+
+   Return type:
+      Reponse
+
+
+api.serializers module
+======================
+
+class AccountSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "api.serializers.UserSerializer"
+
+   Serializer for Account objects.
+
+   class Meta
+
+      Bases: "api.serializers.Meta"
+
+      fields = ['status', 'user_id', 'pp_email', 'home_loc', 'pw', 'phone']
+
+      model
+
+         alias of "api.models.Account"
+
+class BidSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.ModelSerializer"
+
+   Serializer for Bid objects.
+
+   class Meta
+
+      Bases: "object"
+
+      fields = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
+
+      model
+
+         alias of "api.models.Bid"
+
+class DiningHallSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "api.serializers.LocationSerializer"
+
+   Serializer for DiningHall objects. Inherits from
+   LocationSerializer.
+
+   class Meta
+
+      Bases: "api.serializers.Meta"
+
+      fields = ['lat', 'lng', 'hours', 'name', 'description', 'picture']
+
+      model
+
+         alias of "api.models.DiningHall"
+
+   create(validated_data)
+
+      Creates a new DiningHall object.
+
+      Parameters:
+         **validated_data** (*dict*) – Validated DiningHall data used
+         to create the DiningHall object.
+
+      Returns:
+         Newly created dining hall object.
+
+      Return type:
+         DiningHall
+
+   update(instance, validated_data)
+
+      Updates data in the database corresponding to a specific
+      DiningHall object.
+
+      Parameters:
+         * **instance** (*DiningHall*) – An instance of a DiningHall.
+
+         * **validated_data** (*dict*) – The updated data.
+
+      Returns:
+         The updated DiningHall object.
+
+      Return type:
+         DiningHall
+
+class LocationSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.ModelSerializer"
+
+   Serializer class for Location Obejcts.
+
+   class Meta
+
+      Bases: "object"
+
+      fields = ['lat', 'lng']
+
+      model
+
+         alias of "api.models.Location"
+
+class SwipeSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.ModelSerializer"
+
+   Serializer for Swipe objects.
+
+   class Meta
+
+      Bases: "object"
+
+      fields = ['status', 'seller', 'location', 'price', 'visibility']
+
+      model
+
+         alias of "api.models.Swipe"
+
+   create(validated_data)
+
+      Creates a new Swipe object.
+
+      Parameters:
+         **validated_data** (*dict*) – The data used to create a new
+         Swipe object.
+
+      Returns:
+         The new Swipe object.
+
+      Return type:
+         Swipe
+
+   update(instance, validated_data)
+
+      Updates an existing Swipe object and the data corresponding to
+      it in the database.
+
+      Parameters:
+         * **instance** (*Swipe*) – The outdated Swipe object.
+
+         * **validated_data** (*dict*) – The new data to be placed in
+           the outdated Swipe object.
+
+      Returns:
+         The updated Swipe object.
+
+      Return type:
+         Swipe
+
+class TimeRangeSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.Serializer"
+
+   Serializer class for TimeRange Objects.
+
+class TransactionSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.ModelSerializer"
+
+   Serializer for Transaction objects.
+
+   class Meta
+
+      Bases: "object"
+
+      fields = ['sender', 'recipient', 'paid', 'total', 'details']
+
+      model
+
+         alias of "api.models.Transaction"
+
+class UserSerializer(instance=None, data=<class 'rest_framework.fields.empty'>, **kwargs)
+
+   Bases: "rest_framework.serializers.ModelSerializer"
+
+   Serializer for User objects.
+
+   class Meta
+
+      Bases: "object"
+
+      fields = ['status', 'user_id', 'pp_email']
+
+      model
+
+         alias of "api.models.User"
+
+
+api.swipeviews module
+=====================
+
+get_hall_stats(self, request, *args, **kwargs)
+
+   Finds swipes and bids for a given hall at a given time.
+
+   Parameters:
+      **request** (*Request*) – Object that contains the user
+      specified hall_id and time.
+
+   Returns:
+      HTML response containing the swipe counts, bid counts, lowest
+      ask and highest bid meeting the user
+         specified criteria, or it returns an error HTML response.
+
+   Return type:
+      Reponse
+
+get_swipes(self, request, *args, **kwargs)
+
+   Gets swipes that meet specified criteria.
+
+   Parameters:
+      **request** (*Request*) – Object that contains the criteria for
+      filtering swipes.
+
+   Returns:
+      An HTML response containing the filtered swipes or an error
+      response.
+
+   Return type:
+      Response
+
+
+api.urls module
+===============
+
+
+Module contents
+===============

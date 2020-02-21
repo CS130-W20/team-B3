@@ -1,0 +1,24 @@
+api
+***
+
+* api package
+
+  * Subpackages
+
+  * Submodules
+
+  * api.accountviews module
+
+  * api.buyviews module
+
+  * api.models module
+
+  * api.sellviews module
+
+  * api.serializers module
+
+  * api.swipeviews module
+
+  * api.urls module
+
+  * Module contents
