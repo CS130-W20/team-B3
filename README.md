@@ -1,4 +1,5 @@
 
+
 # SwipeX
 A simple online marketplace to exchange dining hall swipes here at UCLA.
 
@@ -26,6 +27,9 @@ and implement the function in either a new or existing view file, e.g. `swipevie
 ## Relevant Links
 - Database
 	- hosted at [https://www.mongodb.com/cloud](https://www.mongodb.com/cloud)
+- Stripe API
+	- [https://stripe.com/docs/api](https://stripe.com/docs/api)
+	- testing key is git-ignored
 - Documentation link
 - Working URL (if any)
 - anything else
