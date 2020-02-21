@@ -17,7 +17,14 @@ import datetime
 @renderer_classes([JSONRenderer])
 def get_swipes(request):
     """
-    Gets swipes that meet specified criteria.
+    Given filters either for time or location, return the lowest price of an available swipe and how many are available.
+
+    Args:
+        request (Request): Expects either time or location filters
+
+    Returns:
+        JSON: dining halls with the lowest swipe available and total number of swipes "Hall": {"lowest": 4, "count": 3}
+    """
 
     Args:
             request (Request): Object that contains the criteria for filtering swipes.
