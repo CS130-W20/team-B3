@@ -26,13 +26,6 @@ def get_swipes(request):
         JSON: dining halls with the lowest swipe available and total number of swipes "Hall": {"lowest": 4, "count": 3}
     """
 
-    Args:
-            request (Request): Object that contains the criteria for filtering swipes.
-
-    Returns:
-            Response: An HTML response containing the filtered swipes or an error response.
-    """
-
     data = request.data
     hallData = {}
     desired_time = data.get('desired_time', None)
