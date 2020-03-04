@@ -1,6 +1,6 @@
 //
 //  LoginViewController.swift
-//  SwipeX_2
+//  SwipeX
 //
 //  Created by Ashwin Vivek on 2/19/20.
 //  Copyright © 2020 CS 130. All rights reserved.

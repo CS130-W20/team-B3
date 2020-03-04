@@ -16,6 +16,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let diningHalls = ["BPlate", "De Neve", "Feast", "Covel"]
     let quickService = ["Cafe 1919", "The Study at Hedrick", "Rendezvous", "BCafe"]
     
+    var selectedDiningHallIndex: Int = 0
+    var didSelectDiningHall: Bool = true
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == self.diningHallCollection) {
             return diningHalls.count
@@ -61,6 +64,34 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         collectionView.layer.masksToBounds = false
         return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedDiningHallIndex = indexPath.row
+        if (collectionView == self.diningHallCollection) {
+            didSelectDiningHall = true
+        } else {
+            didSelectDiningHall = false
+        }
+        self.performSegue(withIdentifier: "diningHallsToSwipePrice", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "diningHallsToSwipePrice") {
+            // pass data to next view
+            if let destinationVC = segue.destination as? SwipePriceViewController {
+                if (didSelectDiningHall) {
+                    destinationVC.diningHallName = diningHalls[selectedDiningHallIndex]
+                    destinationVC.lowestAsk = 7
+                    destinationVC.highestBid = 5
+                } else {
+                    destinationVC.diningHallName = quickService[selectedDiningHallIndex]
+                    destinationVC.lowestAsk = 7
+                    destinationVC.highestBid = 5
+                }
+            }
+        }
     }
     
     override func viewDidLoad() {
