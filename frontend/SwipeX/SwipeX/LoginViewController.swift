@@ -15,7 +15,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         GIDSignIn.sharedInstance()?.presentingViewController = self
 
@@ -23,7 +23,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         
         GIDSignIn.sharedInstance()?.delegate = self
-        
     }
     
     @IBAction func loginAction(_ sender: Any) {
@@ -77,7 +76,4 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    
-
 }
