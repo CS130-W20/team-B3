@@ -116,4 +116,5 @@ backend/keys.py
 
 
 # Frontend
+frontend/SwipeX/Pods/
 frontend/SwipeX/SwipeX.xcodeproj/project.xcworkspace/xcuserdata/ashwinvivek.xcuserdatad/UserInterfaceState.xcuserstate

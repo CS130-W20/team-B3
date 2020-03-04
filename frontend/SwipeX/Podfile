@@ -6,6 +6,7 @@ target 'SwipeX' do
   use_frameworks!
 
   # Pods for SwipeX
+  pod 'GoogleSignIn', '~> 5.0.0'
 
   target 'SwipeXTests' do
     inherit! :search_paths
