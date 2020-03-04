@@ -15,6 +15,7 @@
 		77F1717D240F79D100DE33B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77F1717B240F79D100DE33B4 /* LaunchScreen.storyboard */; };
 		77F17188240F79D100DE33B4 /* SwipeXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17187240F79D100DE33B4 /* SwipeXTests.swift */; };
 		77F17193240F79D100DE33B4 /* SwipeXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17192240F79D100DE33B4 /* SwipeXUITests.swift */; };
+		77F171A3240F7EEB00DE33B4 /* diningHallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		77F1718E240F79D100DE33B4 /* SwipeXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwipeXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F17192240F79D100DE33B4 /* SwipeXUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeXUITests.swift; sourceTree = "<group>"; };
 		77F17194240F79D100DE33B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = diningHallCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				77F17174240F79CB00DE33B4 /* ViewController.swift */,
 				77F17176240F79CB00DE33B4 /* Main.storyboard */,
 				77F17179240F79D100DE33B4 /* Assets.xcassets */,
+				77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */,
 				77F1717B240F79D100DE33B4 /* LaunchScreen.storyboard */,
 				77F1717E240F79D100DE33B4 /* Info.plist */,
 			);
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77F17175240F79CB00DE33B4 /* ViewController.swift in Sources */,
+				77F171A3240F7EEB00DE33B4 /* diningHallCell.swift in Sources */,
 				77F17171240F79CB00DE33B4 /* AppDelegate.swift in Sources */,
 				77F17173240F79CB00DE33B4 /* SceneDelegate.swift in Sources */,
 			);

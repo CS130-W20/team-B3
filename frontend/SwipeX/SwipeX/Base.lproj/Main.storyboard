@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K23-8O-Tdi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mqB-j7-0Hi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,18 +28,12 @@
                                             <color key="titleColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AVG. SWIPE PRICE                                                                                                " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLm-Vw-beu" customClass="MarqueeLabel" customModule="MarqueeLabel">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AVG. SWIPE PRICE                                                                                                " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLm-Vw-beu">
                                         <rect key="frame" x="0.0" y="67" width="414" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="animationDelay">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="holdScrolling" value="NO"/>
-                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SwipeX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nq6-Ic-FdB">
                                         <rect key="frame" x="138" y="5" width="139" height="54"/>
@@ -74,7 +68,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="Cell" id="BQp-l0-Bhm" customClass="diningHallCell" customModule="SwipeX_2" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="Cell" id="BQp-l0-Bhm" customClass="diningHallCell" customModule="SwipeX" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="3" width="342" height="226"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bVJ-bl-Bn3">
@@ -161,7 +155,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="T5T-2v-IGP" customClass="diningHallCell" customModule="SwipeX_2" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="T5T-2v-IGP" customClass="diningHallCell" customModule="SwipeX" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="3" width="342" height="226"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="8xQ-PB-Mke">
@@ -223,7 +217,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="bNV-tL-Jcp"/>
                     <connections>
-                        <outlet property="averagePriceMarquee" destination="uLm-Vw-beu" id="KNH-e7-2rl"/>
                         <outlet property="diningHallCollection" destination="How-B1-7JU" id="3q9-R4-IHh"/>
                         <outlet property="quickServiceCollection" destination="eE7-Ls-FR1" id="wZC-jN-aAq"/>
                         <segue destination="pSV-ar-OOm" kind="show" identifier="diningHallsToSwipePrice" id="aGr-0u-aPs"/>
@@ -236,7 +229,7 @@
         <!--Swipe Price View Controller-->
         <scene sceneID="Mau-Re-01B">
             <objects>
-                <viewController id="pSV-ar-OOm" customClass="SwipePriceViewController" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pSV-ar-OOm" customClass="SwipePriceViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4vu-Ps-Woy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -407,7 +400,7 @@
         <!--Buy Or Sell View Controller-->
         <scene sceneID="Tph-Ez-pqE">
             <objects>
-                <viewController id="d71-dQ-yRS" customClass="BuyOrSellViewController" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="d71-dQ-yRS" customClass="BuyOrSellViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a5v-Kv-tEk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -503,7 +496,7 @@
         <!--Login View Controller-->
         <scene sceneID="7J1-W7-EtJ">
             <objects>
-                <viewController id="K23-8O-Tdi" customClass="LoginViewController" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="K23-8O-Tdi" customClass="LoginViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zpm-II-7sp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -556,10 +549,10 @@
             </objects>
             <point key="canvasLocation" x="-1249" y="127"/>
         </scene>
-        <!--Tab Bar View Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="Sk4-16-aCi">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarVC" automaticallyAdjustsScrollViewInsets="NO" id="mqB-j7-0Hi" customClass="TabBarViewController" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarVC" automaticallyAdjustsScrollViewInsets="NO" id="mqB-j7-0Hi" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Sgb-aU-OT1"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6PQ-bF-XRI">
@@ -601,7 +594,7 @@
         <!--Bid Or Ask ContainerVC-->
         <scene sceneID="e9i-pe-glU">
             <objects>
-                <viewController id="78R-vR-GnE" customClass="BidOrAskContainerVC" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="78R-vR-GnE" customClass="BidOrAskContainerVC" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XqJ-Vo-UFq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="553"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -700,7 +693,7 @@
         <!--Buy Or Sell ContainerVC-->
         <scene sceneID="6J2-TA-dUD">
             <objects>
-                <viewController id="HGq-3H-dmH" customClass="BuyOrSellContainerVC" customModule="SwipeX_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HGq-3H-dmH" customClass="BuyOrSellContainerVC" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x8P-g7-yXX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="553"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
