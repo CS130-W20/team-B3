@@ -39,9 +39,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! diningHallCell
         if(collectionView == self.diningHallCollection) {
             cell.name.text = diningHalls[indexPath.row]
+            cell.image.image = UIImage(named: diningHalls[indexPath.row].lowercased())
         }
         else if (collectionView == self.quickServiceCollection) {
             cell.name.text = quickService[indexPath.row]
+            cell.image.image = UIImage(named: quickService[indexPath.row].lowercased())
         }
         cell.image.contentMode = UIView.ContentMode.scaleAspectFill
         cell.layer.borderColor = UIColor.lightGray.cgColor
