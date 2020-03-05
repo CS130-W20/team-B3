@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -102,6 +104,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
+        
+//        AF.request("https://b4b1ebdb.ngrok.io/api/swipes/sget/", method: .post).responseString {
+//            response in
+//            print(response.result)
+//        }
+        
+        AF.request("https://b4b1ebdb.ngrok.io/api/swipes/sget/", method: .post).responseJSON { (responseData) -> Void in
+            switch responseData.result{
+            case .success(let value):
+                //succcess, do anything
+                if(value != nil) {
+                    let swiftyJsonVar = JSON(value)
+                    print(swiftyJsonVar)
+                }
+
+            case .failure(let error):
+                // error
+                print("ERROR")
+            }
+        }
     }
 
 
