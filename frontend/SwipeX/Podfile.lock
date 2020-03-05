@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.0.0)
   - AppAuth (1.3.0):
     - AppAuth/Core (= 1.3.0)
     - AppAuth/ExternalUserAgent (= 1.3.0)
@@ -18,14 +19,16 @@ PODS:
     - GTMSessionFetcher/Core (= 1.3.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.0)
   - GoogleSignIn (~> 5.0.0)
 
 SPEC CHECKSUMS:
+  Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
 
-PODFILE CHECKSUM: 4775713d4af15efae16a8992f2b20862a23fc803
+PODFILE CHECKSUM: 2a0514f96801e9fe7802a8a0bf8cfc797a2c7023
 
 COCOAPODS: 1.3.1
