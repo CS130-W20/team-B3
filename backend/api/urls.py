@@ -5,6 +5,9 @@ from . import views, accountviews, sellviews, swipeviews, paymentviews
 router = routers.DefaultRouter()
 # Code to register API urls will go here
 urlpatterns = [
+
+    path('', views.default),
+
     path('accounts/create/', accountviews.account_create),
     path('accounts/update/', accountviews.account_update),
 
