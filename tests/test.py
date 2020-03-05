@@ -3,8 +3,9 @@ import json
 
 
 def test_default():
-    r = requests.get('https://localhost:8000/api')
-    print(r.text)
+    r = requests.get('http://localhost:8000/api/')
+    if r.text != '"Welcome to the SwipeX API"':
+        exit(1)
 
 
 def main():
@@ -13,3 +14,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    exit(0)
