@@ -16,33 +16,33 @@ import pytz
 # returns a JSON of dining hall names with lowest ask and highest bid
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @renderer_classes([JSONRenderer])
 def get_swipes(request):
     """
     Return swipe data for each dining hall; used to populate main page
 
     Args:
-        request (Request): does't use arg
+        request (Request): does't need inputs
 
     Returns:
-        JSON: dining halls with the lowest swipe available and total number of swipes {"Hall": {"nBids": 1, "nSwipes": 1, "times": {"start": 17, "end": 20}}}
+        JSON: dining halls with the lowest swipe available and total number of swipes {"Hall": {"nBids": 1, "nSwipes": 1, "times": {"start": 17, "end": 20}, "lowest_ask": 5}}
     """
 
-    hallsList = ["FEAST at Rieber", "De Neve", "Covel", "Bruin Plate"]
-    quickList = ["Bruin Cafe", "Cafe 1919", "Rendezvous", "The Study at Hedrick"]
+    halls_list = ["FEAST at Rieber", "De Neve", "Covel", "Bruin Plate"]
+    quick_list = ["Bruin Cafe", "Cafe 1919", "Rendezvous", "The Study at Hedrick"]
 
-    hallData = {"halls":[], "quick":[]}
+    hall_data = {"halls":[], "quick":[]}
     halls = DiningHall.objects.all()
 
     date = datetime.datetime.now(tz=pytz.utc)
     date = date.astimezone(timezone('US/Pacific'))
-    curTime = date.time().hour
+    cur_time = date.time().hour
 
     for hall in halls:
 
-        curId = hall.hall_id
-        curName = hall.name
+        cur_id = hall.hall_id
+        cur_name = hall.name
 
         # see if hall is currently open
         hours = hall.hours
@@ -50,25 +50,31 @@ def get_swipes(request):
         for h in hours:
             start = h['start'].hour
             end   = h['end'].hour
-            if start <= curTime and curTime <= end:
+            if start <= cur_time and cur_time <= end:
                 times['start'] = start
                 times['end']   = end
 
         # get stats for number of swipes and bids
-        swipes = Swipe.objects.filter(location=curId)
+        swipes = Swipe.objects.filter(location=cur_id)
         nSwipes  = swipes.count()
 
-        bids = Bid.objects.filter(location=curId)
+        bids = Bid.objects.filter(location=cur_id)
         nBids = bids.count()
 
-        # insert curHall into hallData
-        curHall = {hall.name: {"nBids": nBids, "nSwipes": nSwipes, "times": times}}
-        if curName in hallsList:
-            hallData["halls"].append(curHall)
-        elif curName in quickList:
-            hallData["quick"].append(curHall)
+        # lowest ask
+        lowest = 0
+        sorted_bids = bids.order_by('bid_price')
+        if len(sorted_bids) >= 1:
+            lowest = sorted_bids[0].bid_price
 
-    return Response(json.dumps(hallData), status=status.HTTP_200_OK)
+        # insert cur_hall into hall_data
+        cur_hall = {hall.name: {"nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}}
+        if cur_name in halls_list:
+            hall_data["halls"].append(cur_hall)
+        elif cur_name in quick_list:
+            hall_data["quick"].append(cur_hall)
+
+    return Response(json.dumps(hall_data), status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
