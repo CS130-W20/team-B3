@@ -8,6 +8,7 @@ target 'SwipeX' do
   # Pods for SwipeX
   pod 'GoogleSignIn', '~> 5.0.0'
   pod 'Alamofire', '~> 5.0'
+  pod 'SwiftyJSON'
 
   target 'SwipeXTests' do
     inherit! :search_paths
