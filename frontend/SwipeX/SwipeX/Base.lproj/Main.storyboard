@@ -644,6 +644,9 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="didTapFrom:" destination="78R-vR-GnE" eventType="touchDown" id="ubv-IW-ni3"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="between" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBl-dZ-iEj">
                                         <rect key="frame" x="37" y="1" width="181" height="62"/>
@@ -664,6 +667,9 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="didTapTo:" destination="78R-vR-GnE" eventType="touchDown" id="yd0-dp-ZNO"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.97646397350000003" green="0.97646433119999998" blue="0.9764626622" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -672,6 +678,13 @@
                         <color key="backgroundColor" red="0.85833877329999997" green="0.89406496290000004" blue="0.90195310120000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="bwV-Ze-bwG"/>
                     </view>
+                    <connections>
+                        <outlet property="actionButton" destination="NK3-uT-Edi" id="6Np-GV-dMu"/>
+                        <outlet property="fromTimeField" destination="Uow-wS-ffR" id="e8D-hv-6tJ"/>
+                        <outlet property="priceField" destination="ubS-DE-YSv" id="MTx-z2-dcz"/>
+                        <outlet property="titleLabel" destination="gmt-7a-ekm" id="o02-5E-DwW"/>
+                        <outlet property="toTimeField" destination="ehM-XR-t6r" id="O4v-jE-YO5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MXl-uD-UqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

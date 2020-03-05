@@ -74,6 +74,20 @@ class BuyOrSellViewController: UIViewController {
                 vc.isBuying = isBuying
                 vc.parentVC = self
             }
+            if (segue.identifier == "toBidOrAskContainer")
+                    {
+                        let vc: BidOrAskContainerVC = segue.destination as! BidOrAskContainerVC
+            //            vc.priceValue = priceValue!
+                        vc.timePickerFrom.maximumDate = maximumTime!.addingTimeInterval(-15.0)
+                        vc.timePickerTo.maximumDate = maximumTime
+                       
+                        vc.timePickerFrom.minimumDate = minimumTime
+                        vc.timePickerTo.minimumDate = maximumTime!.addingTimeInterval(15.0)
+                        vc.timePickerFrom.date = minimumTime!
+                        vc.timePickerTo.date = maximumTime!
+                        vc.priceValue = priceValue
+                        vc.isBidding = isBuying
+                    }
         }
 
     override func viewDidAppear(_ animated: Bool) {
