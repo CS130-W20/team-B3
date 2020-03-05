@@ -18,6 +18,9 @@
 		77F17193240F79D100DE33B4 /* SwipeXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17192240F79D100DE33B4 /* SwipeXUITests.swift */; };
 		77F171A3240F7EEB00DE33B4 /* diningHallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */; };
 		77F171A5240F832200DE33B4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171A4240F832200DE33B4 /* LoginViewController.swift */; };
+		77F171A724102E5700DE33B4 /* SwipePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171A624102E5700DE33B4 /* SwipePriceViewController.swift */; };
+		77F171A92410382000DE33B4 /* ToolbarDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171A82410382000DE33B4 /* ToolbarDatePicker.swift */; };
+		77F171AB24106D4500DE33B4 /* BuyOrSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171AA24106D4500DE33B4 /* BuyOrSellViewController.swift */; };
 		B95ECF9F836564EBBFDB7467 /* Pods_SwipeX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F63A1690E748E5B38D192C /* Pods_SwipeX.framework */; };
 		C944F442B650B9D784482526 /* Pods_SwipeXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E934AFF4E3DDA7DF3BDE09 /* Pods_SwipeXTests.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +64,9 @@
 		77F17194240F79D100DE33B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = diningHallCell.swift; sourceTree = "<group>"; };
 		77F171A4240F832200DE33B4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		77F171A624102E5700DE33B4 /* SwipePriceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipePriceViewController.swift; sourceTree = "<group>"; };
+		77F171A82410382000DE33B4 /* ToolbarDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarDatePicker.swift; sourceTree = "<group>"; };
+		77F171AA24106D4500DE33B4 /* BuyOrSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyOrSellViewController.swift; sourceTree = "<group>"; };
 		7FADA92D4C6FFF16121A4CA5 /* Pods-SwipeXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXTests/Pods-SwipeXTests.release.xcconfig"; sourceTree = "<group>"; };
 		8408D5E674E4E276460A0393 /* Pods-SwipeXUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXUITests/Pods-SwipeXUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8B1C13524B0FE08FCFF057D9 /* Pods-SwipeXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXTests/Pods-SwipeXTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -140,7 +146,10 @@
 				77F17179240F79D100DE33B4 /* Assets.xcassets */,
 				77F171A2240F7EEB00DE33B4 /* diningHallCell.swift */,
 				77F1717B240F79D100DE33B4 /* LaunchScreen.storyboard */,
+				77F171AA24106D4500DE33B4 /* BuyOrSellViewController.swift */,
 				77F171A4240F832200DE33B4 /* LoginViewController.swift */,
+				77F171A624102E5700DE33B4 /* SwipePriceViewController.swift */,
+				77F171A82410382000DE33B4 /* ToolbarDatePicker.swift */,
 				77F1717E240F79D100DE33B4 /* Info.plist */,
 			);
 			path = SwipeX;
@@ -507,9 +516,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77F171AB24106D4500DE33B4 /* BuyOrSellViewController.swift in Sources */,
 				77F17175240F79CB00DE33B4 /* ViewController.swift in Sources */,
 				77F171A3240F7EEB00DE33B4 /* diningHallCell.swift in Sources */,
 				77F17171240F79CB00DE33B4 /* AppDelegate.swift in Sources */,
+				77F171A92410382000DE33B4 /* ToolbarDatePicker.swift in Sources */,
+				77F171A724102E5700DE33B4 /* SwipePriceViewController.swift in Sources */,
 				77F171A5240F832200DE33B4 /* LoginViewController.swift in Sources */,
 				77F17173240F79CB00DE33B4 /* SceneDelegate.swift in Sources */,
 			);

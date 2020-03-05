@@ -35,6 +35,28 @@ class SwipePriceViewController: UIViewController{
     fileprivate let datePickerFrom = ToolbarDatePicker()
     fileprivate let datePickerTo = ToolbarDatePicker()
     
+    @IBAction func didTapBuyButton(_ sender: Any) {
+        didTapBuy = true
+        self.performSegue(withIdentifier: "SwipePriceToBuyOrSell", sender: self)
+    }
+    
+    @IBAction func didTapSellButton(_ sender: Any) {
+        didTapBuy = false
+        self.performSegue(withIdentifier: "SwipePriceToBuyOrSell", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "SwipePriceToBuyOrSell") {
+            let vc: BuyOrSellViewController = segue.destination as! BuyOrSellViewController
+            vc.isBuying = didTapBuy
+            if (didTapBuy!) {
+                vc.priceValue = lowestAsk
+            } else {
+                vc.priceValue = highestBid
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         diningHallLabel.text = diningHallName

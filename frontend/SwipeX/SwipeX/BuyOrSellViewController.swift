@@ -14,6 +14,7 @@ class BuyOrSellViewController: UIViewController {
     @IBOutlet weak var containerViewBidOrAsk: UIView!
     
     var isBuying:Bool?
+    var priceValue:Int?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -36,8 +37,8 @@ class BuyOrSellViewController: UIViewController {
         // Do any additional setup after loading the view.
         let font = UIFont.boldSystemFont(ofSize: 18)
         segmentedControl.frame.size.height = 50.0
-    segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3332946301, green: 0.3333562613, blue: 0.333286047, alpha: 1)], for: .normal)
-    segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3332946301, green: 0.3333562613, blue: 0.333286047, alpha: 1)], for: .normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
         
         segmentedControl.layer.cornerRadius = 30
         if (isBuying!) {
@@ -59,6 +60,7 @@ class BuyOrSellViewController: UIViewController {
                 self.containerViewBidOrAsk.alpha = 0
             })
     }
+    
     /*
     // MARK: - Navigation
 

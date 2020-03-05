@@ -644,9 +644,6 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="didTapFrom:" destination="78R-vR-GnE" eventType="touchDown" id="KoL-Lw-bsc"/>
-                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="between" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBl-dZ-iEj">
                                         <rect key="frame" x="37" y="1" width="181" height="62"/>
@@ -667,9 +664,6 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="didTapTo:" destination="78R-vR-GnE" eventType="touchDown" id="FwZ-d3-Eim"/>
-                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.97646397350000003" green="0.97646433119999998" blue="0.9764626622" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -678,13 +672,6 @@
                         <color key="backgroundColor" red="0.85833877329999997" green="0.89406496290000004" blue="0.90195310120000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="bwV-Ze-bwG"/>
                     </view>
-                    <connections>
-                        <outlet property="actionButton" destination="NK3-uT-Edi" id="LDp-xv-tbw"/>
-                        <outlet property="fromTimeField" destination="Uow-wS-ffR" id="Sgf-s7-Kal"/>
-                        <outlet property="priceField" destination="ubS-DE-YSv" id="8ms-Jy-7Ws"/>
-                        <outlet property="titleLabel" destination="gmt-7a-ekm" id="xma-K6-wAi"/>
-                        <outlet property="toTimeField" destination="ehM-XR-t6r" id="1Q6-BD-c5j"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MXl-uD-UqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -714,9 +701,6 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="44"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="didFinishEditingPrice:" destination="HGq-3H-dmH" eventType="editingDidEnd" id="0x3-ip-d9c"/>
-                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RbU-No-buH">
                                         <rect key="frame" x="71" y="178" width="272" height="62.5"/>
@@ -793,16 +777,6 @@
                         <color key="backgroundColor" red="0.87026804690000004" green="0.89407658580000005" blue="0.90195327999999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="w04-Cn-9Dx"/>
                     </view>
-                    <connections>
-                        <outlet property="OneSwipeLabel" destination="ypB-rL-LMZ" id="MIP-9z-Rk8"/>
-                        <outlet property="actionButton" destination="y5w-bs-fS9" id="hLh-eb-8aH"/>
-                        <outlet property="infoHeaderLabel" destination="ejX-nZ-7jk" id="wIH-bN-e8N"/>
-                        <outlet property="infoPersonNameLabel" destination="DCl-Jc-6yY" id="Oyi-w5-cap"/>
-                        <outlet property="infoRatingLabel" destination="mn5-YM-86A" id="Fds-7b-Tij"/>
-                        <outlet property="priceField" destination="CyG-Th-9gY" id="wdg-XT-8G0"/>
-                        <outlet property="sellerInfoView" destination="cUf-CJ-ne6" id="0Ry-B9-Ue0"/>
-                        <outlet property="timeField" destination="RbU-No-buH" id="XVb-lS-7b3"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ik-xt-Vmt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
