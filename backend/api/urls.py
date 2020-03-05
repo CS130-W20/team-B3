@@ -12,7 +12,7 @@ urlpatterns = [
     path('accounts/update/', accountviews.account_update),
 
     path('selling/sell/', sellviews.swipe_sellswipe),
-
+    path('selling/sell_swipe_highest_bidder/', sellviews.sell_swipe_highest_bidder),
     path('swipes/sget/', swipeviews.get_swipes),
 
     path('pay/ask/', paymentviews.make_payment),

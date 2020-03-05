@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.models import DiningHall, Swipe, Bid
+from api.models import DiningHall, Swipe, Bid, User
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
 
@@ -93,3 +93,54 @@ def swipe_sellswipe(request):
             return Response({'STATUS': '0', 'REASON': 'SWIPE CREATED, NO PAIRING'}, status=status.HTTP_200_OK)
     else:
         return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def sell_swipe_highest_bidder(request):
+    data = request.data
+    if 'bid_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED BID_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'user_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED SELLER\'s USER_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'price' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED SWIPE PRICE ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'location' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED LOCATION ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    # if 'time_intervals' not in data:
+    #     return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED TIME INTERVALS ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        bid = Bid.objects.get(bid_id=data['bid_id'])
+        buyer = User.objects.get(user_id=data['user_id'])
+    except Bid.DoesNotExist:
+        return Response({'STATUS': '1', 'REASON': 'BID DOES NOT EXIST'}, status=status.HTTP_400_BAD_REQUEST)
+    except User.DoesNotExist:
+        return Response({'STATUS': '1', 'REASON': 'USER DOES NOT EXIST'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if bid.status == '0':
+        # time_intervals_local = []
+        # for interval in data['time_intervals']:
+        #     interval_obj = {}
+        #     for k, v in dict(interval).items():
+        #         interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
+        #     time_intervals_local.append(interval_obj)
+
+        swipe_serializer = SwipeSerializer(
+            data={'status': '1', 'seller': data['user_id'], 'price': data['price'], 'location': data['location'], 'visibility': [{'start': bid.desired_time, 'end': bid.desired_time}]})
+        if swipe_serializer.is_valid():
+            swipe_serializer.save()
+            swipe = swipe_serializer.data
+            bid.status = '1'
+            bid.swipe = swipe['swipe_id']
+            bid_serializer = BidSerializer(data=bid)
+            if bid_serializer.is_valid():
+                bid_serializer.save()
+                client = Client(twilio_account_sid, twilio_auth_token)
+                message = client.messages.create(body=f"User {buyer.user_id} has bought your swipe!",
+                                                 from_='+18563065093', to='+15103668202')
+            else:
+                return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Reponse({'STATUS': '1', 'REASON': 'BID ALREADY ACCEPTED'})
