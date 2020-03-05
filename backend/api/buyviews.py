@@ -84,3 +84,54 @@ def bid_placebid(request):
         return Response({'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'}, status=status.HTTP_200_OK)
     else:
         return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def lowest_ask_and_highest_bid(request):
+    data = request.data
+    if 'hall_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED hall_id ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'start' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED start ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'end' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED end ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    info = {}
+
+    swipe_candidates = Swipe.objects.filter(location_id=data['hall_id'], status=0).order_by('price')
+    bid_candidates = Bid.objects.filter(location_id=data['hall_id'], status=0).order_by('bid_price')
+
+    for i in range(int(data['start']), int(data['end']) + 1):
+        info[i] = {}
+        for j in range(i, int(data['end']) + 1):
+            info[i][j] = {}
+            info[i][j]["low"] = get_lowest_swipe(swipe_candidates, i, j)
+            info[i][j]["high"] = get_highest_bid(bid_candidates, i, j)
+
+    return Response(info, status=status.HTTP_200_OK)
+
+def get_lowest_swipe(swipe_candidates, start, end):
+    curr_price = "999999"
+    for swipe in swipe_candidates:
+        for hours in swipe.visibility:
+            print(hours['start'], hours['end'])
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            if int(curr_start) <= start and int(curr_end) >= end:
+                curr_price = min(curr_price, swipe.price)
+  
+    return "0" if curr_price == "999999" else curr_price
+
+def get_highest_bid(bid_candidates, start, end):
+    curr_price = "0"
+    for bid in bid_candidates:
+        if bid.desired_time == None:
+            curr_price = max(curr_price, int(bid.bid_price))
+        else:
+            print (bid.desired_time)
+            bid_time = str(bid.desired_time).split(" ") 
+            bid_time = bid_time if len(bid_time) == 1 else bid_time[1]
+            curr_desired_time = "".join(bid_time).split(":")[0]
+            if start <= int(curr_desired_time) <= end:
+                curr_price = max(curr_price, bid.bid_price)
+    return curr_price

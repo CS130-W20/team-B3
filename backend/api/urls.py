@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-from . import views, accountviews, sellviews, swipeviews, paymentviews
+from . import views, accountviews, sellviews, swipeviews, paymentviews, buyviews
 
 router = routers.DefaultRouter()
 # Code to register API urls will go here
@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('pay/ask/'    , paymentviews.make_payment),
     path('pay/confirm/', paymentviews.confirm_payment),
-    path('pay/transfer', paymentviews.transfer_to_seller),
+    path('pay/transfer/', paymentviews.transfer_to_seller),
+		path('buy/info/', buyviews.lowest_ask_and_highest_bid)
 
 ]
