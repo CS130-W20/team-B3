@@ -54,6 +54,9 @@ class SwipePriceViewController: UIViewController{
             } else {
                 vc.priceValue = highestBid
             }
+            
+            vc.minimumTime = self.datePickerFrom.date
+            vc.maximumTime = self.datePickerTo.date
         }
     }
     

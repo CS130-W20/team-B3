@@ -15,6 +15,9 @@ class BuyOrSellViewController: UIViewController {
     
     var isBuying:Bool?
     var priceValue:Int?
+    let timePicker = ToolbarDatePicker()
+    var minimumTime:Date?
+    var maximumTime:Date?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -29,6 +32,13 @@ class BuyOrSellViewController: UIViewController {
         default:
             break;
         }
+    }
+    
+    func changeSegment(newPrice : Int) {
+        priceValue = newPrice
+        
+        segmentedControl.selectedSegmentIndex = 1 - segmentedControl.selectedSegmentIndex
+        segmentedControl.sendActions(for: UIControl.Event.valueChanged)
     }
     
     override func viewDidLoad() {
@@ -51,6 +61,20 @@ class BuyOrSellViewController: UIViewController {
             segmentedControl.selectedSegmentTintColor = #colorLiteral(red: 0.9379594326, green: 0.2973573804, blue: 0.3231473565, alpha: 1)
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            self.hidesBottomBarWhenPushed = true
+            if (segue.identifier == "toBuyOrSellContainer")
+            {
+                let vc: BuyOrSellContainerVC = segue.destination as! BuyOrSellContainerVC
+                vc.priceValue = priceValue!
+                vc.timePicker.minimumDate = minimumTime
+                vc.timePicker.maximumDate = maximumTime
+                vc.timePicker.date = minimumTime!
+                vc.isBuying = isBuying
+                vc.parentVC = self
+            }
+        }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

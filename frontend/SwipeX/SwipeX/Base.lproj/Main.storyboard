@@ -777,6 +777,16 @@
                         <color key="backgroundColor" red="0.87026804690000004" green="0.89407658580000005" blue="0.90195327999999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="w04-Cn-9Dx"/>
                     </view>
+                    <connections>
+                        <outlet property="OneSwipeLabel" destination="ypB-rL-LMZ" id="gy8-RK-DSO"/>
+                        <outlet property="actionButton" destination="y5w-bs-fS9" id="d7R-KY-3t6"/>
+                        <outlet property="infoHeaderLabel" destination="ejX-nZ-7jk" id="uNW-OB-hfu"/>
+                        <outlet property="infoPersonNameLabel" destination="DCl-Jc-6yY" id="3v0-x6-gmr"/>
+                        <outlet property="infoRatingLabel" destination="mn5-YM-86A" id="ixX-xd-38j"/>
+                        <outlet property="priceField" destination="CyG-Th-9gY" id="RiC-sZ-N1r"/>
+                        <outlet property="sellerInfoView" destination="cUf-CJ-ne6" id="Cit-5R-EcW"/>
+                        <outlet property="timeField" destination="RbU-No-buH" id="H3o-2X-swK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ik-xt-Vmt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
