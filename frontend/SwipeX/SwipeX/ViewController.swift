@@ -15,11 +15,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var diningHallCollection: UICollectionView!
     @IBOutlet weak var quickServiceCollection: UICollectionView!
     
+    var halls:[JSON] = []
+    var quicks:[JSON] = []
+    
     let diningHalls = ["BPlate", "De Neve", "Feast", "Covel"]
     let quickService = ["Cafe 1919", "The Study at Hedrick", "Rendezvous", "BCafe"]
     
     var selectedDiningHallIndex: Int = 0
     var didSelectDiningHall: Bool = true
+    
+//    func convertTime(jsonTime: String) {
+//
+//    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == self.diningHallCollection) {
@@ -45,6 +52,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if(collectionView == self.diningHallCollection) {
             cell.name.text = diningHalls[indexPath.row]
             cell.image.image = UIImage(named: diningHalls[indexPath.row].lowercased())
+            cell.numBids.text = halls.isEmpty ? "" :
+                "\(halls[indexPath.row]["nSwipes"]) swipes"
         }
         else if (collectionView == self.quickServiceCollection) {
             cell.name.text = quickService[indexPath.row]
@@ -62,7 +71,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.timesAvailable.text = "5-7 pm"
         cell.lowestAsk.text = "$5 lowest ask"
         cell.lowestAsk.adjustsFontSizeToFitWidth = true
-        cell.numBids.text = "6 bids"
+//        cell.numBids.text = "6 bids"
         
         collectionView.layer.masksToBounds = false
         return cell
@@ -105,27 +114,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
         
-//        AF.request("https://b4b1ebdb.ngrok.io/api/swipes/sget/", method: .post).responseString {
-//            response in
-//            print(response.result)
-//        }
+        //https://01868f98.ngrok.io/api/swipes/sget/
+    
         
-        AF.request("https://b4b1ebdb.ngrok.io/api/swipes/sget/", method: .post).responseJSON { (responseData) -> Void in
-            switch responseData.result{
-            case .success(let value):
-                //succcess, do anything
-                if(value != nil) {
-                    let swiftyJsonVar = JSON(value)
-                    print(swiftyJsonVar)
+        AF.request("https://01868f98.ngrok.io/api/swipes/sget/", method:.post).responseJSON { response in
+            switch response.result {
+            case .success:
+                if let value = response.value as? String {
+                    if let data = value.data(using: String.Encoding.utf8) {
+                        let json = JSON(data)
+                        print(json)
+                        if let quickService =  json["quick"].arrayValue as [JSON]? {
+                            self.quicks = quickService
+                            self.quickServiceCollection.reloadData()
+                        }
+                        if let dining =  json["halls"].arrayValue as [JSON]? {
+                            self.halls = dining
+                            
+                            self.diningHallCollection.reloadData()
+                        }
+                    }
                 }
-
-            case .failure(let error):
-                // error
-                print("ERROR")
+            case let .failure(error):
+                print(error)
             }
         }
     }
-
-
 }
 
