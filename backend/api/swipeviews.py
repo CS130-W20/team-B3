@@ -68,7 +68,7 @@ def get_swipes(request):
             lowest = sorted_bids[0].bid_price
 
         # insert cur_hall into hall_data
-        cur_hall = {hall.name: {"nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}}
+        cur_hall = {"name": hall.name, "nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}
         if cur_name in halls_list:
             hall_data["halls"].append(cur_hall)
         elif cur_name in quick_list:
