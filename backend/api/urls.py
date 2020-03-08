@@ -18,6 +18,7 @@ urlpatterns = [
     path('pay/ask/', paymentviews.make_payment),
     path('pay/confirm/', paymentviews.confirm_payment),
     path('pay/transfer', paymentviews.transfer_to_seller),
-    path('buyviews/buy_listed_swipe/', buyviews.buy_listed_swipe)
+    path('buyviews/buy_listed_swipe/', buyviews.buy_listed_swipe),
+    path('swipes/timeinterval_info/', swipeviews.lowestswipe_highestbid_info),
 
 ]

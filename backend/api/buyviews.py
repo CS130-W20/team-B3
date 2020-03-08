@@ -90,6 +90,17 @@ def bid_placebid(request):
 
 @api_view(['POST'])
 def buy_listed_swipe(request):
+    """
+    Lets a buyer buy a swipe. Checks that the Swipe hasnt already been bought and then matches the buyer to the Swipe
+    and saves the updated Swipe to the database.
+
+    Args:
+        request (Request): A request containing the swipe_id that is trying to be purchased at the user_id of the buyer.
+
+    Returns:
+        HTTP Response: A response indicating errors or success.
+    """
+
     data = request.data
     if 'swipe_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED SWIPE_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
