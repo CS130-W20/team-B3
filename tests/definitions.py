@@ -1,7 +1,16 @@
 import requests
 import json
+import sys
+import os
+import django
+
+sys.path.insert(0, os.path.abspath('../backend'))  # noqa
+os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
+django.setup()
+from api.models import Account  # noqa
 
 # Define test functions
+
 
 def test_default():
 
@@ -12,6 +21,8 @@ def test_default():
 
 # test function get_swipes in backend/api/swipeviews.py
 # check if its returning data for each dining hall
+
+
 def test_sget():
 
     r = hit_endpoint("GET", 'http://localhost:8000/api/swipes/sget/')
@@ -35,13 +46,3 @@ def test_sget():
 
     if set(res_quick) != set(quick_list):
         exit(1)
-
-def main():
-    with open("tests.json", "w") as file:
-        json.dump(data, file)
-    test_default()
-    test_sget()
-
-if __name__ == "__main__":
-    main()
-    exit(0)
