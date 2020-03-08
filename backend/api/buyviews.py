@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -5,9 +6,15 @@ from rest_framework.response import Response
 from api.models import DiningHall, Swipe, Bid, User
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
-from keys import stripe_test_key, twilio_account_sid, twilio_auth_token
 from twilio.rest import Client
 
+stripe_test_key = os.environ.get("stripe_test_key")
+twilio_account_sid = os.environ.get("twilio_account_sid")
+twilio_auth_token = os.environ.get("twilio_auth_token")
+
+print("stripe_test_key: ", stripe_test_key)
+print("twilio_account_sid: ", twilio_account_sid)
+print("twilio_auth_token: ", twilio_auth_token)
 
 def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
     """
