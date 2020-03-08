@@ -13,6 +13,11 @@ class SwipePriceViewController: UIViewController{
     var lowestAsk : Int?
     var highestBid: Int?
     
+    @IBOutlet weak var askImage: UIImageView!
+    @IBOutlet weak var bidImage: UIImageView!
+    var numAsks: Int?
+    var numBids: Int?
+    
     @IBOutlet weak var fromTime: UITextField!
     @IBOutlet weak var toTime: UITextField!
 
@@ -63,6 +68,25 @@ class SwipePriceViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         diningHallLabel.text = diningHallName
+        diningHallLabel.adjustsFontSizeToFitWidth = true
+        diningHallLabel.baselineAdjustment = .alignCenters
+        
+        if (numAsks! > 0) {
+            lowestAskLabel.isHidden = false
+            lowestAskLabel.text = "$\(lowestAsk!)"
+        } else {
+            askImage.image = UIImage(named: "noAsks")
+            lowestAskLabel.isHidden = true
+        }
+        
+        if (numBids! > 0) {
+            highestBidLabel.isHidden = false
+            highestBidLabel.text = "$\(lowestAsk!)"
+        } else {
+            bidImage.image = UIImage(named: "noBids")
+            highestBidLabel.isHidden = true
+        }
+        
         lowestAskLabel.text = "$\(lowestAsk!)"
         highestBidLabel.text = "$\(highestBid!)"
         

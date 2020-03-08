@@ -31,7 +31,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         var start_am_or_pm = "am"
         var end_am_or_pm = "am"
         if (start > 12) {
-            
             start = start - 12
             start_am_or_pm = "pm"
         }
@@ -65,26 +64,67 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! diningHallCell
         if(collectionView == self.diningHallCollection) {
             let arrayEmpty = quicks.isEmpty
-            cell.name.text = halls.isEmpty ? "" : "\(halls[indexPath.row]["name"])"
-            cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(halls[indexPath.row]["name"])".lowercased())
-            cell.numBids.text = halls.isEmpty ? "" :
-                "\(halls[indexPath.row]["nBids"]) bids"
             
-            cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
-            
-            cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: halls[indexPath.row]["times"])
+            if (arrayEmpty) {
+                let activityView = UIActivityIndicatorView(style: .gray)
+                activityView.center = CGPoint(x: cell.contentView.frame.size.width / 2, y: cell.contentView.frame.size.height / 2)
+                
+                cell.lowestAsk.isHidden = true
+                cell.image.isHidden = true
+                cell.numBids.isHidden = true
+                cell.timesAvailable.isHidden = true
+                cell.name.isHidden = true
+                
+                cell.contentView.addSubview(activityView)
+                activityView.startAnimating()
+            }
+            else {
+                cell.lowestAsk.isHidden = false
+                cell.image.isHidden = false
+                cell.numBids.isHidden = false
+                cell.timesAvailable.isHidden = false
+                cell.name.isHidden = false
+                cell.name.text = halls.isEmpty ? "" : "\(halls[indexPath.row]["name"])"
+                cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(halls[indexPath.row]["name"])".lowercased())
+                cell.numBids.text = halls.isEmpty ? "" :
+                    "\(halls[indexPath.row]["nBids"]) bids"
+                
+                cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
+                
+                cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: halls[indexPath.row]["times"])
+            }
         }
         else if (collectionView == self.quickServiceCollection) {
             let arrayEmpty = quicks.isEmpty
-            cell.name.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["name"])"
+            if (arrayEmpty) {
+                let activityView = UIActivityIndicatorView(style: .gray)
+                activityView.center = CGPoint(x: cell.contentView.frame.size.width / 2, y: cell.contentView.frame.size.height / 2)
+                
+                cell.lowestAsk.isHidden = true
+                cell.image.isHidden = true
+                cell.numBids.isHidden = true
+                cell.timesAvailable.isHidden = true
+                cell.name.isHidden = true
             
-            cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(quicks[indexPath.row]["name"])".lowercased())
-            
-            cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
+                cell.contentView.addSubview(activityView)
+                activityView.startAnimating()
+            } else {
+                cell.lowestAsk.isHidden = false
+                cell.image.isHidden = false
+                cell.numBids.isHidden = false
+                cell.timesAvailable.isHidden = false
+                cell.name.isHidden = false
+                
+                cell.name.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["name"])"
+                
+                cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(quicks[indexPath.row]["name"])".lowercased())
+                
+                cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
 
-            cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
-            
-            cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: quicks[indexPath.row]["times"])
+                cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
+                
+                cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: quicks[indexPath.row]["times"])
+            }
         }
         cell.image.contentMode = UIView.ContentMode.scaleAspectFill
         cell.layer.borderColor = UIColor.lightGray.cgColor
@@ -117,13 +157,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // pass data to next view
             if let destinationVC = segue.destination as? SwipePriceViewController {
                 if (didSelectDiningHall) {
-                    destinationVC.diningHallName = diningHalls[selectedDiningHallIndex]
-                    destinationVC.lowestAsk = 7
+                    destinationVC.diningHallName = halls[selectedDiningHallIndex]["name"].stringValue
+                    destinationVC.lowestAsk = halls[selectedDiningHallIndex]["lowest_ask"].intValue
+                    
                     destinationVC.highestBid = 5
+                    
+                    destinationVC.numAsks = halls[selectedDiningHallIndex]["nSwipes"].intValue
+                    destinationVC.numBids = halls[selectedDiningHallIndex]["nBids"].intValue
+                    
                 } else {
-                    destinationVC.diningHallName = quickService[selectedDiningHallIndex]
-                    destinationVC.lowestAsk = 7
+                    destinationVC.diningHallName = quicks[selectedDiningHallIndex]["name"].stringValue
+                    destinationVC.lowestAsk = quicks[selectedDiningHallIndex]["lowest_ask"].intValue
+                    
                     destinationVC.highestBid = 5
+                    
+                    destinationVC.numAsks = quicks[selectedDiningHallIndex]["nSwipes"].intValue
+                    destinationVC.numBids = quicks[selectedDiningHallIndex]["nBids"].intValue
                 }
             }
         }
@@ -138,7 +187,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
           
-        AF.request("https://7f2ddd27.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
+        AF.request("https://d7d02573.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {
