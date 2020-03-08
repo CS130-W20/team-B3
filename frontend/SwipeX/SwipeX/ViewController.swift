@@ -24,9 +24,23 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var selectedDiningHallIndex: Int = 0
     var didSelectDiningHall: Bool = true
     
-//    func convertTime(jsonTime: String) {
-//
-//    }
+    func convertTime(jsonTime: JSON) -> String{
+        var start = Int(jsonTime["start"].stringValue)!
+        var end = Int(jsonTime["end"].stringValue)!
+        
+        var start_am_or_pm = "am"
+        var end_am_or_pm = "am"
+        if (start > 12) {
+            
+            start = start - 12
+            start_am_or_pm = "pm"
+        }
+        if (end > 12) {
+            end = end - 12
+            end_am_or_pm = "pm"
+        }
+        return "\(start)\(start_am_or_pm) - \(end)\(end_am_or_pm)"
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == self.diningHallCollection) {
@@ -50,17 +64,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! diningHallCell
         if(collectionView == self.diningHallCollection) {
-//            cell.name.text = diningHalls[indexPath.row]
             let arrayEmpty = quicks.isEmpty
             cell.name.text = halls.isEmpty ? "" : "\(halls[indexPath.row]["name"])"
             cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(halls[indexPath.row]["name"])".lowercased())
             cell.numBids.text = halls.isEmpty ? "" :
                 "\(halls[indexPath.row]["nBids"]) bids"
             
-            cell.lowestAsk.text = arrayEmpty ? "$0 lowest ask" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
+            cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
+            
+            cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: halls[indexPath.row]["times"])
         }
         else if (collectionView == self.quickServiceCollection) {
-//            cell.name.text = quickService[indexPath.row]
             let arrayEmpty = quicks.isEmpty
             cell.name.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["name"])"
             
@@ -68,7 +82,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
 
-            cell.lowestAsk.text = arrayEmpty ? "$0 lowest ask" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
+            cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
+            
+            cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: quicks[indexPath.row]["times"])
         }
         cell.image.contentMode = UIView.ContentMode.scaleAspectFill
         cell.layer.borderColor = UIColor.lightGray.cgColor
@@ -79,9 +95,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.layer.shadowOpacity = 0.5
         cell.layer.masksToBounds = false
         
-        cell.timesAvailable.text = "5-7 pm"
         cell.lowestAsk.adjustsFontSizeToFitWidth = true
-//        cell.numBids.text = "6 bids"
         
         collectionView.layer.masksToBounds = false
         return cell
@@ -123,10 +137,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
-        
-        //https://01868f98.ngrok.io/api/swipes/sget/
-    
-        AF.request("https://3ab0ad46.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
+          
+        AF.request("https://7f2ddd27.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {
