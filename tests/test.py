@@ -3,7 +3,9 @@ import config
 api_endpoint = 'http://localhost:8000/api/'
 
 # hit an endpoint
-def hit_endpoint(type, api, payload = {}):
+
+
+def hit_endpoint(type, api, payload={}):
 
     res = {}
 
@@ -19,13 +21,28 @@ def hit_endpoint(type, api, payload = {}):
 
     return res
 
+
 def main():
 
+    count = 0
     for test in config:
-        print(test["name"])
+        try:
+            print(f'Testing {test["name"]}...', end='')
+            res = hit_endpoint(test["type"], api_endpoint + test["url"])
+            test["func"](res, test["expected_result"])
+        except RuntimeError as err:
+            print(f'failed: {err}')
+            count += 1
+            continue
+        else:
+            print('passed')
 
-        res = hit_endpoint(test["type"], api_endpoint + test["url"])
-        test["func"](res, test["expected_result"])
+    if count != 0:
+        print(f'{count} tests failed.')
+        exit(1)
+    else:
+        exit(0)
+
 
 if __name__ == "__main__":
     main()
