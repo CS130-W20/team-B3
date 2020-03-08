@@ -10,14 +10,10 @@ django.setup()
 from api.models import Account  # noqa
 
 # Define test functions
+def test_default(res, expected):
 
-
-def test_default():
-
-    r = hit_endpoint("GET", 'http://localhost:8000/api/')
-
-    if r.text != '"Welcome to the SwipeX API"':
-        exit(1)
+    if res.text != '"Welcome to the SwipeX API"':
+        raise RuntimeError(f'')
 
 # test function get_swipes in backend/api/swipeviews.py
 # check if its returning data for each dining hall

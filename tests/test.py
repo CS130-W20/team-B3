@@ -14,10 +14,10 @@ def hit_endpoint(type, api, payload={}):
     elif type == "POST":
         res = requests.post(api, json=payload)
     else:
-        exit(1)
+        raise RuntimeError(f'Call to {api} did not use GET or POST')
 
     if res.status_code != 200:
-        exit(1)
+        raise RuntimeError(f'{api} returned {res.status_code}')
 
     return res
 
