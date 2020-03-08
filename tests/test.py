@@ -29,7 +29,7 @@ def main():
         try:
             print(f'Testing {test["name"]}...', end='')
             res = hit_endpoint(test["type"], api_endpoint + test["url"])
-            test["func"](res, test["expected_result"])
+            test["func"](res, test["expected_result"], test['data'])
         except RuntimeError as err:
             print(f'failed: {err}')
             count += 1
