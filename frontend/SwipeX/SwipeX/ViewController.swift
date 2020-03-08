@@ -50,14 +50,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! diningHallCell
         if(collectionView == self.diningHallCollection) {
-            cell.name.text = diningHalls[indexPath.row]
-            cell.image.image = UIImage(named: diningHalls[indexPath.row].lowercased())
+//            cell.name.text = diningHalls[indexPath.row]
+            let arrayEmpty = quicks.isEmpty
+            cell.name.text = halls.isEmpty ? "" : "\(halls[indexPath.row]["name"])"
+            cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(halls[indexPath.row]["name"])".lowercased())
             cell.numBids.text = halls.isEmpty ? "" :
-                "\(halls[indexPath.row]["nSwipes"]) swipes"
+                "\(halls[indexPath.row]["nBids"]) bids"
+            
+            cell.lowestAsk.text = arrayEmpty ? "$0 lowest ask" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
         }
         else if (collectionView == self.quickServiceCollection) {
-            cell.name.text = quickService[indexPath.row]
-            cell.image.image = UIImage(named: quickService[indexPath.row].lowercased())
+//            cell.name.text = quickService[indexPath.row]
+            let arrayEmpty = quicks.isEmpty
+            cell.name.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["name"])"
+            
+            cell.image.image = arrayEmpty ? UIImage(named: "feast") : UIImage(named: "\(quicks[indexPath.row]["name"])".lowercased())
+            
+            cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
+
+            cell.lowestAsk.text = arrayEmpty ? "$0 lowest ask" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
         }
         cell.image.contentMode = UIView.ContentMode.scaleAspectFill
         cell.layer.borderColor = UIColor.lightGray.cgColor
@@ -69,7 +80,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.layer.masksToBounds = false
         
         cell.timesAvailable.text = "5-7 pm"
-        cell.lowestAsk.text = "$5 lowest ask"
         cell.lowestAsk.adjustsFontSizeToFitWidth = true
 //        cell.numBids.text = "6 bids"
         
@@ -116,8 +126,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //https://01868f98.ngrok.io/api/swipes/sget/
     
-        
-        AF.request("https://01868f98.ngrok.io/api/swipes/sget/", method:.post).responseJSON { response in
+        AF.request("https://3ab0ad46.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {
@@ -126,11 +135,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         print(json)
                         if let quickService =  json["quick"].arrayValue as [JSON]? {
                             self.quicks = quickService
+                            print(self.quicks)
                             self.quickServiceCollection.reloadData()
                         }
                         if let dining =  json["halls"].arrayValue as [JSON]? {
                             self.halls = dining
-                            
+                            print(self.halls)
                             self.diningHallCollection.reloadData()
                         }
                     }
