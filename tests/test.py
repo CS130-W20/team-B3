@@ -19,8 +19,13 @@ def hit_endpoint(type, api, payload = {}):
 
     return res
 
-for test in config:
-    print(test["name"])
-    res = hit_endpoint(test["type"], api_endpoint + test["url"])
+def main():
 
-    test["func"](res, test["expected_result"])
+    for test in config:
+        print(test["name"])
+
+        res = hit_endpoint(test["type"], api_endpoint + test["url"])
+        test["func"](res, test["expected_result"])
+
+if __name__ == "__main__":
+    main()
