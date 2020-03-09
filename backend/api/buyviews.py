@@ -16,7 +16,7 @@ twilio_auth_token = os.environ.get("twilio_auth_token")
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
 # TODO: Include location filtering
-def bid_geteligibleswipe(hall_id, swipe_time=None, swipe_price=None):
+def bid_geteligibleswipe(request):
     """
     Gets the cheapest Swipe object that meets the criteria for a specific Bid.
 
