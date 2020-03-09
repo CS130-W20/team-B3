@@ -55,10 +55,10 @@ def get_swipes(request):
                 times['end']   = end
 
         # get stats for number of swipes and bids
-        swipes = Swipe.objects.filter(hall_id=cur_id)
+        swipes = Swipe.objects.filter(status=0, hall_id=cur_id)
         nSwipes  = swipes.count()
 
-        bids = Bid.objects.filter(hall_id=cur_id)
+        bids = Bid.objects.filter(status=0, hall_id=cur_id)
         nBids = bids.count()
 
         # lowest ask
@@ -68,7 +68,7 @@ def get_swipes(request):
             lowest = sorted_bids[0].bid_price
 
         # insert cur_hall into hall_data
-        cur_hall = {"name": hall.name, "nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}
+        cur_hall = {"hall_id": cur_id, "picture_link": hall.picture, "name": cur_name, "nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}
         if cur_name in halls_list:
             hall_data["halls"].append(cur_hall)
         elif cur_name in quick_list:
