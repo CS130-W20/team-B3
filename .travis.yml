@@ -1,10 +1,9 @@
 language: python
 python:
-  - 3.7.5
+- 3.7.5
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 
-script: python manage.py runserver
-
+script: python3 backend/manage.py runserver
 after_success:
-  - tests/test.py
+- python3 tests/test.py

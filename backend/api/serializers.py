@@ -17,8 +17,8 @@ class TimeRangeSerializer(serializers.Serializer):
     Serializer class for TimeRange Objects.
     """
 
-    start = serializers.TimeField()
-    end = serializers.TimeField()
+    start = serializers.TimeField(format=None)
+    end = serializers.TimeField(format=None)
 
 
 class DiningHallSerializer(LocationSerializer):
@@ -30,7 +30,7 @@ class DiningHallSerializer(LocationSerializer):
 
     class Meta(LocationSerializer.Meta):
         model = api.DiningHall
-        fields = LocationSerializer.Meta.fields + ['hours', 'name', 'description', 'picture']
+        fields = LocationSerializer.Meta.fields + ['hall_id', 'hours', 'name', 'description', 'picture']
 
     def create(self, validated_data):
         """
@@ -110,7 +110,7 @@ class SwipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = api.Swipe
-        fields = ['status', 'seller', 'location', 'price', 'visibility']
+        fields = ['swipe_id', 'status', 'seller', 'hall_id', 'price', 'visibility']
 
     def create(self, validated_data):
         """
@@ -146,7 +146,7 @@ class SwipeSerializer(serializers.ModelSerializer):
 
         instance.status = validated_data.get('status', instance.status)
         instance.seller = validated_data.get('seller', instance.seller)
-        instance.location = validated_data.get('location', instance.location)
+        instance.hall_id = validated_data.get('hall_id', instance.hall_id)
         instance.price = validated_data.get('price', instance.price)
         visibility_data = validated_data.get('visibility', instance.visibility)
         visibility_objs = []
@@ -169,7 +169,7 @@ class BidSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = api.Bid
-        fields = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
+        fields = ['bid_id', 'status', 'swipe', 'buyer', 'hall_id', 'bid_price', 'desired_time']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -178,4 +178,4 @@ class TransactionSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = api.Transaction
-        fields = ['sender', 'recipient', 'paid', 'total', 'details']
+        fields = ['t_id', 'sender', 'recipient', 'paid', 'total', 'details']
