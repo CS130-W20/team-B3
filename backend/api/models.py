@@ -35,16 +35,14 @@ class User(models.Model):
     ]
     status = models.CharField(max_length=1, choices=USER_STATES, default=0)
     user_id = models.CharField(max_length=255, primary_key=True)
-    pp_email = models.EmailField()
-
+    name = models.CharField(max_length=255)
 
 class Account(User):
     """
     Account object. Each user has an account. Inherits from User.
     """
-    home_loc = models.OneToOneField(Location, on_delete=models.DO_NOTHING)
-    # Frontend hashes the password, alternatively we can use Django authentication
-    pw = models.CharField(max_length=255)
+    # We don't wanna reveal these fields to anything except our specific backend functions
+    cur_loc = models.OneToOneField(Location, on_delete=models.DO_NOTHING, null=True, blank=True)
     # Doesn't make sense to use numerical, we'll need to validate on the front-end though
     phone = models.CharField(max_length=30)
 

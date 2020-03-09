@@ -90,7 +90,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = api.User
-        fields = ['status', 'user_id', 'pp_email']
+        fields = ['status', 'user_id', 'name']
 
 
 class AccountSerializer(UserSerializer):
@@ -99,7 +99,7 @@ class AccountSerializer(UserSerializer):
     """
     class Meta(UserSerializer.Meta):
         model = api.Account
-        fields = UserSerializer.Meta.fields + ['home_loc', 'pw', 'phone']
+        fields = UserSerializer.Meta.fields + ['cur_loc', 'phone']
 
 
 class SwipeSerializer(serializers.ModelSerializer):
