@@ -99,7 +99,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.numBids.text = halls.isEmpty ? "" :
                     "\(halls[indexPath.row]["nBids"]) bids"
                 
-                cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
+                let lowestAsk = arrayEmpty ? 0 : halls[indexPath.row]["lowest_ask"]
+                cell.lowestAsk.text = (arrayEmpty || lowestAsk.intValue == 0) ? "0 asks" : "$\(halls[indexPath.row]["lowest_ask"]) lowest ask"
                 
                 cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: halls[indexPath.row]["times"])
             }
@@ -131,7 +132,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
 
-                cell.lowestAsk.text = arrayEmpty ? "0 sellers" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
+                let lowestAsk = arrayEmpty ? 0 : halls[indexPath.row]["lowest_ask"]
+                
+                cell.lowestAsk.text = (arrayEmpty || lowestAsk.intValue == 0) ? "0 asks" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
                 
                 cell.timesAvailable.text = arrayEmpty ? "Closed" : convertTime(jsonTime: quicks[indexPath.row]["times"])
             }
@@ -205,7 +208,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
           
-        AF.request("https://02a6b230.ngrok.io/api/swipes/homescreen_info/", method:.get).responseJSON { response in
+        AF.request("https://822f9117.ngrok.io/api/swipes/homescreen_info/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {

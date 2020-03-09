@@ -32,6 +32,9 @@ class SwipePriceViewController: UIViewController{
     @IBOutlet weak var lowestAskView: UIView!
     @IBOutlet weak var highestBidView: UIView!
     
+    @IBOutlet weak var numSellingLabel: UILabel!
+    @IBOutlet weak var numBuyingLabel: UILabel!
+    
     var didTapFrom: Bool?
     var didTapBuy:Bool?
     
@@ -78,6 +81,10 @@ class SwipePriceViewController: UIViewController{
         diningHallLabel.text = diningHallName
         diningHallLabel.adjustsFontSizeToFitWidth = true
         diningHallLabel.baselineAdjustment = .alignCenters
+        
+        numSellingLabel.text = "\(numAsks!) selling"
+        
+        numBuyingLabel.text = "\(numBids!) buying"
         
         if (numAsks! > 0) {
             lowestAskLabel.isHidden = false
@@ -173,6 +180,9 @@ extension SwipePriceViewController: ToolbarDatePickerDelegate {
             self.toTime.resignFirstResponder()
         }
         // TODO: Filter the best ask and bid
+        
+        
+        
     }
     
     func didTapCancel() {

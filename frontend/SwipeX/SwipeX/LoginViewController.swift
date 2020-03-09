@@ -44,7 +44,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         let parameters: [String: String] = [
             "email": email
         ]
-    AF.request("https://02a6b230.ngrok.io/api/accounts/check/", method:.post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
+        AF.request("https://822f9117.ngrok.io/api/accounts/check/", method:.post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
             switch response.result {
                 case .success:
                     if let value = response.value as? NSDictionary {

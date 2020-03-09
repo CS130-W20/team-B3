@@ -46,12 +46,13 @@ class BidOrAskContainerVC: UIViewController {
         }
     }
     
+  
     @IBAction func buttonPressed(_ sender: Any) {
         let userId = UserDefaults.standard.integer(forKey: "userId")
         let parameters = [
             "user_id": userId,
             "hall_id": hallId,
-            "desired_price": priceField.text,
+            "desired_price": 7,
             "time_intervals":[
                 [
                     "start":"12:00",
@@ -61,7 +62,7 @@ class BidOrAskContainerVC: UIViewController {
         ]
             as [String : Any]
         if (isBidding!) {
-            AF.request("https://02a6b230.ngrok.io/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+            AF.request("https://822f9117.ngrok.io/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
                     switch response.result {
                         case .success:
                             if let value = response.value as? NSDictionary {
