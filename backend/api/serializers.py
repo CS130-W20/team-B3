@@ -17,8 +17,8 @@ class TimeRangeSerializer(serializers.Serializer):
     Serializer class for TimeRange Objects.
     """
 
-    start = serializers.TimeField()
-    end = serializers.TimeField()
+    start = serializers.TimeField(format=None)
+    end = serializers.TimeField(format=None)
 
 
 class DiningHallSerializer(LocationSerializer):

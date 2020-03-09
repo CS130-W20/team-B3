@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from api.models import DiningHall, Swipe, Bid, User
 from api.serializers import BidSerializer, SwipeSerializer
@@ -8,8 +9,10 @@ import datetime
 from keys import stripe_test_key, twilio_account_sid, twilio_auth_token
 from twilio.rest import Client
 
-
-def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+# TODO: Include location filtering
+def bid_geteligibleswipe(request):
     """
     Gets the cheapest Swipe object that meets the criteria for a specific Bid.
 
@@ -21,29 +24,35 @@ def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
     Returns:
             Swipe: A swipe that meets the criteria specified in the Bid, or None if no Swipes meet the criteria.
     """
-    if swipe_time is None:
+    data = request.data
+    if 'hall_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
+    swipe_price = data.get('desired_price', None)
+    if 'desired_time' not in data:
         swipe_time = datetime.datetime.now().time()
     else:
-        swipe_time = datetime.datetime.strptime(swipe_time, "%H:%M").time()
+        swipe_time = datetime.datetime.strptime(data['desired_time'], "%H:%M").time()
     try:
         paired_swipe = None
-        swipe_candidates = Swipe.objects.filter(status=0, location=hall_id).order_by('price', 'swipe_id')
+        swipe_candidates = Swipe.objects.filter(status=0, location=data['hall_id']).order_by('price', 'swipe_id')
         for swipe in swipe_candidates:
             # If a swipe price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
             if swipe_price is not None and swipe_price < swipe.price:
-                return None
+                return Response({}, status=status.HTTP_200_OK)
             for hours in swipe.visibility:
                 # Assuming the desired swipe time falls within the listing's range, it's a match
                 if hours['start'].time() <= swipe_time and hours['end'].time() >= swipe_time:
                     paired_swipe = swipe
             if paired_swipe is not None:
                 break
-        return paired_swipe
+        swipe_serializer = SwipeSerializer(paired_swipe)
+        return Response(swipe_serializer.data, status=status.HTTP_200_OK)
     except Swipe.DoesNotExist:
-        return None
+        return Response({}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
+# TODO: Refactor for Twilio
 def bid_placebid(request):
     """
     Creates a new Bid object and saves it in the database.
@@ -61,12 +70,16 @@ def bid_placebid(request):
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
     if 'hall_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
-    swipe = bid_getcheapestswipe(data['hall_id'], data.get('desired_time', None), data.get(
-        'price', None))  # Get the cheapest swipe for that hall at a given time
-    if swipe is None and data.get('desired_time', None) is None:
-        return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED TIME GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
+    swipe = None
+    if 'swipe_id' in data:
+        try:
+            swipe = Swipe.objects.get(swipe_id=data['swipe_id'])
+        except Swipe.DoesNotExist:
+            return Response({'STATUS': '1', 'REASON': 'NO SWIPE EXISTS WITH GIVEN SWIPE_ID'}, status=status.HTTP_400_BAD_REQUEST)
+    if swipe is None and (data.get('desired_time', None) is None or data.get('desired_price', None) is None):
+        return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED TIME OR PRICE GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
     bid_data = {'buyer': data['user_id'], 'bid_price': data.get(
-        'price', None), 'location': data['hall_id'], 'desired_time': data.get('desired_time', None)}
+        'desired_price', None), 'location': data['hall_id'], 'desired_time': data.get('desired_time', None), 'bid_price': data.get('desired_price', None)}
     if swipe is not None:  # This performs the actual pairing between buyer and seller, because a match exists
         swipe_serializer = SwipeSerializer(swipe, data={'status': '1'}, partial=True)
         if swipe_serializer.is_valid():
@@ -76,8 +89,6 @@ def bid_placebid(request):
             bid_data['bid_price'] = swipe.price
         else:
             return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    if bid_data['bid_price'] is None:
-        return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED PRICE GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
     bid_serializer = BidSerializer(data=bid_data)
     if bid_serializer.is_valid():
         bid_serializer.save()
@@ -89,7 +100,7 @@ def bid_placebid(request):
 
 
 @api_view(['POST'])
-def buy_listed_swipe(request):
+def buy_listed_swipe(request): #REDUNDANT - WILL BE REMOVED SOON, ALREADY HAS BEEN REMOVED FROM URLS
     data = request.data
     if 'swipe_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED SWIPE_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
