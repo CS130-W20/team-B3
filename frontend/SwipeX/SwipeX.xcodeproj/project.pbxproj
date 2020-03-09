@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		31AF9F12E4B3432EDF41066A /* Pods_SwipeXUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D02254F5CA8A2D2DD4EB5C /* Pods_SwipeXUITests.framework */; };
 		7755F3002415D43800F24C8A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7755F2FF2415D43800F24C8A /* ProfileViewController.swift */; };
+		7755F3022415E3CD00F24C8A /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7755F3012415E3CD00F24C8A /* PhoneNumberViewController.swift */; };
 		77F17171240F79CB00DE33B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17170240F79CB00DE33B4 /* AppDelegate.swift */; };
 		77F17173240F79CB00DE33B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17172240F79CB00DE33B4 /* SceneDelegate.swift */; };
 		77F17175240F79CB00DE33B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F17174240F79CB00DE33B4 /* ViewController.swift */; };
@@ -52,6 +53,7 @@
 		48F63A1690E748E5B38D192C /* Pods_SwipeX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwipeX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D02254F5CA8A2D2DD4EB5C /* Pods_SwipeXUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwipeXUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7755F2FF2415D43800F24C8A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7755F3012415E3CD00F24C8A /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		77F1716D240F79CB00DE33B4 /* SwipeX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77F17170240F79CB00DE33B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		77F17172240F79CB00DE33B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				77F171AE24108A8400DE33B4 /* BidOrAskContainerVC.swift */,
 				77F171A82410382000DE33B4 /* ToolbarDatePicker.swift */,
 				7755F2FF2415D43800F24C8A /* ProfileViewController.swift */,
+				7755F3012415E3CD00F24C8A /* PhoneNumberViewController.swift */,
 				77F1717E240F79D100DE33B4 /* Info.plist */,
 			);
 			path = SwipeX;
@@ -439,6 +442,7 @@
 				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -449,6 +453,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +542,7 @@
 				77F171A92410382000DE33B4 /* ToolbarDatePicker.swift in Sources */,
 				7755F3002415D43800F24C8A /* ProfileViewController.swift in Sources */,
 				77F171A724102E5700DE33B4 /* SwipePriceViewController.swift in Sources */,
+				7755F3022415E3CD00F24C8A /* PhoneNumberViewController.swift in Sources */,
 				77F171AF24108A8500DE33B4 /* BidOrAskContainerVC.swift in Sources */,
 				77F171A5240F832200DE33B4 /* LoginViewController.swift in Sources */,
 				77F17173240F79CB00DE33B4 /* SceneDelegate.swift in Sources */,

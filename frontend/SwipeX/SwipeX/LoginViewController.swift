@@ -8,6 +8,8 @@
 
 import UIKit
 import GoogleSignIn
+import Alamofire
+import SwiftyJSON
 
 class LoginViewController: UIViewController, GIDSignInDelegate {
 
@@ -37,8 +39,27 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.signIn()
     }
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
-                 withError error: Error!) {
+    func checkIfNewUser(email: String, completion: @escaping (JSON) -> Void) {
+        
+        let parameters: [String: String] = [
+            "email": email
+        ]
+        AF.request("https://d7d02573.ngrok.io/api/accounts/check/", method:.post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
+            switch response.result {
+                case .success:
+                    if let value = response.value as? String {
+                        if let data = value.data(using: String.Encoding.utf8) {
+                            let json = JSON(data)
+                            completion(json)
+                        }
+                    }
+                case let .failure(error):
+                    print(error)
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
            if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
              print("The user has not signed in before or they have since signed out.")
@@ -59,11 +80,23 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         UserDefaults.standard.set(userId, forKey: "userId")
         UserDefaults.standard.set(givenName, forKey: "givenName")
         UserDefaults.standard.set(familyName, forKey: "familyName")
+        UserDefaults.standard.set(fullName, forKey: "fullName")
         UserDefaults.standard.set(email, forKey: "email")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        checkIfNewUser(email: email!) { response in
+            // Do your stuff here
+            let isNew = response["exists"]
+            print(isNew)
+        }
+        
         let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
-            tabbarVC.modalPresentationStyle = .fullScreen
+        tabbarVC.modalPresentationStyle = .fullScreen
+        
+        let phoneNumberVC = storyboard.instantiateViewController(withIdentifier: "phoneNumberVC")
+        phoneNumberVC.modalPresentationStyle = .fullScreen
+        
         if ((GIDSignIn.sharedInstance()?.presentingViewController.isBeingPresented)!) {
             GIDSignIn.sharedInstance()?.presentingViewController.dismiss(animated: true, completion: {
                 self.present(tabbarVC, animated: true, completion: nil)
@@ -72,7 +105,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         } else {
             self.present(tabbarVC, animated: true, completion: nil)
         }
-       }
+    }
 
        func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
                  withError error: Error!) {
