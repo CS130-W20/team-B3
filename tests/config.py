@@ -38,5 +38,16 @@ CASES = [
         },
         'expected_result': {'STATUS': '0'},
         'func': test_account_create
+    },
+    {
+        "name": 'test_account_update',
+        "url": 'accounts/update/',
+        'type': 'POST',
+        'data': {
+            "user_id": "test_name",
+            "pp_email": "test_name@gmail.com"
+        },
+        'expected_result': {'STATUS': '0'},
+        'func': test_account_update
     }
 ]
