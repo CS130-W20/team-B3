@@ -106,7 +106,7 @@ class SwipeSerializer(serializers.ModelSerializer):
     """
     Serializer for Swipe objects.
     """
-    visibility = TimeRangeSerializer(many=True)
+    visibility = TimeRangeSerializer(many=True, required=False)
 
     class Meta:
         model = api.Swipe
@@ -122,13 +122,13 @@ class SwipeSerializer(serializers.ModelSerializer):
         Returns:
             Swipe: The new Swipe object.
         """
-
-        visibility_data = validated_data.pop('visibility')
-        visibility_objs = []
-        for hour_range in visibility_data:
-            visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v)
-                                    for k, v in dict(hour_range).items()})
-        validated_data['visibility'] = visibility_objs
+        if 'visibility' in validated_data:
+            visibility_data = validated_data.pop('visibility')
+            visibility_objs = []
+            for hour_range in visibility_data:
+                visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v)
+                                        for k, v in dict(hour_range).items()})
+            validated_data['visibility'] = visibility_objs
         swipe = api.Swipe.objects.create(**validated_data)
         return swipe
 
@@ -167,9 +167,62 @@ class BidSerializer(serializers.ModelSerializer):
     """
     Serializer for Bid objects.
     """
+    visibility = TimeRangeSerializer(many=True, required=False)
     class Meta:
         model = api.Bid
-        fields = ['bid_id', 'status', 'swipe', 'buyer', 'hall_id', 'bid_price', 'desired_time']
+        fields = ['bid_id', 'status', 'swipe', 'buyer', 'hall_id', 'bid_price', 'desired_time', 'visibility']
+
+    def create(self, validated_data):
+        """
+        Creates a new Bid object.
+
+        Args:
+            validated_data (dict): The data used to create a new Bid object.
+
+        Returns:
+            Bid: The new Bid object.
+        """
+        if 'visibility' in validated_data:
+            visibility_data = validated_data.pop('visibility')
+            visibility_objs = []
+            for hour_range in visibility_data:
+                visibility_objs.append({k: datetime.datetime.combine(datetime.date.today(), v)
+                                        for k, v in dict(hour_range).items()})
+            validated_data['visibility'] = visibility_objs
+        bid = api.Bid.objects.create(**validated_data)
+        return bid
+
+    def update(self, instance, validated_data):
+        """
+        Updates an existing Bid object and the data corresponding to it in the database.
+
+        Args:
+            instance (Bid): The outdated Bid object.
+            validated_data (dict): The new data to be placed in the outdated Bid object.
+
+        Returns:
+            Bid: The updated Bid object.
+        """
+
+        instance.status = validated_data.get('status', instance.status)
+        instance.swipe = validated_data.get('swipe', instance.swipe)
+        instance.buyer = validated_data.get('buyer', instance.buyer)
+        instance.hall_id = validated_data.get('hall_id', instance.hall_id)
+        instance.desired_time = validated_data.get('desired_time', instance.desired_time)
+        instance.bid_price = validated_data.get('bid_price', instance.bid_price)
+        visibility_data = validated_data.get('visibility', instance.visibility)
+        visibility_objs = []
+        for hour_range in visibility_data:
+            hour_obj = {}
+            for k, v in dict(hour_range).items():
+                if isinstance(v, datetime.datetime):
+                    hour_obj[k] = v
+                else:
+                    hour_obj[k] = datetime.datetime.combine(datetime.date.today(), v)
+            visibility_objs.append(hour_obj)
+        instance.visibility = visibility_objs
+        instance.save()
+        return instance
 
 
 class TransactionSerializer(serializers.ModelSerializer):

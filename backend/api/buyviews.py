@@ -31,22 +31,30 @@ def bid_geteligibleswipe(request):
     data = request.data
     if 'hall_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
-    swipe_price = data.get('desired_price', None)
-    if 'desired_time' not in data:
-        swipe_time = datetime.datetime.now().time()
+    time_intervals = None
+    if 'time_intervals' in data:
+        time_intervals = []
+        for interval in data['time_intervals']:
+            interval_obj = {}
+            for k, v in dict(interval).items():
+                interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
+        time_intervals.append(interval_obj)
     else:
-        swipe_time = datetime.datetime.strptime(data['desired_time'], "%H:%M").time()
+        now = datetime.datetime.now()
+        time_intervals = [{'start': (now - datetime.timedelta(minutes=90)).time(),
+                            'end': (now + datetime.timedelta(minutes=90)).time()}]
+    bid_price = data.get('desired_price', None)
     try:
         paired_swipe = None
         swipe_candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
         for swipe in swipe_candidates:
-            # If a swipe price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
-            if swipe_price is not None and swipe_price < swipe.price:
+            # If a bid price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
+            if bid_price is not None and float(bid_price) < float(swipe.price):
                 return Response({}, status=status.HTTP_200_OK)
-            for hours in swipe.visibility:
-                # Assuming the desired swipe time falls within the listing's range, it's a match
-                if hours['start'].time() <= swipe_time and hours['end'].time() >= swipe_time:
-                    paired_swipe = swipe
+            for swipe_hours in swipe.visibility:
+                for bid_hours in time_intervals:
+                    if max(swipe_hours['start'].time(), bid_hours['start']) <= min(swipe_hours['end'].time(), bid_hours['end']):
+                        paired_swipe = swipe
             if paired_swipe is not None:
                 break
         swipe_serializer = SwipeSerializer(paired_swipe)
@@ -80,27 +88,32 @@ def bid_placebid(request):
             swipe = Swipe.objects.get(swipe_id=data['swipe_id'])
         except Swipe.DoesNotExist:
             return Response({'STATUS': '1', 'REASON': 'NO SWIPE EXISTS WITH GIVEN SWIPE_ID'}, status=status.HTTP_400_BAD_REQUEST)
-    if swipe is None and (data.get('desired_time', None) is None or data.get('desired_price', None) is None):
-        return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED TIME OR PRICE GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
-    bid_data = {'buyer': data['user_id'], 'bid_price': data.get(
-        'desired_price', None), 'hall_id': data['hall_id'], 'desired_time': data.get('desired_time', None), 'bid_price': data.get('desired_price', None)}
+    bid_data = {'buyer': data['user_id'], 'hall_id': data['hall_id'], 'bid_price': data.get('desired_price', None)}
     if swipe is not None:  # This performs the actual pairing between buyer and seller, because a match exists
-        swipe_serializer = SwipeSerializer(swipe, data={'status': '1'}, partial=True)
-        if swipe_serializer.is_valid():
-            swipe = swipe_serializer.save()
-            bid_data['status'] = '1'
-            bid_data['swipe'] = swipe.swipe_id
-            bid_data['bid_price'] = swipe.price
-        else:
-            return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        bid_data['desired_time'] = data.get('desired_time', None)
+        if bid_data['desired_time'] is None:
+            return Response({'STATUS': '1', 'REASON': 'SWIPE FOUND, BUT NO DESIRED TIME GIVEN TO CREATE BID AND PAIR'}, status=status.HTTP_400_BAD_REQUEST)
+        bid_data['status'] = '1'
+        bid_data['swipe'] = swipe.swipe_id
+        bid_data['bid_price'] = swipe.price
+    else:
+        time_intervals = data.get('time_intervals', None)
+        if time_intervals is None or bid_data['bid_price'] is None:
+            return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE SWIPES, BUT NO DESIRED TIME RANGE OR PRICE GIVEN TO CREATE BID'}, status=status.HTTP_400_BAD_REQUEST)
+        bid_data['visibility'] = data['time_intervals']
     bid_serializer = BidSerializer(data=bid_data)
     if bid_serializer.is_valid():
         bid_serializer.save()
         if swipe is not None:
-            return Response({'STATUS': '0', 'REASON': 'BID CREATED, PAIRED WITH SWIPE'}, status=status.HTTP_200_OK)
+            swipe_serializer = SwipeSerializer(swipe, data={'status': '1'}, partial=True)
+            if swipe_serializer.is_valid():
+                swipe_serializer.save()
+                # TODO: SEND TEXT TO BUYER AND SELLER CONFIRMING
+                return Response({'STATUS': '0', 'REASON': 'BID CREATED, PAIRED WITH SWIPE'}, status=status.HTTP_200_OK)
+            return Response(swipe_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # TODO: SEND TEXT TO BUYER ONLY CONFIRMING BID WAS CREATED - maybe do bool to control whether or not it sends a confirmation?
         return Response({'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'}, status=status.HTTP_200_OK)
-    else:
-        return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(bid_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

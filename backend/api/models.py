@@ -64,7 +64,7 @@ class Swipe(models.Model):
     seller = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # References user_id of the seller in question
     hall_id = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)  # References hall_id of DiningHall
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    visibility = models.ListField()  # An array of JSON objects that contains intervals when this listing should appear on the app
+    visibility = models.ListField(blank=True, null=True, default=[ ])  # An array of JSON objects that contains intervals when this listing should appear on the app
 
 
 class Bid(models.Model):
@@ -83,6 +83,7 @@ class Bid(models.Model):
     hall_id = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)
     bid_price = models.DecimalField(max_digits=5, decimal_places=2)
     desired_time = models.TimeField(null=True)
+    visibility = models.ListField(blank=True, null=True, default=[ ]) # An array of JSON objects that contains intervals when this buyer wants the swipe
 
 
 class Transaction(models.Model):
