@@ -9,15 +9,14 @@ from api.serializers import BidSerializer, SwipeSerializer
 import datetime
 from twilio.rest import Client
 
-@api_view(['POST'])
-@renderer_classes([JSONRenderer])
-# TODO: Include location filtering
-def bid_geteligibleswipe(request):
 stripe_test_key = os.environ.get("stripe_test_key")
 twilio_account_sid = os.environ.get("twilio_account_sid")
 twilio_auth_token = os.environ.get("twilio_auth_token")
 
-def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+# TODO: Include location filtering
+def bid_geteligibleswipe(hall_id, swipe_time=None, swipe_price=None):
     """
     Gets the cheapest Swipe object that meets the criteria for a specific Bid.
 
