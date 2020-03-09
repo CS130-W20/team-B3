@@ -28,6 +28,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         var start = Int(jsonTime["start"].stringValue)!
         var end = Int(jsonTime["end"].stringValue)!
         
+        if (start == 0 && end == 0) {
+            return "closed"
+        }
+        
         var start_am_or_pm = "am"
         var end_am_or_pm = "am"
         if (start > 12) {
@@ -39,6 +43,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             end_am_or_pm = "pm"
         }
         return "\(start)\(start_am_or_pm) - \(end)\(end_am_or_pm)"
+    }
+    
+    func convertTimeForPicker(time: Int) -> String{
+        var am_or_pm = (time >= 12) ? "pm" : "am"
+        
+        return "\(time > 12 ? time - 12 : time):00 \(am_or_pm)"
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -160,10 +170,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     destinationVC.diningHallName = halls[selectedDiningHallIndex]["name"].stringValue
                     destinationVC.lowestAsk = halls[selectedDiningHallIndex]["lowest_ask"].intValue
                     
+                    // TODO
                     destinationVC.highestBid = 5
                     
                     destinationVC.numAsks = halls[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = halls[selectedDiningHallIndex]["nBids"].intValue
+                    
+                    destinationVC.minTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["start"].intValue)
+                    destinationVC.maxTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["end"].intValue)
                     
                 } else {
                     destinationVC.diningHallName = quicks[selectedDiningHallIndex]["name"].stringValue
@@ -173,6 +187,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     destinationVC.numAsks = quicks[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = quicks[selectedDiningHallIndex]["nBids"].intValue
+                    destinationVC.minTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["start"].intValue)
+                    destinationVC.maxTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["end"].intValue)
                 }
             }
         }

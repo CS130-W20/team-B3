@@ -20,6 +20,9 @@ class SwipePriceViewController: UIViewController{
     
     @IBOutlet weak var fromTime: UITextField!
     @IBOutlet weak var toTime: UITextField!
+    
+    var minTime: String?
+    var maxTime: String?
 
     @IBOutlet weak var lowestAskLabel: UILabel!
     @IBOutlet weak var highestBidLabel: UILabel!
@@ -114,11 +117,11 @@ class SwipePriceViewController: UIViewController{
         self.datePickerFrom.datePickerMode = UIDatePicker.Mode.time
         self.datePickerFrom.minuteInterval = 30
         self.datePickerFrom.toolbarDelegate = self
-        self.datePickerFrom.minimumDate =  timeFormatter.date(from: "5:00 pm")
+        self.datePickerFrom.minimumDate =  timeFormatter.date(from: minTime!)
         self.datePickerFrom.maximumDate =  timeFormatter.date(from: "7:30 pm")
-        self.datePickerFrom.date = timeFormatter.date(from: "5:00 pm")!
+        self.datePickerFrom.date = timeFormatter.date(from: minTime!)!
         
-        fromTime.text = timeFormatter.string(from: timeFormatter.date(from: "5:00 pm")!)
+        fromTime.text = timeFormatter.string(from: timeFormatter.date(from: minTime!)!)
 
         self.toTime.inputView = self.datePickerTo
         self.toTime.inputAccessoryView = self.datePickerFrom.toolbar
@@ -126,10 +129,10 @@ class SwipePriceViewController: UIViewController{
         self.datePickerTo.minuteInterval = 30
         self.datePickerTo.toolbarDelegate = self
         self.datePickerTo.minimumDate =  timeFormatter.date(from: "5:30 pm")
-        self.datePickerTo.maximumDate =  timeFormatter.date(from: "8:00 pm")
-        self.datePickerTo.date = timeFormatter.date(from: "8:00 pm")!
+        self.datePickerTo.maximumDate =  timeFormatter.date(from: maxTime!)
+        self.datePickerTo.date = timeFormatter.date(from: maxTime!)!
         
-        toTime.text = timeFormatter.string(from: timeFormatter.date(from: "8:00 pm")!)
+        toTime.text = timeFormatter.string(from: timeFormatter.date(from: maxTime!)!)
     }
 
 
