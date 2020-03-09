@@ -609,7 +609,8 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.42785209419999998" green="0.65413749219999995" blue="0.95686680079999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.44735127689999998" green="0.68154978749999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" red="0.44735127689999998" green="0.68154978749999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="BM1-e4-5XA"/>
                     </view>
                     <connections>

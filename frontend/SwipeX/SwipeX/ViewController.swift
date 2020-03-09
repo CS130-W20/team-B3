@@ -203,7 +203,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
           
-        AF.request("https://d7d02573.ngrok.io/api/swipes/sget/", method:.get).responseJSON { response in
+        AF.request("https://d7d02573.ngrok.io/api/swipes/homescreen_info/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {

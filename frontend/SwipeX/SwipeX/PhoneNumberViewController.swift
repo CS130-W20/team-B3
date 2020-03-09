@@ -27,8 +27,6 @@ class PhoneNumberViewController: UIViewController, UITextFieldDelegate {
         phoneNumberField.layer.addSublayer(bottomLine)
         
         phoneNumberField.delegate = self
-        
-        
     }
     
     @IBAction func signUpPressed(_ sender: Any) {
@@ -44,6 +42,11 @@ class PhoneNumberViewController: UIViewController, UITextFieldDelegate {
             switch response.result {
             case .success:
                 print("YES")
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
+                
+                self.present(tabbarVC, animated: true, completion: nil)
+                
             case let .failure(error):
                 print(error)
             }

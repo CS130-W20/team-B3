@@ -39,19 +39,18 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.signIn()
     }
     
-    func checkIfNewUser(email: String, completion: @escaping (JSON) -> Void) {
+    func checkIfNewUser(email: String, completion: @escaping (NSDictionary) -> Void) {
         
         let parameters: [String: String] = [
             "email": email
         ]
-        AF.request("https://d7d02573.ngrok.io/api/accounts/check/", method:.post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
+    AF.request("https://d7d02573.ngrok.io/api/accounts/check/", method:.post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
             switch response.result {
                 case .success:
-                    if let value = response.value as? String {
-                        if let data = value.data(using: String.Encoding.utf8) {
-                            let json = JSON(data)
-                            completion(json)
-                        }
+                    if let value = response.value as? NSDictionary {
+//                        if let data = value.data(using: String.Encoding.utf8) {
+//                            let json = JSON(data)
+                        completion(value)
                     }
                 case let .failure(error):
                     print(error)
@@ -87,23 +86,35 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         
         checkIfNewUser(email: email!) { response in
             // Do your stuff here
-            let isNew = response["exists"]
-            print(isNew)
-        }
-        
-        let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
-        tabbarVC.modalPresentationStyle = .fullScreen
-        
-        let phoneNumberVC = storyboard.instantiateViewController(withIdentifier: "phoneNumberVC")
-        phoneNumberVC.modalPresentationStyle = .fullScreen
-        
-        if ((GIDSignIn.sharedInstance()?.presentingViewController.isBeingPresented)!) {
-            GIDSignIn.sharedInstance()?.presentingViewController.dismiss(animated: true, completion: {
-                self.present(tabbarVC, animated: true, completion: nil)
-            })
+            let userExists = response["exists"] as? String
             
-        } else {
-            self.present(tabbarVC, animated: true, completion: nil)
+            // user doesn't exist
+            if (userExists == "0") {
+                let phoneNumberVC = storyboard.instantiateViewController(withIdentifier: "phoneNumberVC")
+                phoneNumberVC.modalPresentationStyle = .fullScreen
+                
+                if ((GIDSignIn.sharedInstance()?.presentingViewController.isBeingPresented)!) {
+                    GIDSignIn.sharedInstance()?.presentingViewController.dismiss(animated: true, completion: {
+                        self.present(phoneNumberVC, animated: true, completion: nil)
+                    })
+                    
+                } else {
+                    self.present(phoneNumberVC, animated: true, completion: nil)
+                }
+            } else {
+                // user does exist
+                let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
+                tabbarVC.modalPresentationStyle = .fullScreen
+        
+                if ((GIDSignIn.sharedInstance()?.presentingViewController.isBeingPresented)!) {
+                    GIDSignIn.sharedInstance()?.presentingViewController.dismiss(animated: true, completion: {
+                        self.present(tabbarVC, animated: true, completion: nil)
+                    })
+        
+                } else {
+                    self.present(tabbarVC, animated: true, completion: nil)
+                }
+            }
         }
     }
 
