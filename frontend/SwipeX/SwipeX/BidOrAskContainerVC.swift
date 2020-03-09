@@ -54,11 +54,11 @@ class BidOrAskContainerVC: UIViewController {
         if (isBidding!) {
             titleLabel.text = "Bid for one swipe for..."
             actionButton.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-            actionButton.titleLabel?.text = "Bid now"
+            actionButton.setTitle("Bid now", for: .normal)
         } else {
             titleLabel.text = "Offer one swipe for..."
             actionButton.backgroundColor = #colorLiteral(red: 0.9379594326, green: 0.2973573804, blue: 0.3231473565, alpha: 1)
-            actionButton.titleLabel?.text = "Offer now"
+           actionButton.setTitle("Offer now", for: .normal)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

@@ -59,8 +59,10 @@ class SwipePriceViewController: UIViewController{
             vc.isBuying = didTapBuy
             if (didTapBuy!) {
                 vc.priceValue = lowestAsk
+                vc.matchAvailable = numAsks! > 0
             } else {
                 vc.priceValue = highestBid
+                vc.matchAvailable = numBids! > 0
             }
             
             vc.minimumTime = self.datePickerFrom.date

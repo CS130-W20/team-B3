@@ -339,7 +339,7 @@
                                                 <rect key="frame" x="94" y="93" width="68" height="78"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="65"/>
-                                                <color key="textColor" red="0.49956738950000001" green="0.63940095900000005" blue="0.34114027019999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="textColor" red="0.49956738950000001" green="0.63940095900000005" blue="0.34114027019999998" alpha="0.83952022622699385" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lowestAsk3" translatesAutoresizingMaskIntoConstraints="NO" id="4Ud-l7-s9I">
@@ -368,7 +368,7 @@
                                                 <rect key="frame" x="96" y="96" width="68" height="78"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="65"/>
-                                                <color key="textColor" red="0.87877637149999999" green="0.39307153220000002" blue="0.39217242600000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="textColor" red="0.87877637149999999" green="0.39307153220000002" blue="0.39217242600000002" alpha="0.86452741564417179" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -681,7 +681,7 @@
                         <viewLayoutGuide key="safeArea" id="bwV-Ze-bwG"/>
                     </view>
                     <connections>
-                        <outlet property="actionButton" destination="NK3-uT-Edi" id="6Np-GV-dMu"/>
+                        <outlet property="actionButton" destination="NK3-uT-Edi" id="JBM-vH-pUF"/>
                         <outlet property="fromTimeField" destination="Uow-wS-ffR" id="e8D-hv-6tJ"/>
                         <outlet property="priceField" destination="ubS-DE-YSv" id="MTx-z2-dcz"/>
                         <outlet property="titleLabel" destination="gmt-7a-ekm" id="o02-5E-DwW"/>

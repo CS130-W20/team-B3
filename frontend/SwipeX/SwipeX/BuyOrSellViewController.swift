@@ -18,6 +18,7 @@ class BuyOrSellViewController: UIViewController {
     let timePicker = ToolbarDatePicker()
     var minimumTime:Date?
     var maximumTime:Date?
+    var matchAvailable:Bool?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -60,6 +61,11 @@ class BuyOrSellViewController: UIViewController {
             segmentedControl.setTitle("Ask", forSegmentAt:1)
             segmentedControl.selectedSegmentTintColor = #colorLiteral(red: 0.9379594326, green: 0.2973573804, blue: 0.3231473565, alpha: 1)
         }
+        
+        if (!matchAvailable!) {
+            segmentedControl.setEnabled(false, forSegmentAt: 0)
+            segmentedControl.selectedSegmentIndex=1;
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,10 +99,16 @@ class BuyOrSellViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        UIView.animate(withDuration: 0.5, animations: {
+        if (self.matchAvailable!) {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.containerViewBuyOrSell.alpha = 1
                 self.containerViewBidOrAsk.alpha = 0
             })
+        }
+        else {
+            self.containerViewBidOrAsk.alpha = 1
+            self.containerViewBuyOrSell.alpha = 0
+        }
     }
     
     /*
