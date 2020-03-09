@@ -38,7 +38,7 @@ def bid_geteligibleswipe(request):
             interval_obj = {}
             for k, v in dict(interval).items():
                 interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
-        time_intervals.append(interval_obj)
+            time_intervals.append(interval_obj)
     else:
         now = datetime.datetime.now()
         time_intervals = [{'start': (now - datetime.timedelta(minutes=90)).time(),
@@ -47,6 +47,8 @@ def bid_geteligibleswipe(request):
     try:
         paired_swipe = None
         swipe_candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
+        if 'user_id' in data:
+            swipe_candidates = swipe_candidates.exclude(seller__user_id=data['user_id'])
         for swipe in swipe_candidates:
             # If a bid price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
             if bid_price is not None and float(bid_price) < float(swipe.price):
@@ -58,7 +60,7 @@ def bid_geteligibleswipe(request):
             if paired_swipe is not None:
                 break
         swipe_serializer = SwipeSerializer(paired_swipe)
-        return Response(swipe_serializer.data, status=status.HTTP_200_OK)
+        return Response(dict(name=paired_swipe.seller.name, **swipe_serializer.data), status=status.HTTP_200_OK)
     except Swipe.DoesNotExist:
         return Response({}, status=status.HTTP_200_OK)
 

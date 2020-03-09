@@ -42,6 +42,8 @@ def swipe_geteligiblebid(request):
         paired_bid = None
         # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
         bid_candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
+        if 'user_id' in data:
+            bid_candidates = bid_candidates.exclude(buyer__user_id=data['user_id'])
         for bid in bid_candidates:
             # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
             if swipe_price is not None and float(swipe_price) > float(bid.bid_price):
@@ -53,7 +55,7 @@ def swipe_geteligiblebid(request):
             if paired_bid is not None:
                 break
         bid_serializer = BidSerializer(paired_bid)
-        return Response(bid_serializer.data, status=status.HTTP_200_OK)
+        return Response(dict(name=paired_bid.buyer.name, **bid_serializer.data), status=status.HTTP_200_OK)
     except Bid.DoesNotExist:
         return Response({}, status=status.HTTP_200_OK)
 
