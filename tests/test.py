@@ -35,12 +35,23 @@ def hit_endpoint(type, api, payload={}):
 
 
 def delete_test_data(test_data):
+    """
+    Deletes all test data created from running the test cases.
+
+    Args:
+        test_data (list): A list containing all the test objects created from the test cases. This list may include
+            None values resulting from some test cases not returning anything.
+    """
+
     for obj in test_data:
         if obj is not None:
             obj.delete()
 
 
 def main():
+    """
+    Main function that runs all test cases defined in config.py
+    """
 
     count = 0
     test_data = []
