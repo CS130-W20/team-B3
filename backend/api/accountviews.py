@@ -1,10 +1,22 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from api.models import Account, User, Location
 from api.serializers import LocationSerializer, AccountSerializer
 
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+def account_checkexistence(request):
+    data = request.data
+    if 'email' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED EMAIL ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        acc_obj = Account.objects.get(email=data['email'])
+        return Response({'exists': '1', 'user_id': acc_obj.user_id, 'STATUS': '0'}, status=status.HTTP_200_OK)
+    except Account.DoesNotExist:
+        return Response({'exists': '0', 'STATUS': '0'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def account_create(request):
@@ -32,8 +44,8 @@ def account_create(request):
             data['cur_loc'] = loc_data
     acc_serializer = AccountSerializer(data=data)
     if acc_serializer.is_valid():
-        acc_serializer.save()
-        return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
+        acc_obj = acc_serializer.save()
+        return Response({'STATUS': '0', 'user_id': acc_obj.user_id}, status=status.HTTP_200_OK)
     else:
         return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
