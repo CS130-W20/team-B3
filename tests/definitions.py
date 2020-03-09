@@ -57,6 +57,7 @@ def test_sget(res, expected, data):
     if set(res_quick) != set(expected["quick_list"]):
         raise RuntimeError(f'sget/ endpoint did not return all quickservice, returned {expected["quick_list"]}')
 
+
 def test_account_create(res, expected, data):
     account = Account.objects.get(user_id=data['user_id'])
     if not account.is_valid():
@@ -74,7 +75,6 @@ def test_account_create(res, expected, data):
 
     Raises:
         RuntimeError: If the account creation failed or if the expected response is different than the actual response.
-        RuntimeError: [description]
 
     Returns:
         Account: The account object.
@@ -90,3 +90,25 @@ def test_account_create(res, expected, data):
         raise RuntimeError(f'Account creation did not return expected result {expected}')
 
     return account
+
+
+def test_account_update(res, expected, data):
+    """
+    Tests account update endpoint.
+
+    Args:
+        res (HTTP Reponse): The response from attempting to create the Account object.
+        expected (Dict): The expected response
+        data (Dict): The data used to create the object
+
+    Raises:
+        RuntimeError: If the account update failed or if the expected response is different than the actual response.
+    """
+
+    try:
+        account = Account.objects.get(user_id=data['user_id'])
+    except Account.DoesNotExist:
+        raise RuntimeError(f'Failed to update account because account does not exist. {data}')
+
+    if dict(res.json()) != expected:
+        raise RuntimeError(f'Account updating did not return expected result {expected}')
