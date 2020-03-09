@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
@@ -6,13 +7,17 @@ from rest_framework.response import Response
 from api.models import DiningHall, Swipe, Bid, User
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
-from keys import stripe_test_key, twilio_account_sid, twilio_auth_token
 from twilio.rest import Client
 
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
 # TODO: Include location filtering
 def bid_geteligibleswipe(request):
+stripe_test_key = os.environ.get("stripe_test_key")
+twilio_account_sid = os.environ.get("twilio_account_sid")
+twilio_auth_token = os.environ.get("twilio_auth_token")
+
+def bid_getcheapestswipe(hall_id, swipe_time=None, swipe_price=None):
     """
     Gets the cheapest Swipe object that meets the criteria for a specific Bid.
 
@@ -101,6 +106,16 @@ def bid_placebid(request):
 
 @api_view(['POST'])
 def buy_listed_swipe(request): #REDUNDANT - WILL BE REMOVED SOON, ALREADY HAS BEEN REMOVED FROM URLS
+    """
+    Lets a buyer buy a swipe. Checks that the Swipe hasnt already been bought and then matches the buyer to the Swipe
+    and saves the updated Swipe to the database.
+
+    Args:
+        request (Request): A request containing the swipe_id that is trying to be purchased at the user_id of the buyer.
+
+    Returns:
+        HTTP Response: A response indicating errors or success.
+    """
     data = request.data
     if 'swipe_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED SWIPE_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
