@@ -51,11 +51,17 @@ class BidOrAskContainerVC: UIViewController {
         let parameters = [
             "user_id": userId,
             "hall_id": hallId,
-            "desired_price": priceField.text
+            "desired_price": priceField.text,
+            "time_intervals":[
+                [
+                    "start":"12:00",
+                    "end":"15:00"
+                ]
+            ]
         ]
             as [String : Any]
         if (isBidding!) {
-            AF.request("https://d7d02573.ngrok.io/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+            AF.request("https://02a6b230.ngrok.io/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
                     switch response.result {
                         case .success:
                             if let value = response.value as? NSDictionary {
@@ -67,7 +73,21 @@ class BidOrAskContainerVC: UIViewController {
                             print(error)
                     }
                 }
-        }
+        } else {
+            
+            AF.request("https://02a6b230.ngrok.io/api/selling/sell/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+                        switch response.result {
+                            case .success:
+                                if let value = response.value as? NSDictionary {
+            //                        if let data = value.data(using: String.Encoding.utf8) {
+            //                            let json = JSON(data)
+                                    print(value)
+                                }
+                            case let .failure(error):
+                                print(error)
+                        }
+                    }
+            }
     }
     
     override func viewDidAppear(_ animated: Bool) {
