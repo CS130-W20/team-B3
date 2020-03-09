@@ -4,45 +4,37 @@ import sys
 import os
 import django
 
+# Define test functions for each endpoint
+
 sys.path.insert(0, os.path.abspath('../backend'))  # noqa
 os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 django.setup()
 from api.models import Account  # noqa
 
-# Define test functions
+# Test the default api endpoint
+def test_default(res, expected, data):
 
-
-def test_default():
-
-    r = hit_endpoint("GET", 'http://localhost:8000/api/')
-
-    if r.text != '"Welcome to the SwipeX API"':
-        exit(1)
+    if res.text != expected:
+        raise RuntimeError(f'')
 
 # test function get_swipes in backend/api/swipeviews.py
 # check if its returning data for each dining hall
 
+def test_sget(res, expected, data):
 
-def test_sget():
-
-    r = hit_endpoint("GET", 'http://localhost:8000/api/swipes/sget/')
-
-    data = json.loads(r.json())
-
-    halls_list = ["FEAST at Rieber", "De Neve", "Covel", "Bruin Plate"]
-    quick_list = ["Bruin Cafe", "Cafe 1919", "Rendezvous", "The Study at Hedrick"]
+    r = json.loads(res.json())
 
     res_halls = []
     res_quick = []
 
-    for h in data["halls"]:
+    for h in r["halls"]:
         res_halls.append(h["name"])
 
-    for q in data["quick"]:
+    for q in r["quick"]:
         res_quick.append(q["name"])
 
-    if set(res_halls) != set(halls_list):
+    if set(res_halls) != set(expected["halls_list"]):
         exit(1)
 
-    if set(res_quick) != set(quick_list):
+    if set(res_quick) != set(expected["quick_list"]):
         exit(1)
