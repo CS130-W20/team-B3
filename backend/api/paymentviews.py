@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -10,11 +11,9 @@ from django.core.exceptions import ObjectDoesNotExist
 import json
 import stripe
 
-from keys import stripe_test_key
-
 # Base API URL
 stripe_url = 'https://api.stripe.com'
-stripe.api_key = stripe_test_key
+stripe.api_key = os.environ.get("stripe_test_key")
 
 @api_view(['POST'])
 def make_payment(request):

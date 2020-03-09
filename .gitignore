@@ -111,10 +111,12 @@ dist
 # TernJS port file
 .tern-port
 
-# Stripe API
+# API Keys
 backend/keys.py
-
 
 # Frontend
 frontend/SwipeX/Pods/
 frontend/SwipeX/SwipeX.xcodeproj/project.xcworkspace/xcuserdata/ashwinvivek.xcuserdatad/UserInterfaceState.xcuserstate
+
+.env
+

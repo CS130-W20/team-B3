@@ -18,18 +18,18 @@ def account_create(request):
             Reponse: An HTTP response indicating that the new Account was successfully saved in the database or that there
             was an error and the Account object was not created.
     """
-
     data = request.data
-    loc_data = data.pop('loc')
-    if type(loc_data) == dict:  # If we've got a dict, that means the Location object should be created from the lat/lng
-        loc_serializer = LocationSerializer(data=loc_data)
-        if loc_serializer.is_valid():
-            loc_obj = loc_serializer.save()
-            data['home_loc'] = loc_obj.loc_id
-        else:
-            return Response(loc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:  # For testing purposes, don't create a Location object but just toss in an existing primary key
-        data['home_loc'] = loc_data
+    if 'loc' in data:
+        loc_data = data.pop('loc')
+        if type(loc_data) == dict:  # If we've got a dict, that means the Location object should be created from the lat/lng
+            loc_serializer = LocationSerializer(data=loc_data)
+            if loc_serializer.is_valid():
+                loc_obj = loc_serializer.save()
+                data['cur_loc'] = loc_obj.loc_id
+            else:
+                return Response(loc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:  # For testing purposes, don't create a Location object but just toss in an existing primary key
+            data['cur_loc'] = loc_data
     acc_serializer = AccountSerializer(data=data)
     if acc_serializer.is_valid():
         acc_serializer.save()
@@ -59,7 +59,7 @@ def account_update(request):
         return Response({'STATUS': '1', 'REASON': 'NO ACCOUNT EXISTS WITH GIVEN USER_ID'}, status=status.HTTP_400_BAD_REQUEST)
     if 'loc' in data:
         loc_data = data.pop('loc')
-        loc_serializer = LocationSerializer(acc_obj.home_loc, data=loc_data)
+        loc_serializer = LocationSerializer(acc_obj.cur_loc, data=loc_data)
         if loc_serializer.is_valid():
             loc_serializer.save()
         else:

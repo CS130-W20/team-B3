@@ -35,16 +35,14 @@ class User(models.Model):
     ]
     status = models.CharField(max_length=1, choices=USER_STATES, default=0)
     user_id = models.CharField(max_length=255, primary_key=True)
-    pp_email = models.EmailField()
-
+    name = models.CharField(max_length=255)
 
 class Account(User):
     """
     Account object. Each user has an account. Inherits from User.
     """
-    home_loc = models.OneToOneField(Location, on_delete=models.DO_NOTHING)
-    # Frontend hashes the password, alternatively we can use Django authentication
-    pw = models.CharField(max_length=255)
+    # We don't wanna reveal these fields to anything except our specific backend functions
+    cur_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True, blank=True)
     # Doesn't make sense to use numerical, we'll need to validate on the front-end though
     phone = models.CharField(max_length=30)
 
@@ -63,7 +61,7 @@ class Swipe(models.Model):
     # Gets set to 1 after a buyer/seller pairing has occured, 2 when the buyer/seller meet up and confirm, 3 if the seller didn't have the swipe and a refund needs to happen
     status = models.CharField(max_length=1, choices=SWIPE_STATES, default=0)
     seller = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # References user_id of the seller in question
-    location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)  # References hall_id of DiningHall
+    hall_id = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)  # References hall_id of DiningHall
     price = models.DecimalField(max_digits=5, decimal_places=2)
     visibility = models.ListField()  # An array of JSON objects that contains intervals when this listing should appear on the app
 
@@ -81,7 +79,7 @@ class Bid(models.Model):
     status = models.CharField(max_length=1, choices=BID_STATES, default=0)
     swipe = models.ForeignKey(Swipe, on_delete=models.CASCADE, null=True)
     buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    location = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)
+    hall_id = models.ForeignKey(DiningHall, on_delete=models.DO_NOTHING)
     bid_price = models.DecimalField(max_digits=5, decimal_places=2)
     desired_time = models.TimeField(null=True)
 
