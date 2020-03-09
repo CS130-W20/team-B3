@@ -22,6 +22,7 @@ CASES = [
         },
         "func": test_sget
     },
+    {
         "name": 'test_account_create',
         "url": 'accounts/create/',
         'type': 'POST',
@@ -35,7 +36,7 @@ CASES = [
             "pw": "password",
             "phone": "4242705206"
         },
-        'expected_results': {'STATUS': '0'},
+        'expected_result': {'STATUS': '0'},
         'func': test_account_create
     }
 ]

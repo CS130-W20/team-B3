@@ -19,7 +19,7 @@ def account_create(request):
             was an error and the Account object was not created.
     """
 
-    data = request.data
+    data = request.data.copy()
     loc_data = data.pop('loc')
     if type(loc_data) == dict:  # If we've got a dict, that means the Location object should be created from the lat/lng
         loc_serializer = LocationSerializer(data=loc_data)
@@ -27,6 +27,7 @@ def account_create(request):
             loc_obj = loc_serializer.save()
             data['home_loc'] = loc_obj.loc_id
         else:
+            print('here2')
             return Response(loc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:  # For testing purposes, don't create a Location object but just toss in an existing primary key
         data['home_loc'] = loc_data
@@ -35,6 +36,7 @@ def account_create(request):
         acc_serializer.save()
         return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
     else:
+        print('here1')
         return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
