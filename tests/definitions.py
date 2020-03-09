@@ -15,7 +15,7 @@ from api.models import Account  # noqa
 def test_default(res, expected, data):
 
     if res.text != expected:
-        raise RuntimeError(f'')
+        raise RuntimeError(f'api/ endpoint did not return {expected}')
 
 # test function get_swipes in backend/api/swipeviews.py
 # check if its returning data for each dining hall
@@ -34,7 +34,7 @@ def test_sget(res, expected, data):
         res_quick.append(q["name"])
 
     if set(res_halls) != set(expected["halls_list"]):
-        exit(1)
+        raise RuntimeError(f'sget/ endpoint did not return all dining halls, returned {expected["halls_list"]}')
 
     if set(res_quick) != set(expected["quick_list"]):
-        exit(1)
+        raise RuntimeError(f'sget/ endpoint did not return all quickservice, returned {expected["quick_list"]}')
