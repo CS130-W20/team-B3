@@ -48,5 +48,11 @@ def test_account_create(res, expected, data):
     if not account.is_valid():
         raise RuntimeError(f'Account could not be created: {data}')
 
+
+def test_account_create(res, expected, data):
+    account = Account.objects.get(user_id=data['user_id'])
+    if not account.is_valid():
+        raise RuntimeError(f'Account could not be created: {data}')
+
     if response != expected_result:
         raise RuntimeError(f'Account creation did not return expected result {expected_result}')
