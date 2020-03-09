@@ -679,6 +679,9 @@
                                 <state key="normal" title="Buy Now">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="78R-vR-GnE" eventType="touchUpInside" id="yn1-2I-N9a"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbK-k5-kx8">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="196"/>

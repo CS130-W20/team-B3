@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class BidOrAskContainerVC: UIViewController {
     
@@ -21,6 +22,7 @@ class BidOrAskContainerVC: UIViewController {
     var isBidding:Bool?
     var didTapFrom: Bool?
     var priceValue: Int!
+    var hallId:Int!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func didTapFrom(_ sender: Any) {
@@ -41,6 +43,30 @@ class BidOrAskContainerVC: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
+        }
+    }
+    
+    @IBAction func buttonPressed(_ sender: Any) {
+        let userId = UserDefaults.standard.integer(forKey: "userId")
+        let parameters = [
+            "user_id": userId,
+            "hall_id": hallId,
+            "desired_price": priceField.text
+        ]
+            as [String : Any]
+        if (isBidding!) {
+            AF.request("https://d7d02573.ngrok.io/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+                    switch response.result {
+                        case .success:
+                            if let value = response.value as? NSDictionary {
+        //                        if let data = value.data(using: String.Encoding.utf8) {
+        //                            let json = JSON(data)
+                                print(value)
+                            }
+                        case let .failure(error):
+                            print(error)
+                    }
+                }
         }
     }
     

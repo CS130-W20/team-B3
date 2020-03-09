@@ -178,6 +178,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     destinationVC.minTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["start"].intValue)
                     destinationVC.maxTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["end"].intValue)
+                    destinationVC.hallId = halls[selectedDiningHallIndex]["hall_id"].intValue
                     
                 } else {
                     destinationVC.diningHallName = quicks[selectedDiningHallIndex]["name"].stringValue
@@ -189,6 +190,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     destinationVC.numBids = quicks[selectedDiningHallIndex]["nBids"].intValue
                     destinationVC.minTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["start"].intValue)
                     destinationVC.maxTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["end"].intValue)
+                    destinationVC.hallId = quicks[selectedDiningHallIndex]["hall_id"].intValue
                 }
             }
         }

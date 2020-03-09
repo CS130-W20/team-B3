@@ -20,6 +20,7 @@ class BuyOrSellViewController: UIViewController {
     var maximumTime:Date?
     var matchAvailable:Bool?
     var diningHallName:String?
+    var hallId:Int?
     
     @IBOutlet weak var diningHallLabel: UILabel!
     
@@ -84,6 +85,7 @@ class BuyOrSellViewController: UIViewController {
                 vc.timePicker.date = minimumTime!
                 vc.isBuying = isBuying
                 vc.parentVC = self
+                vc.hallId = hallId
             }
             if (segue.identifier == "toBidOrAskContainer")
                     {
@@ -98,6 +100,7 @@ class BuyOrSellViewController: UIViewController {
                         vc.timePickerTo.date = maximumTime!
                         vc.priceValue = priceValue
                         vc.isBidding = isBuying
+                        vc.hallId = hallId
                     }
         }
 

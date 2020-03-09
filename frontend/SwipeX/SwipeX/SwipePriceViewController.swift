@@ -12,6 +12,7 @@ class SwipePriceViewController: UIViewController{
     var diningHallName : String?
     var lowestAsk : Int?
     var highestBid: Int?
+    var hallId: Int?
     
     @IBOutlet weak var askImage: UIImageView!
     @IBOutlet weak var bidImage: UIImageView!
@@ -68,6 +69,7 @@ class SwipePriceViewController: UIViewController{
             
             vc.minimumTime = self.datePickerFrom.date
             vc.maximumTime = self.datePickerTo.date
+            vc.hallId = hallId
         }
     }
     

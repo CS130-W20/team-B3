@@ -76,7 +76,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         let familyName = user.profile.familyName
         let email = user.profile.email
 
-        UserDefaults.standard.set(userId, forKey: "userId")
         UserDefaults.standard.set(givenName, forKey: "givenName")
         UserDefaults.standard.set(familyName, forKey: "familyName")
         UserDefaults.standard.set(fullName, forKey: "fullName")
@@ -103,6 +102,8 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
                 }
             } else {
                 // user does exist
+                let userId = response["user_id"] as? Int
+                 UserDefaults.standard.set(userId, forKey: "userId")
                 let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
                 tabbarVC.modalPresentationStyle = .fullScreen
         

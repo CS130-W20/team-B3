@@ -29,7 +29,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
     var timePicker = ToolbarDatePicker()
     
     var isBuying:Bool!
-    
+    var hallId:Int!
     
     @IBAction func didFinishEditingPrice(_ sender: Any) {
         var price = Int(priceField.text ?? "") ?? 0
