@@ -1,6 +1,16 @@
 from definitions import *
 
-# define tests
+"""
+Define Test Cases Here
+{
+    "name": give a name to your test
+    "url": the endpoint, relative to http://localhost:8000/api/
+    "type": GET or POST
+    "data": data to POST
+    "expected_result": data you need to verify the endpoint is functioning
+    "func": function defined in definitions.py, takes type, expected_result, and data as parameters
+}
+"""
 
 CASES = [
     {

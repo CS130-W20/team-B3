@@ -7,6 +7,17 @@ api_endpoint = 'http://localhost:8000/api/'
 
 
 def hit_endpoint(type, api, payload={}):
+    """
+    Call a GET or POST endpoint and return the result
+
+    Args:
+        type  (String): "GET" or "POST"
+        api   (String): url relative to http://localhost:8000/api/
+        payload (Dict): JSON to put in POST body if needed
+
+    Returns:
+        JSON: response of endpoint call
+    """
 
     res = {}
 

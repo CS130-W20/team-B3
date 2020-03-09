@@ -11,19 +11,34 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 django.setup()
 from api.models import Account  # noqa
 
-# Test the default api endpoint
-
-
 def test_default(res, expected, data):
+    """
+    Test the default api endpoint
+
+    Args:
+        res: response object from GET request
+        expected: "Welcome to the SwipeX API"
+        data: not used
+
+    Returns:
+        n/a, raises error if test fails
+    """
 
     if res.text != expected:
         raise RuntimeError(f'api/ endpoint did not return {expected}')
 
-# test function get_swipes in backend/api/swipeviews.py
-# check if its returning data for each dining hall
-
-
 def test_sget(res, expected, data):
+    """
+    Test the sget endpoint, see if it is returning data for each dining hall
+
+    Args:
+        res: response object from GET request
+        expected: Returns data for 4 dining halls and 4 quick service locations
+        data: not used
+
+    Returns:
+        n/a, raises error if test fails
+    """
 
     r = json.loads(res.json())
 
