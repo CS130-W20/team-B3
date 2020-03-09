@@ -18,7 +18,6 @@ def account_create(request):
             Reponse: An HTTP response indicating that the new Account was successfully saved in the database or that there
             was an error and the Account object was not created.
     """
-
     data = request.data
     if 'loc' in data:
         loc_data = data.pop('loc')

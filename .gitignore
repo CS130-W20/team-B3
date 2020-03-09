@@ -111,5 +111,6 @@ dist
 # TernJS port file
 .tern-port
 
-# Stripe API
+# API Keys
 backend/keys.py
+.env
