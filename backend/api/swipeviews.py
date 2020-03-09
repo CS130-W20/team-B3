@@ -55,10 +55,10 @@ def get_swipes(request):
                 times['end']   = end
 
         # get stats for number of swipes and bids
-        swipes = Swipe.objects.filter(location=cur_id)
+        swipes = Swipe.objects.filter(hall_id=cur_id)
         nSwipes  = swipes.count()
 
-        bids = Bid.objects.filter(location=cur_id)
+        bids = Bid.objects.filter(hall_id=cur_id)
         nBids = bids.count()
 
         # lowest ask
@@ -99,13 +99,13 @@ def get_hall_stats(request):
         desired_time = datetime.datetime.now()
     else:
         desired_time = datetime.datetime.strptime(desired_time, "%H:%M")
-    swipes = Swipe.objects.filter(location=data['hall_id'], status=0).order_by('price', 'swipe_id')
+    swipes = Swipe.objects.filter(hall_id=data['hall_id'], status=0).order_by('price', 'swipe_id')
     swipes_filtered = []
     for swipe in swipes:
         for hours in swipe.visibility:
             if hours['start'].time() <= desired_time.time() and hours['end'].time() >= desired_time.time():
                 swipes_filtered.append(swipe)
-    bids = Bid.objects.filter(location=data['hall_id'], status=0).order_by('-bid_price', 'bid_id')
+    bids = Bid.objects.filter(hall_id=data['hall_id'], status=0).order_by('-bid_price', 'bid_id')
     bids_filtered = []
     for bid in bids:
         if bid.desired_time is None or ((desired_time - datetime.timedelta(minutes=45)).time() <= bid.desired_time.time() and (desired_time + datetime.timedelta(minutes=45)).time() >= bid.desired_time.time()):
@@ -137,8 +137,8 @@ def lowestswipe_highestbid_info(request):
     
     info = {}
 
-    swipe_candidates = Swipe.objects.filter(location_id=data['hall_id'], status=0).order_by('price')
-    bid_candidates = Bid.objects.filter(location_id=data['hall_id'], status=0).order_by('bid_price')
+    swipe_candidates = Swipe.objects.filter(hall_id=data['hall_id'], status=0).order_by('price')
+    bid_candidates = Bid.objects.filter(hall_id=data['hall_id'], status=0).order_by('bid_price')
 
     for i in range(int(data['start']), int(data['end']) + 1):
         info[i] = {}

@@ -40,7 +40,7 @@ def swipe_geteligiblebid(request):
     try:
         paired_bid = None
         # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
-        bid_candidates = Bid.objects.filter(status=0, location=data['hall_id']).order_by('-bid_price', 'bid_id')
+        bid_candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
         for bid in bid_candidates:
             # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
             if data.desired_price is not None and data['desired_price'] > bid.bid_price:
@@ -85,7 +85,7 @@ def swipe_sellswipe(request):
     if bid is None and (data.get('desired_price', None) is None or data.get('time_intervals', None) is None):
         return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE BIDS, BUT NO DESIRED PRICE OR TIMES GIVEN TO CREATE SWIPE'})
     # Create swipe
-    swipe_data = {'seller': data['user_id'], 'location': data['hall_id'], 'visibility': data['time_intervals']}
+    swipe_data = {'seller': data['user_id'], 'hall_id': data['hall_id'], 'visibility': data['time_intervals']}
     swipe_data['price'] = bid.bid_price if (bid is not None) else data['desired_price']
     if bid is not None:
         swipe_data['status'] = '1'
