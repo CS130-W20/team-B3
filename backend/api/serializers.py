@@ -99,7 +99,7 @@ class AccountSerializer(UserSerializer):
     """
     class Meta(UserSerializer.Meta):
         model = api.Account
-        fields = UserSerializer.Meta.fields + ['cur_loc', 'phone']
+        fields = UserSerializer.Meta.fields + ['cur_loc', 'phone', 'email']
 
 
 class SwipeSerializer(serializers.ModelSerializer):

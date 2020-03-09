@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.default),
 
     path('accounts/create/', accountviews.account_create),
+    path('accounts/check/', accountviews.account_checkexistence),
     path('accounts/update/', accountviews.account_update),
     path('selling/get_bid/', sellviews.swipe_geteligiblebid),
     path('selling/sell/', sellviews.swipe_sellswipe),
