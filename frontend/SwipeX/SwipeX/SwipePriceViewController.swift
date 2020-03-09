@@ -57,6 +57,7 @@ class SwipePriceViewController: UIViewController{
         if (segue.identifier == "SwipePriceToBuyOrSell") {
             let vc: BuyOrSellViewController = segue.destination as! BuyOrSellViewController
             vc.isBuying = didTapBuy
+            vc.diningHallName = diningHallName
             if (didTapBuy!) {
                 vc.priceValue = lowestAsk
                 vc.matchAvailable = numAsks! > 0
@@ -120,8 +121,10 @@ class SwipePriceViewController: UIViewController{
         self.datePickerFrom.minuteInterval = 30
         self.datePickerFrom.toolbarDelegate = self
         self.datePickerFrom.minimumDate =  timeFormatter.date(from: minTime!)
-        self.datePickerFrom.maximumDate =  timeFormatter.date(from: "7:30 pm")
+//        self.datePickerFrom.maximumDate =  timeFormatter.date(from: "7:30 pm")
         self.datePickerFrom.date = timeFormatter.date(from: minTime!)!
+        
+        self.datePickerFrom.maximumDate =  self.datePickerTo.date.addingTimeInterval(-30.0)
         
         fromTime.text = timeFormatter.string(from: timeFormatter.date(from: minTime!)!)
 
@@ -130,9 +133,9 @@ class SwipePriceViewController: UIViewController{
         self.datePickerTo.datePickerMode = UIDatePicker.Mode.time
         self.datePickerTo.minuteInterval = 30
         self.datePickerTo.toolbarDelegate = self
-        self.datePickerTo.minimumDate =  timeFormatter.date(from: "5:30 pm")
         self.datePickerTo.maximumDate =  timeFormatter.date(from: maxTime!)
         self.datePickerTo.date = timeFormatter.date(from: maxTime!)!
+        self.datePickerTo.minimumDate =  self.datePickerFrom.date.addingTimeInterval(30.0)
         
         toTime.text = timeFormatter.string(from: timeFormatter.date(from: maxTime!)!)
     }

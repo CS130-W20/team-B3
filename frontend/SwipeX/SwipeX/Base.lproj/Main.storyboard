@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mqB-j7-0Hi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K23-8O-Tdi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
@@ -412,7 +412,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BPlate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prx-qm-5Ej">
-                                        <rect key="frame" x="19" y="15" width="373" height="69"/>
+                                        <rect key="frame" x="19" y="15" width="293" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="53"/>
                                         <color key="textColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -461,6 +461,7 @@
                     <connections>
                         <outlet property="containerViewBidOrAsk" destination="4B7-ab-5Nz" id="D0b-TO-Ckj"/>
                         <outlet property="containerViewBuyOrSell" destination="yv0-mt-MBh" id="pKT-pU-6d8"/>
+                        <outlet property="diningHallLabel" destination="prx-qm-5Ej" id="VQR-kb-wdK"/>
                         <outlet property="segmentedControl" destination="sYS-jf-DoQ" id="VJD-fh-AZp"/>
                     </connections>
                 </viewController>
@@ -487,11 +488,33 @@
         <!--Profile-->
         <scene sceneID="qty-5O-DbW">
             <objects>
-                <viewController id="EZY-WW-Mol" sceneMemberID="viewController">
+                <viewController id="EZY-WW-Mol" customClass="ProfileViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Jb9-iA-9vI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jL8-95-vKI">
+                                <rect key="frame" x="149" y="328" width="117" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <state key="normal" title="Sign out"/>
+                                <connections>
+                                    <action selector="signOut:" destination="bYk-uf-Zg2" eventType="touchUpInside" id="54O-Xc-Lpj"/>
+                                    <action selector="signOut:" destination="EZY-WW-Mol" eventType="touchUpInside" id="PsB-d2-N1v"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="abM-br-fwl"/>
+                    </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" selectedImage="person.crop.circle.fill" id="rjA-vf-LeF"/>
                     <navigationItem key="navigationItem" id="tA2-gF-9Zs"/>
+                    <connections>
+                        <segue destination="bYk-uf-Zg2" kind="unwind" identifier="unwindToLoginVC" unwindAction="prepareForUnwindWithSegue:" id="fhb-mm-or9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXK-Xe-OsP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="bYk-uf-Zg2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1849" y="822"/>
         </scene>
@@ -549,7 +572,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6gU-Ah-LFc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1249" y="127"/>
+            <point key="canvasLocation" x="-852" y="127"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Sk4-16-aCi">
@@ -567,7 +590,7 @@
                         <outlet property="tabBar" destination="6PQ-bF-XRI" id="vGv-q9-uga"/>
                         <segue destination="Er5-Jr-0Lo" kind="relationship" relationship="viewControllers" id="NFK-HA-yzx"/>
                         <segue destination="oUn-rP-uFp" kind="relationship" relationship="viewControllers" id="EZJ-0d-Zy8"/>
-                        <segue destination="EZY-WW-Mol" kind="relationship" relationship="viewControllers" id="XyW-SM-vA0"/>
+                        <segue destination="EZY-WW-Mol" kind="relationship" relationship="viewControllers" destinationCreationSelector="unwindToLoginViewController" id="XyW-SM-vA0"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auY-4P-vP5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

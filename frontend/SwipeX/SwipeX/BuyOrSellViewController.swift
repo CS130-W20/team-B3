@@ -19,6 +19,9 @@ class BuyOrSellViewController: UIViewController {
     var minimumTime:Date?
     var maximumTime:Date?
     var matchAvailable:Bool?
+    var diningHallName:String?
+    
+    @IBOutlet weak var diningHallLabel: UILabel!
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -46,6 +49,8 @@ class BuyOrSellViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        diningHallLabel.text = diningHallName
+        diningHallLabel.adjustsFontSizeToFitWidth = true
         let font = UIFont.boldSystemFont(ofSize: 18)
         segmentedControl.frame.size.height = 50.0
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.3332946301, green: 0.3333562613, blue: 0.333286047, alpha: 1)], for: .normal)

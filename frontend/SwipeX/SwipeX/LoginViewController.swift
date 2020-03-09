@@ -13,6 +13,16 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
 
     @IBOutlet weak var loginButton: UIButton!
     
+    override func viewDidAppear(_ animated: Bool) {
+        if ((GIDSignIn.sharedInstance()?.hasPreviousSignIn())!) {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        }
+    }
+    
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,8 +30,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         GIDSignIn.sharedInstance()?.presentingViewController = self
 
         // Automatically sign in the user.
-        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-        
         GIDSignIn.sharedInstance()?.delegate = self
     }
     
@@ -56,9 +64,14 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let tabbarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
             tabbarVC.modalPresentationStyle = .fullScreen
+        if ((GIDSignIn.sharedInstance()?.presentingViewController.isBeingPresented)!) {
             GIDSignIn.sharedInstance()?.presentingViewController.dismiss(animated: true, completion: {
                 self.present(tabbarVC, animated: true, completion: nil)
             })
+            
+        } else {
+            self.present(tabbarVC, animated: true, completion: nil)
+        }
        }
 
        func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
