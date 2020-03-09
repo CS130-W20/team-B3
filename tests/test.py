@@ -5,6 +5,7 @@ api_endpoint = 'http://localhost:8000/api/'
 
 # hit an endpoint
 
+
 def hit_endpoint(type, api, payload={}):
 
     res = {}

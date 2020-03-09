@@ -12,6 +12,8 @@ django.setup()
 from api.models import Account  # noqa
 
 # Test the default api endpoint
+
+
 def test_default(res, expected, data):
 
     if res.text != expected:
@@ -19,6 +21,7 @@ def test_default(res, expected, data):
 
 # test function get_swipes in backend/api/swipeviews.py
 # check if its returning data for each dining hall
+
 
 def test_sget(res, expected, data):
 
@@ -38,3 +41,12 @@ def test_sget(res, expected, data):
 
     if set(res_quick) != set(expected["quick_list"]):
         exit(1)
+
+
+def test_account_create(res, expected, data):
+    account = Account.objects.get(user_id=data['user_id'])
+    if not account.is_valid():
+        raise RuntimeError(f'Account could not be created: {data}')
+
+    if response != expected_result:
+        raise RuntimeError(f'Account creation did not return expected result {expected_result}')
