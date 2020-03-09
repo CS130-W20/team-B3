@@ -1,5 +1,5 @@
-import config
-
+from config import CASES
+import requests
 api_endpoint = 'http://localhost:8000/api/'
 
 # hit an endpoint
@@ -25,7 +25,7 @@ def hit_endpoint(type, api, payload={}):
 def main():
 
     count = 0
-    for test in config:
+    for test in CASES:
         try:
             print(f'Testing {test["name"]}...', end='')
             res = hit_endpoint(test["type"], api_endpoint + test["url"])
