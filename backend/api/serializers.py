@@ -30,7 +30,7 @@ class DiningHallSerializer(LocationSerializer):
 
     class Meta(LocationSerializer.Meta):
         model = api.DiningHall
-        fields = LocationSerializer.Meta.fields + ['hours', 'name', 'description', 'picture']
+        fields = LocationSerializer.Meta.fields + ['hall_id', 'hours', 'name', 'description', 'picture']
 
     def create(self, validated_data):
         """
@@ -110,7 +110,7 @@ class SwipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = api.Swipe
-        fields = ['status', 'seller', 'location', 'price', 'visibility']
+        fields = ['swipe_id', 'status', 'seller', 'location', 'price', 'visibility']
 
     def create(self, validated_data):
         """
@@ -169,7 +169,7 @@ class BidSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = api.Bid
-        fields = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
+        fields = ['bid_id', 'status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -178,4 +178,4 @@ class TransactionSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = api.Transaction
-        fields = ['sender', 'recipient', 'paid', 'total', 'details']
+        fields = ['t_id', 'sender', 'recipient', 'paid', 'total', 'details']
