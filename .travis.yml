@@ -11,10 +11,4 @@ env:
 
 script:
   - python3 tests/start_test.py
-deploy:
-  provider: heroku
-  api_key:
-    secure: Hw2bSbK0ywQ77F6PsPL13XNNvLJ2EhtqaIfI/7WiCL3v4sXcFYyA/LQeMmJgygxQ98orQCecNVdAIHHPHmt9s/t5mea/d34+Q2xzr6NCJicBATG1DxHrlRQg6w4vt+9PgXcLsLviYJkI8X85K4yLaOPlW6V2kGUG8JyuD78wCb2iIoJZsUdSgyshJ4E6gzyzMoHm5PH6WKxMZkXnB6mzE5XvJfwcItJpPC9FBw9euJ7w7LgOw4zp7CpUclA79Cl8h17z625gCe8p7vWpJe8Yd/alOKW+QtLRn6CRyR4ma3dRRVw962B0H3nQfmudF0XKeDVXtlX6NW2Vp1e6eRusbQ9mqsZdp2w14JQpk4N58Q++NHFyrazdm7UYlLVgvHZj6OEci3oU5IeB5w6lCTLw+1mmiR3Yyjn9f2LJEY8yPYMH3GxrSPdzGIPQyulJGEU5DBo5yeSmIdw8Ib+84Z5EUKyxH5ym+bTdF6R+uBSc2CINiLIMV6scCm9zXVM+Fjysiite5G7bbtm99s6YQdQboiGI4Gynzdf+2ccW2/XojcryZOuCR+TksEqF8PHSf/KFyPfQ6253GgM398u6a1dyBJ81A1GxDv6o2tTDtGAzvFQ0sB4dH/IlPXQguovAr9enYIzDGqfEaCcVnmEhYvNSbh4I9IWx4tcds/TW6uUXsx0=
-  app: swipex130
-  on:
-    repo: CS130-W20/team-B3
+
