@@ -68,7 +68,7 @@ def main():
             print('passed')
 
     delete_test_data(test_data)
-    assert(count == 0)
+
     if count != 0:
         print(f'{count} tests failed.')
         exit(1)
