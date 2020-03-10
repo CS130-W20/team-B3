@@ -18,7 +18,4 @@ deploy:
   app: swipex130
   on:
     repo: CS130-W20/team-B3
-    branches:
-        only:
-          - master
-          - test_heroku
+    all_branches: true
