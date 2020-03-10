@@ -47,12 +47,30 @@ def get_swipes(request):
         # see if hall is currently open
         hours = hall.hours
         times = {'start': 0, 'end': 0}
+        found = False
+
         for h in hours:
             start = h['start'].hour
             end   = h['end'].hour
-            if start <= cur_time and cur_time <= end:
+
+            # Handle midnight being stored as a 0 and Study closing at 2 am
+            end_compare = end
+            if end == 0 or end == 2:
+                end_compare = 24 + end
+
+            if start <= cur_time and cur_time < end_compare:
                 times['start'] = start
                 times['end']   = end
+                found = True
+                break
+
+            elif cur_time < start:
+                times['start'] = start
+                times['end']   = end
+
+        if not found and times['end'] <= cur_time:
+            times['start'] = hours[0]["start"].hour
+            times['end']   = hours[0]["end"].hour
 
         # get stats for number of swipes and bids
         swipes = Swipe.objects.filter(status=0, hall_id=cur_id)
@@ -134,7 +152,7 @@ def lowestswipe_highestbid_info(request):
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED start ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
     if 'end' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED end ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     info = {}
 
     swipe_candidates = Swipe.objects.filter(hall_id=data['hall_id'], status=0).order_by('price')
@@ -154,11 +172,11 @@ def get_lowest_swipe(swipe_candidates, start, end):
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
             print("Swipe---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if int(curr_start) <= start and int(curr_end) >= end:
                 curr_price = min(curr_price, swipe.price)
-  
+
     return "0" if curr_price == "999999" else curr_price
 
 def get_highest_bid(bid_candidates, start, end):
@@ -166,9 +184,9 @@ def get_highest_bid(bid_candidates, start, end):
     for bid in bid_candidates:
         for hours in bid.visibility:
             print("Bid---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if int(curr_start) <= start and int(curr_end) >= end:
                 curr_price = max(curr_price, bid.bid_price)
-  
+
     return "0" if curr_price == "999999" else curr_price
