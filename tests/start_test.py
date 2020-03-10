@@ -3,7 +3,8 @@ import os, time, multiprocessing
 def start_server():
     os.system("python3 backend/manage.py runserver")
 def start_testing():
-    os.system("cd tests && python3 test.py")
+    cmd = os.system("cd tests && python3 test.py")
+    assert(os.WEXITSTATUS(cmd) == 0)
 
 def main():
     p1 = multiprocessing.Process(target=start_server)

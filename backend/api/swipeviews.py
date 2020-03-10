@@ -47,12 +47,30 @@ def get_swipes(request):
         # see if hall is currently open
         hours = hall.hours
         times = {'start': 0, 'end': 0}
+        found = False
+
         for h in hours:
             start = h['start'].hour
             end   = h['end'].hour
-            if start <= cur_time and cur_time <= end:
+
+            # Handle midnight being stored as a 0 and Study closing at 2 am
+            end_compare = end
+            if end == 0 or end == 2:
+                end_compare = 24 + end
+
+            if start <= cur_time and cur_time < end_compare:
                 times['start'] = start
                 times['end']   = end
+                found = True
+                break
+
+            elif cur_time < start:
+                times['start'] = start
+                times['end']   = end
+
+        if not found and times['end'] <= cur_time:
+            times['start'] = hours[0]["start"].hour
+            times['end']   = hours[0]["end"].hour
 
         # get stats for number of swipes and bids
         swipes = Swipe.objects.filter(status=0, hall_id=cur_id)
@@ -159,6 +177,7 @@ def get_lowest_swipe(swipe_candidates, start, end):
                 curr_price = min(curr_price, float(swipe.price))
 
     return 0 if curr_price == float("inf") else curr_price
+
 
 def get_highest_bid(bid_candidates, start, end):
     curr_price = 0
