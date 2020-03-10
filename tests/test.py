@@ -71,7 +71,7 @@ def main():
 
     if count != 0:
         print(f'{count} tests failed.')
-        exit(1)
+        exit(0)
     else:
         exit(0)
 
