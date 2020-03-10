@@ -5,6 +5,7 @@ Q = Queue()
 
 def start_server():
     os.system("python3 backend/manage.py runserver")
+
 def start_testing():
     cmd = os.system("cd tests && python3 test.py")
     Q.put(os.WEXITSTATUS(cmd))
