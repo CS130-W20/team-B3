@@ -153,7 +153,7 @@ def get_lowest_swipe(swipe_candidates, start, end):
     curr_price = "999999"
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
-            print(hours['start'], hours['end'])
+            print("Swipe---:", hours['start'], hours['end'])
             curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
             curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
             if int(curr_start) <= start and int(curr_end) >= end:
@@ -164,13 +164,11 @@ def get_lowest_swipe(swipe_candidates, start, end):
 def get_highest_bid(bid_candidates, start, end):
     curr_price = "0"
     for bid in bid_candidates:
-        if bid.desired_time == None:
-            curr_price = max(curr_price, int(bid.bid_price))
-        else:
-            print (bid.desired_time)
-            bid_time = str(bid.desired_time).split(" ") 
-            bid_time = bid_time if len(bid_time) == 1 else bid_time[1]
-            curr_desired_time = "".join(bid_time).split(":")[0]
-            if start <= int(curr_desired_time) <= end:
+        for hours in bid.visibility:
+            print("Bid---:", hours['start'], hours['end'])
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            if int(curr_start) <= start and int(curr_end) >= end:
                 curr_price = max(curr_price, bid.bid_price)
-    return curr_price
+  
+    return "0" if curr_price == "999999" else curr_price
