@@ -11,8 +11,7 @@ env:
 
 jobs:
   include:
-    stage:
-      backend testing 
-    script:
-      - python3 tests/start_test.py
+    - stage: backend testing 
+    script: python3 tests/start_test.py
+    - stage: Done
 
