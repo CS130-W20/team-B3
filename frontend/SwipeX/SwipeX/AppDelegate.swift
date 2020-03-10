@@ -8,6 +8,9 @@
 
 import UIKit
 import GoogleSignIn
+import Stripe
+
+let NGROK_URL = "https://866918c1.ngrok.io"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         GIDSignIn.sharedInstance().clientID = "1093601320222-6htjibr7c3kq9g4f579abcdu1i9h7sql.apps.googleusercontent.com"
         GIDSignIn.sharedInstance()?.hostedDomain = "g.ucla.edu"
+        Stripe.setDefaultPublishableKey("pk_test_d3JzWCczi1nb43jv9y1Kpvrg00XSfsIYXE")
         return true
     }
 

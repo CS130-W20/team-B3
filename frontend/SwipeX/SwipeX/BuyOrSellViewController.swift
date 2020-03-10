@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class BuyOrSellViewController: UIViewController {
 
@@ -44,6 +45,30 @@ class BuyOrSellViewController: UIViewController {
         
         segmentedControl.selectedSegmentIndex = 1 - segmentedControl.selectedSegmentIndex
         segmentedControl.sendActions(for: UIControl.Event.valueChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let parameters:[String: Any] = [
+            "hall_id":hallId,
+            "desired_price":priceValue,
+            "time_intervals": [
+                [
+                    "start":convertPickerTimeToJSONString(time:minimumTime!),
+                    "end":convertPickerTimeToJSONString(time:maximumTime!)
+                ]
+            ]
+        ]
+        
+        AF.request("\(NGROK_URL)/api/swipes/timeinterval_info/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+                    switch response.result {
+                        case .success:
+                            if let value = response.value as? NSDictionary {
+                                print(value)
+                            }
+                        case let .failure(error):
+                            print(error)
+                    }
+                }
     }
     
     override func viewDidLoad() {

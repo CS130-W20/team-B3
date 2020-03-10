@@ -9,11 +9,43 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import MarqueeLabel
+
+
+extension UIViewController {
+    func convertPickerTimeToJSONString(time: Date) -> String {
+           var timeFormatter = DateFormatter()
+           timeFormatter.dateStyle = DateFormatter.Style.none
+           timeFormatter.timeStyle = DateFormatter.Style.short
+           timeFormatter.dateFormat = "HH:mm"
+           let time = timeFormatter.string(from:time)
+       
+           return time
+       }
+
+    func convertPickerTimeToInt(time: Date) -> Int {
+        let str = convertPickerTimeToJSONString(time: time)
+        
+        var res = ""
+        
+        for char in str {
+            if (char == ":") {
+                break
+            }
+            res.append(char)
+        }
+        return Int(res)!
+    }
+}
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var diningHallCollection: UICollectionView!
     @IBOutlet weak var quickServiceCollection: UICollectionView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var averagePriceMarquee: MarqueeLabel!
     
     var halls:[JSON] = []
     var quicks:[JSON] = []
@@ -179,8 +211,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     destinationVC.numAsks = halls[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = halls[selectedDiningHallIndex]["nBids"].intValue
                     
-                    destinationVC.minTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["start"].intValue)
-                    destinationVC.maxTime = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["end"].intValue)
+                    destinationVC.minTimeString = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["start"].intValue)
+                    destinationVC.maxTimeString = convertTimeForPicker(time: halls[selectedDiningHallIndex]["times"]["end"].intValue)
+                    
+                    destinationVC.minTimeInt = halls[selectedDiningHallIndex]["times"]["start"].intValue
+                    destinationVC.maxTimeInt = halls[selectedDiningHallIndex]["times"]["end"].intValue
+                    
                     destinationVC.hallId = halls[selectedDiningHallIndex]["hall_id"].intValue
                     
                 } else {
@@ -191,10 +227,38 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                     destinationVC.numAsks = quicks[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = quicks[selectedDiningHallIndex]["nBids"].intValue
-                    destinationVC.minTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["start"].intValue)
-                    destinationVC.maxTime = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["end"].intValue)
+                    destinationVC.minTimeString = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["start"].intValue)
+                    destinationVC.maxTimeString = convertTimeForPicker(time: quicks[selectedDiningHallIndex]["times"]["end"].intValue)
+                    destinationVC.minTimeInt = quicks[selectedDiningHallIndex]["times"]["start"].intValue
+                    destinationVC.maxTimeInt = quicks[selectedDiningHallIndex]["times"]["end"].intValue
                     destinationVC.hallId = quicks[selectedDiningHallIndex]["hall_id"].intValue
                 }
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        AF.request("\(NGROK_URL)/api/swipes/homescreen_info/", method:.get).responseJSON { response in
+            switch response.result {
+            case .success:
+                if let value = response.value as? String {
+                    if let data = value.data(using: String.Encoding.utf8) {
+                        let json = JSON(data)
+                        print(json)
+                        if let quickService =  json["quick"].arrayValue as [JSON]? {
+                            self.quicks = quickService
+                            print(self.quicks)
+                            self.quickServiceCollection.reloadData()
+                        }
+                        if let dining =  json["halls"].arrayValue as [JSON]? {
+                            self.halls = dining
+                            print(self.halls)
+                            self.diningHallCollection.reloadData()
+                        }
+                    }
+                }
+            case let .failure(error):
+                print(error)
             }
         }
     }
@@ -208,7 +272,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         diningHallCollection.delegate = self
         diningHallCollection.dataSource = self
           
-        AF.request("https://822f9117.ngrok.io/api/swipes/homescreen_info/", method:.get).responseJSON { response in
+        averagePriceMarquee.type = .continuous
+        averagePriceMarquee.speed = .duration(9)
+        averagePriceMarquee.fadeLength = 10.0
+        averagePriceMarquee.leadingBuffer = 30.0
+        averagePriceMarquee.trailingBuffer = 20.0
+        let string: NSMutableAttributedString = NSMutableAttributedString(string: "AVG. SWIPE PRICE $6▲                                                                                            ")
+        string.setColor(color: #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1), forText: "AVG. SWIPE PRICE")
+        string.setColor(color: #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1), forText: " $6▲                                                                                            ")
+        averagePriceMarquee.attributedText = string
+    AF.request("\(NGROK_URL)/api/swipes/homescreen_info/", method:.get).responseJSON { response in
             switch response.result {
             case .success:
                 if let value = response.value as? String {
@@ -234,3 +307,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 }
 
+
+extension NSMutableAttributedString {
+
+    func setColor(color: UIColor, forText stringValue: String) {
+       let range: NSRange = self.mutableString.range(of: stringValue, options: .caseInsensitive)
+        self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+    }
+
+}

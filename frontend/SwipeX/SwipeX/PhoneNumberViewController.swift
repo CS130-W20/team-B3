@@ -38,7 +38,7 @@ class PhoneNumberViewController: UIViewController, UITextFieldDelegate {
             "name": name!,
             "email": email!
         ]
-    AF.request("https://822f9117.ngrok.io/api/accounts/create/", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
+    AF.request("\(NGROK_URL)/api/accounts/create/", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseJSON { response in
             switch response.result {
             case .success:
                 print("YES")

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class SwipePriceViewController: UIViewController{
     var diningHallName : String?
@@ -22,8 +24,12 @@ class SwipePriceViewController: UIViewController{
     @IBOutlet weak var fromTime: UITextField!
     @IBOutlet weak var toTime: UITextField!
     
-    var minTime: String?
-    var maxTime: String?
+    var minTimeString: String?
+    var maxTimeString: String?
+    var minTimeInt:Int?
+    var maxTimeInt:Int?
+    
+    var intervals:JSON!
 
     @IBOutlet weak var lowestAskLabel: UILabel!
     @IBOutlet weak var highestBidLabel: UILabel!
@@ -75,6 +81,46 @@ class SwipePriceViewController: UIViewController{
             vc.hallId = hallId
         }
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        let parameters:[String: Any] = [
+                "hall_id": hallId,
+                "start": minTimeInt,
+                "end": maxTimeInt,
+            ]
+        
+        AF.request("\(NGROK_URL)/api/swipes/timeinterval_info/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+                    switch response.result {
+                        case .success:
+                            if let value = response.value as? String {
+                                if let data = value.data(using: String.Encoding.utf8) {
+                                    self.intervals = JSON(data)
+                                    
+                                    print(self.intervals!)
+                                    print(self.minTimeInt)
+                                    print(self.intervals!["\(self.minTimeInt!)"])
+                                    
+                                    self.lowestAskLabel.text = "$\(self.intervals!["\(self.minTimeInt!)"]["\(self.maxTimeInt!)"]["swipe"])"
+                                    self.highestBidLabel.text = "$\(self.intervals!["\(self.minTimeInt!)"]["\(self.maxTimeInt!)"]["bid"])"
+                                }
+                            }
+                        case let .failure(error):
+                            print(error)
+                    }
+                }
+    }
+    
+    func updateBidAndAskLabels(begin:Int, end: Int) {
+        
+        let la = self.intervals!["\(begin)"]["\(end)"]["swipe"]
+        let hb = self.intervals!["\(begin)"]["\(end)"]["bid"]
+        
+        self.lowestAskLabel.text = "$\(la.intValue)"
+        self.highestBidLabel.text = "$\(hb.intValue)"
+        
+        self.lowestAsk = la.intValue
+        self.highestBid = hb.intValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,12 +129,10 @@ class SwipePriceViewController: UIViewController{
         diningHallLabel.baselineAdjustment = .alignCenters
         
         numSellingLabel.text = "\(numAsks!) selling"
-        
         numBuyingLabel.text = "\(numBids!) buying"
         
         if (numAsks! > 0) {
             lowestAskLabel.isHidden = false
-            lowestAskLabel.text = "$\(lowestAsk!)"
         } else {
             askImage.image = UIImage(named: "noAsks")
             lowestAskLabel.isHidden = true
@@ -96,14 +140,10 @@ class SwipePriceViewController: UIViewController{
         
         if (numBids! > 0) {
             highestBidLabel.isHidden = false
-            highestBidLabel.text = "$\(lowestAsk!)"
         } else {
             bidImage.image = UIImage(named: "noBids")
             highestBidLabel.isHidden = true
         }
-        
-        lowestAskLabel.text = "$\(lowestAsk!)"
-        highestBidLabel.text = "$\(highestBid!)"
         
         lowestAskView.layer.shadowColor = UIColor.lightGray.cgColor
         lowestAskView.layer.shadowOpacity = 0.5
@@ -129,24 +169,24 @@ class SwipePriceViewController: UIViewController{
         self.datePickerFrom.datePickerMode = UIDatePicker.Mode.time
         self.datePickerFrom.minuteInterval = 30
         self.datePickerFrom.toolbarDelegate = self
-        self.datePickerFrom.minimumDate =  timeFormatter.date(from: minTime!)
+        self.datePickerFrom.minimumDate =  timeFormatter.date(from: minTimeString!)
 //        self.datePickerFrom.maximumDate =  timeFormatter.date(from: "7:30 pm")
-        self.datePickerFrom.date = timeFormatter.date(from: minTime!)!
+        self.datePickerFrom.date = timeFormatter.date(from: minTimeString!)!
         
         self.datePickerFrom.maximumDate =  self.datePickerTo.date.addingTimeInterval(-30.0)
         
-        fromTime.text = timeFormatter.string(from: timeFormatter.date(from: minTime!)!)
+        fromTime.text = timeFormatter.string(from: timeFormatter.date(from: minTimeString!)!)
 
         self.toTime.inputView = self.datePickerTo
         self.toTime.inputAccessoryView = self.datePickerFrom.toolbar
         self.datePickerTo.datePickerMode = UIDatePicker.Mode.time
         self.datePickerTo.minuteInterval = 30
         self.datePickerTo.toolbarDelegate = self
-        self.datePickerTo.maximumDate =  timeFormatter.date(from: maxTime!)
-        self.datePickerTo.date = timeFormatter.date(from: maxTime!)!
+        self.datePickerTo.maximumDate =  timeFormatter.date(from: maxTimeString!)
+        self.datePickerTo.date = timeFormatter.date(from: maxTimeString!)!
         self.datePickerTo.minimumDate =  self.datePickerFrom.date.addingTimeInterval(30.0)
         
-        toTime.text = timeFormatter.string(from: timeFormatter.date(from: maxTime!)!)
+        toTime.text = timeFormatter.string(from: timeFormatter.date(from: maxTimeString!)!)
     }
 
 
@@ -173,15 +213,14 @@ extension SwipePriceViewController: ToolbarDatePickerDelegate {
             fromTime.text = timeFormatter.string(from: self.datePickerFrom.date)
             self.datePickerTo.minimumDate = self.datePickerFrom.date.addingTimeInterval(30.0)
             self.fromTime.resignFirstResponder()
-            
         } else {
             toTime.text = timeFormatter.string(from: self.datePickerTo.date)
             self.datePickerFrom.maximumDate = self.datePickerTo.date.addingTimeInterval(-30.0)
             self.toTime.resignFirstResponder()
         }
-        // TODO: Filter the best ask and bid
+        // TODO: Filter the best ask and bi
         
-        
+        updateBidAndAskLabels(begin: convertPickerTimeToInt(time: self.datePickerFrom.date), end: convertPickerTimeToInt(time: self.datePickerTo.date))
         
     }
     
