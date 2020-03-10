@@ -165,7 +165,7 @@ def lowestswipe_highestbid_info(request):
             info[i][j]["swipe"] = str(get_lowest_swipe(swipe_candidates, i, j))
             info[i][j]["bid"] = str(get_highest_bid(bid_candidates, i, j))
 
-    return Response(info, status=status.HTTP_200_OK)
+    return Response(json.dumps(info), status=status.HTTP_200_OK)
 
 def get_lowest_swipe(swipe_candidates, start, end):
     curr_price = float("inf")
