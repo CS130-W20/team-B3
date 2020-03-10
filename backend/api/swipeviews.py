@@ -160,33 +160,32 @@ def lowestswipe_highestbid_info(request):
 
     for i in range(int(data['start']), int(data['end']) + 1):
         info[i] = {}
-        for j in range(i, int(data['end']) + 1):
+        for j in range(i+1, int(data['end']) + 1):
             info[i][j] = {}
-            info[i][j]["swipe"] = get_lowest_swipe(swipe_candidates, i, j)
-            info[i][j]["bid"] = get_highest_bid(bid_candidates, i, j)
+            info[i][j]["swipe"] = str(get_lowest_swipe(swipe_candidates, i, j))
+            info[i][j]["bid"] = str(get_highest_bid(bid_candidates, i, j))
 
     return Response(info, status=status.HTTP_200_OK)
 
 def get_lowest_swipe(swipe_candidates, start, end):
-    curr_price = "999999"
+    curr_price = float("inf")
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
-            print("Swipe---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
             if int(curr_start) <= start and int(curr_end) >= end:
-                curr_price = min(curr_price, swipe.price)
+                curr_price = min(curr_price, float(swipe.price))
 
-    return "0" if curr_price == "999999" else curr_price
+    return 0 if curr_price == float("inf") else curr_price
+
 
 def get_highest_bid(bid_candidates, start, end):
-    curr_price = "0"
+    curr_price = 0
     for bid in bid_candidates:
         for hours in bid.visibility:
-            print("Bid---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
             if int(curr_start) <= start and int(curr_end) >= end:
-                curr_price = max(curr_price, bid.bid_price)
+                curr_price = max(curr_price, float(bid.bid_price))
 
-    return "0" if curr_price == "999999" else curr_price
+    return curr_price
