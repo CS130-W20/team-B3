@@ -13,6 +13,10 @@ stripe_test_key = os.environ.get("stripe_test_key")
 twilio_account_sid = os.environ.get("twilio_account_sid")
 twilio_auth_token = os.environ.get("twilio_auth_token")
 
+print ("stripe_test_key---:" , stripe_test_key)
+print ("twilio_account_sid---:" , twilio_account_sid)
+print ("twilio_auth_token---:" , twilio_auth_token)
+
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
 # TODO: Include location filtering
