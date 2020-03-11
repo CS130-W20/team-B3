@@ -14,58 +14,6 @@ twilio_account_sid = os.environ.get("twilio_account_sid")
 twilio_auth_token = os.environ.get("twilio_auth_token")
 
 @api_view(['POST'])
-@renderer_classes([JSONRenderer])
-# TODO: Include location filtering
-def bid_geteligibleswipe(request):
-    """
-    Gets the cheapest Swipe object that meets the criteria for a specific Bid.
-
-    Args:
-            hall_id (string): The DiningHall identifier.
-            swipe_time (DateTime, optional): The time range specified on the Bid. Defaults to None.
-            swipe_price (Float, optional): The desired swipe price. Defaults to None.
-
-    Returns:
-            Swipe: A swipe that meets the criteria specified in the Bid, or None if no Swipes meet the criteria.
-    """
-    data = request.data
-    if 'hall_id' not in data:
-        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BUYER'}, status=status.HTTP_400_BAD_REQUEST)
-    time_intervals = None
-    if 'time_intervals' in data:
-        time_intervals = []
-        for interval in data['time_intervals']:
-            interval_obj = {}
-            for k, v in dict(interval).items():
-                interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
-            time_intervals.append(interval_obj)
-    else:
-        now = datetime.datetime.now()
-        time_intervals = [{'start': (now - datetime.timedelta(minutes=90)).time(),
-                            'end': (now + datetime.timedelta(minutes=90)).time()}]
-    bid_price = data.get('desired_price', None)
-    try:
-        paired_swipe = None
-        swipe_candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
-        if 'user_id' in data:
-            swipe_candidates = swipe_candidates.exclude(seller__user_id=data['user_id'])
-        for swipe in swipe_candidates:
-            # If a bid price has been specified and the lowest price swipe is more expensive than desired, there aren't any eligible swipes available at this dining hall
-            if bid_price is not None and float(bid_price) < float(swipe.price):
-                return Response({}, status=status.HTTP_200_OK)
-            for swipe_hours in swipe.visibility:
-                for bid_hours in time_intervals:
-                    if max(swipe_hours['start'].time(), bid_hours['start']) <= min(swipe_hours['end'].time(), bid_hours['end']):
-                        paired_swipe = swipe
-            if paired_swipe is not None:
-                break
-        swipe_serializer = SwipeSerializer(paired_swipe)
-        return Response(dict(name=paired_swipe.seller.name, **swipe_serializer.data), status=status.HTTP_200_OK)
-    except Swipe.DoesNotExist:
-        return Response({}, status=status.HTTP_200_OK)
-
-
-@api_view(['POST'])
 # TODO: Refactor for Twilio
 def bid_placebid(request):
     """

@@ -1,5 +1,5 @@
 from djongo import models
-
+from math import cos, asin, sqrt
 
 class Location(models.Model):
     """
@@ -9,6 +9,17 @@ class Location(models.Model):
     loc_id = models.AutoField(primary_key=True)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lng = models.DecimalField(max_digits=9, decimal_places=6)
+
+    @staticmethod
+    def distance(loc1, loc2):
+        if loc1 is None or loc2 is None:
+            return float("inf")
+        assert type(loc1)==api.models.Location and type(loc2)==api.models.Location
+        # From here, perform Haversine formula to determine the distance between the two location pairs
+        p = 0.017453292519943295 # Pi/180, a magic number
+        a = 0.5 - cos((loc2.lat - loc1.lat) * p)/2 + cos(loc1.lat * p) * cos(loc2.lat * p) * (1 - cos((loc2.lng - loc1.lng) * p)) / 2
+        return 12742 * asin(sqrt(a)) # Yields distance between the two points in km
+
 
 
 class DiningHall(Location):
