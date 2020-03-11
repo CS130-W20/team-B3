@@ -70,9 +70,7 @@ def main():
     delete_test_data(test_data)
     if count != 0:
         print(f'{count} tests failed.')
-        # exit(1)
-        # Temporary change to see if heroku works
-        exit(0)
+        exit(1)
     else:
         exit(0)
 
