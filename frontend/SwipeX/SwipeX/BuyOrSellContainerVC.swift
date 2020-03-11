@@ -13,12 +13,15 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
     func gotSwipeInfo(info: NSDictionary) {
         print(info)
         
-        infoPersonNameLabel.text = info["name"] as! String
-        
         var timeFormatter = DateFormatter()
+
         timeFormatter.dateStyle = DateFormatter.Style.none
         timeFormatter.timeStyle = DateFormatter.Style.short
         timeFormatter.dateFormat = "HH:mm"
+        
+        infoPersonNameLabel.text = info["name"] as! String
+        
+        sellerName = info["name"] as! String
         
        let overlap = info["overlap"] as? NSDictionary
         
@@ -54,12 +57,32 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
     var isBuying:Bool!
     var hallId:Int!
     
+    var sellerName:String?
+    
     override func viewWillAppear(_ animated: Bool) {
         
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
         self.performSegue(withIdentifier: "buyToPaymentSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "buyToPaymentSegue") {
+            let vc: PaymentViewController = segue.destination as! PaymentViewController
+            
+            var timeFormatter = DateFormatter()
+
+            timeFormatter.dateStyle = DateFormatter.Style.none
+            timeFormatter.timeStyle = DateFormatter.Style.short
+            timeFormatter.dateFormat = "HH:mm"
+            
+            vc.meetupTime = timeFormatter.string(from: timePicker.date)
+            
+            vc.isBuying = isBuying
+            vc.price = "5"
+            vc.sellerName = sellerName
+        }
     }
     
     override func viewDidLoad() {

@@ -11,10 +11,22 @@ import Stripe
 
 class PaymentViewController: UIViewController {
 
+    var sellerName:String?
+    var isBuying:Bool?
+    var meetupTime:String?
+    var price:String?
+    @IBOutlet weak var sellerNameLabel: UILabel!
+    
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var meetupTimeLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        sellerNameLabel.text = sellerName
+        meetupTimeLabel.text = meetupTime
+        priceLabel.text = "$ \(price!)"
     }
     
 
