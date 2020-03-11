@@ -46,6 +46,7 @@ def bid_geteligibleswipe(request):
     bid_price = data.get('desired_price', None)
     try:
         paired_swipe = None
+        overlap = None
         swipe_candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
         if 'user_id' in data:
             swipe_candidates = swipe_candidates.exclude(seller__user_id=data['user_id'])
@@ -55,12 +56,15 @@ def bid_geteligibleswipe(request):
                 return Response({}, status=status.HTTP_200_OK)
             for swipe_hours in swipe.visibility:
                 for bid_hours in time_intervals:
-                    if max(swipe_hours['start'].time(), bid_hours['start']) <= min(swipe_hours['end'].time(), bid_hours['end']):
+                    overlap_start = max(swipe_hours['start'], bid_hours['start'].time())
+                    overlap_end = min(swipe_hours['end'], bid_hours['end'].time())
+                    if overlap_start <= overlap_end:
                         paired_swipe = swipe
+                        overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
             if paired_swipe is not None:
                 break
         swipe_serializer = SwipeSerializer(paired_swipe)
-        return Response(dict(name=paired_swipe.seller.name, **swipe_serializer.data), status=status.HTTP_200_OK)
+        return Response(dict(name=paired_swipe.seller.name, overlap=overlap, **swipe_serializer.data), status=status.HTTP_200_OK)
     except Swipe.DoesNotExist:
         return Response({}, status=status.HTTP_200_OK)
 
