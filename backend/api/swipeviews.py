@@ -1,14 +1,86 @@
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from api.models import DiningHall, Swipe, Bid
+from api.models import DiningHall, Swipe, Bid, User
 from api.serializers import SwipeSerializer, BidSerializer
 import json
 import datetime
 from pytz import timezone
 import pytz
+
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+# TODO: Include location filtering
+def get_best_pairing(request):
+    """
+    Finds all bids that match the specified swipe criteria and pairs them.
+
+    Args:
+        hall_id (string): The dining hall identifier.
+        time_intervals (Datatime, optional): The desired time intervals. Defaults to None.
+        desired_price (Float, optional): The desired price. Defaults to None.
+        pair_type: 
+    Returns:
+        Bid/Swipe: The paired Bid or Swipe depending on which endpoint originated the request.
+    """
+    data = request.data
+    if 'hall_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    time_intervals = None
+    if 'time_intervals' in data:
+        time_intervals = []
+        for interval in data['time_intervals']:
+            interval_obj = {}
+            for k, v in dict(interval).items():
+                interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
+            time_intervals.append(interval_obj)
+    else:
+        now = datetime.datetime.now()
+        time_intervals = [{'start': (now - datetime.timedelta(minutes=90)).time(),
+                            'end': (now + datetime.timedelta(minutes=90)).time()}]
+    desired_price = data.get('desired_price', None)
+    try:
+        pair_type = request.resolver_match.url_name
+        overlap = None
+        candidates = None
+        paired = None
+        serializer = None
+        name = None
+        # Get the potential bids or swipes by filtering to only unsold ones at the given location, filtered in order of highest/lowest price respectively.
+        if pair_type == 'get_bid':
+            candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
+        else:
+            candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
+        if 'user_id' in data:
+            if pair_type == 'get_bid':
+                candidates = candidates.exclude(buyer__user_id=data['user_id'])
+            else:
+                candidates = candidates.exclude(seller__user_id=data['user_id'])
+        for candidate in candidates:
+            # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
+            if desired_price is not None and ((pair_type == 'get_bid' and float(desired_price) > float(candidate.bid_price)) or (pair_type == 'get_swipe' and float(desired_price) < float(candidate.price))):
+                return Response({}, status=status.HTTP_200_OK)
+            for potential_hours in candidate.visibility:
+                for desired_hours in time_intervals:
+                    overlap_start = max(desired_hours['start'], potential_hours['start'].time())
+                    overlap_end = min(desired_hours['end'], potential_hours['end'].time())
+                    if overlap_start <= overlap_end:
+                        paired = candidate
+                        overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
+            if paired is not None:
+                break
+        if pair_type == 'get_bid':
+            serializer = BidSerializer(paired)
+            name = paired.buyer.name if paired is not None else name
+        else:
+            serializer = SwipeSerializer(paired)
+            name = paired.seller.name if paired is not None else name
+        return Response(dict(name=name, overlap=overlap, **serializer.data), status=status.HTTP_200_OK)
+    except ObjectDoesNotExist: # Generic Django exception for if either no bids or swipes exist meeting the hall/status criteria
+        return Response({}, status=status.HTTP_200_OK)
 
 # @param request Has a desired time and we return the swipes available
 #                at each dining hall

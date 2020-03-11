@@ -39,7 +39,7 @@ def swipe_geteligiblebid(request):
                             'end': (now + datetime.timedelta(minutes=90)).time()}]
     swipe_price = data.get('desired_price', None)
     try:
-    	overlap = None
+        overlap = None
         paired_bid = None
         # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
         bid_candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
@@ -51,8 +51,8 @@ def swipe_geteligiblebid(request):
                 return Response({}, status=status.HTTP_200_OK)
             for bid_hours in bid.visibility:
                 for swipe_hours in time_intervals:
-                	overlap_start = max(swipe_hours['start'], bid_hours['start'].time())
-                	overlap_end = min(swipe_hours['end'], bid_hours['end'].time())
+                    overlap_start = max(swipe_hours['start'], bid_hours['start'].time())
+                    overlap_end = min(swipe_hours['end'], bid_hours['end'].time())
                     if overlap_start <= overlap_end:
                         paired_bid = bid
                         overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
