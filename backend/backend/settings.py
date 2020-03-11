@@ -15,4 +15,8 @@ ALLOWED_HOSTS = ['swipex130.herokuapp.com']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware'
+]
+
 django_heroku.settings(locals())
