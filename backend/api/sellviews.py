@@ -7,62 +7,6 @@ from api.models import DiningHall, Swipe, Bid
 from api.serializers import BidSerializer, SwipeSerializer
 import datetime
 
-@api_view(['POST'])
-@renderer_classes([JSONRenderer])
-# TODO: Include location filtering
-def swipe_geteligiblebid(request):
-    """
-    Finds all bids that match the specified swipe criteria and pairs them.
-
-    Args:
-        hall_id (string): The dining hall identifier.
-        time_intervals (Datatime, optional): The desired time intervals. Defaults to None.
-        desired_price (Float, optional): The desired price. Defaults to None.
-
-    Returns:
-        Bid: The paired bid.
-    """
-    data = request.data
-    if 'hall_id' not in data:
-        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR SELLER'}, status=status.HTTP_400_BAD_REQUEST)
-    time_intervals = None
-    if 'time_intervals' in data:
-        time_intervals = []
-        for interval in data['time_intervals']:
-            interval_obj = {}
-            for k, v in dict(interval).items():
-                interval_obj[k] = datetime.datetime.strptime(v, "%H:%M").time()
-            time_intervals.append(interval_obj)
-    else:
-        now = datetime.datetime.now()
-        time_intervals = [{'start': (now - datetime.timedelta(minutes=90)).time(),
-                            'end': (now + datetime.timedelta(minutes=90)).time()}]
-    swipe_price = data.get('desired_price', None)
-    try:
-        overlap = None
-        paired_bid = None
-        # Get the potential bids by only getting those that are pending, at the given location, and with the highest price
-        bid_candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
-        if 'user_id' in data:
-            bid_candidates = bid_candidates.exclude(buyer__user_id=data['user_id'])
-        for bid in bid_candidates:
-            # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
-            if swipe_price is not None and float(swipe_price) > float(bid.bid_price):
-                return Response({}, status=status.HTTP_200_OK)
-            for bid_hours in bid.visibility:
-                for swipe_hours in time_intervals:
-                    overlap_start = max(swipe_hours['start'], bid_hours['start'].time())
-                    overlap_end = min(swipe_hours['end'], bid_hours['end'].time())
-                    if overlap_start <= overlap_end:
-                        paired_bid = bid
-                        overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
-            if paired_bid is not None:
-                break
-        bid_serializer = BidSerializer(paired_bid)
-        return Response(dict(name=paired_bid.buyer.name, overlap=overlap, **bid_serializer.data), status=status.HTTP_200_OK)
-    except Bid.DoesNotExist:
-        return Response({}, status=status.HTTP_200_OK)
-
 # TODO: Refactor to include Twilio stuff in there
 @api_view(['POST'])
 def swipe_sellswipe(request):
