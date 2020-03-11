@@ -9,6 +9,10 @@
 import UIKit
 import Alamofire
 
+protocol SwipeInfoDelegate {
+    func gotSwipeInfo(info: NSDictionary)
+}
+
 class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var containerViewBuyOrSell: UIView!
@@ -29,6 +33,8 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     
     var highestBid:Int?
     var lowestAsk:Int?
+    
+    var delegate:SwipeInfoDelegate?
     
     @IBOutlet weak var diningHallLabel: UILabel!
     
@@ -51,11 +57,13 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if priceField.frame.origin.y == originPriceField {
-            priceField.frame.origin.y -= 216
-        }
-        if dollarSignLabel.frame.origin.y == dollarOrigin {
-            dollarSignLabel.frame.origin.y -= 216
+        if segmentedControl.selectedSegmentIndex == 1 {
+            if priceField.frame.origin.y == originPriceField {
+                       priceField.frame.origin.y -= 216
+                   }
+                   if dollarSignLabel.frame.origin.y == dollarOrigin {
+                       dollarSignLabel.frame.origin.y -= 216
+                   }
         }
     }
 
@@ -130,6 +138,13 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        var endpoint = "\(NGROK_URL)/api/selling/get_bid/"
+        if (isBuying!) {
+            endpoint = "\(NGROK_URL)/api/buying/get_swipe/"
+        }
+        if (!matchAvailable!) {
+            return
+        }
         let parameters:[String: Any] = [
             "hall_id":hallId,
             "desired_price":Int(priceField.text!),
@@ -146,7 +161,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
 //        desired_price (Float, optional): The desired price. Defaults to None.
 //        pair_type:
         
-        AF.request("\(NGROK_URL)/api/buying/get_swipe/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+        AF.request(endpoint, method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
             switch response.result {
                 case .success:
                     if let value = response.value as? NSDictionary {
@@ -154,6 +169,9 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
 //                        if let data = value.data(using: String.Encoding.utf8) {
 //                            print(data)
 //                        }
+                        print(value["name"])
+                        self.delegate?.gotSwipeInfo(info: value)
+                        
                     }
                 case let .failure(error):
                     print(error)
@@ -190,6 +208,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
         
         priceField.delegate = self
         
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -220,6 +239,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                 vc.isBuying = isBuying
                 vc.parentVC = self
                 vc.hallId = hallId
+                delegate = vc
             }
             if (segue.identifier == "toBidOrAskContainer")
                     {
@@ -236,6 +256,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                         vc.hallId = hallId
                         vc.parentVC = self
 //                        bidOrAskContainerVC = vc
+                        
                     }
         }
 

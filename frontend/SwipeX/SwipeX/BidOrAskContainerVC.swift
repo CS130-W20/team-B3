@@ -68,6 +68,7 @@ class BidOrAskContainerVC: UIViewController {
         //                        if let data = value.data(using: String.Encoding.utf8) {
         //                            let json = JSON(data)
                                 print(value)
+                                self.performSegue(withIdentifier: "bidToPaymentSegue", sender: self)
                             }
                         case let .failure(error):
                             print(error)

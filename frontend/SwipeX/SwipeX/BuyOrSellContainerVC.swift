@@ -8,7 +8,31 @@
 
 import UIKit
 
-class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
+class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDelegate {
+    
+    func gotSwipeInfo(info: NSDictionary) {
+        print(info)
+        
+        infoPersonNameLabel.text = info["name"] as! String
+        
+        var timeFormatter = DateFormatter()
+        timeFormatter.dateStyle = DateFormatter.Style.none
+        timeFormatter.timeStyle = DateFormatter.Style.short
+        timeFormatter.dateFormat = "HH:mm"
+        
+       let overlap = info["overlap"] as? NSDictionary
+        
+        let start = overlap!["start"] as? String
+        let end = overlap!["end"] as? String
+
+        timePicker.minimumDate = timeFormatter.date(from:start!)
+        
+        timePicker.maximumDate = timeFormatter.date(from:end!)
+        
+        timeField.text = convertTimeForPicker(time: convertPickerTimeToInt(time: timePicker.minimumDate!))
+        
+        freeBetween.text = "Availability: \(convertTimeForPicker(time: convertPickerTimeToInt(time: timePicker.minimumDate!))) - \(convertTimeForPicker(time: convertPickerTimeToInt(time: timePicker.maximumDate!)))"
+    }
     
     weak var parentVC: BuyOrSellViewController?
     
@@ -16,6 +40,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var timeField: UITextField!
 
+    @IBOutlet weak var freeBetween: UILabel!
     
     @IBOutlet weak var infoHeaderLabel: UILabel!
     
@@ -33,6 +58,9 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func buttonPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "buyToPaymentSegue", sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

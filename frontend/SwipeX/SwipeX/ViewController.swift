@@ -36,6 +36,16 @@ extension UIViewController {
         }
         return Int(res)!
     }
+    
+    func convertTimeForPicker(time: Int) -> String{
+        var am_or_pm = (time >= 12) ? "pm" : "am"
+        
+        return "\(time > 12 ? time - 12 : time):00 \(am_or_pm)"
+    }
+    
+//    func convertJSONStringToPickerTime(time: String) -> Date {
+//        
+//    }
 }
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -75,12 +85,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             end_am_or_pm = "pm"
         }
         return "\(start)\(start_am_or_pm) - \(end)\(end_am_or_pm)"
-    }
-    
-    func convertTimeForPicker(time: Int) -> String{
-        var am_or_pm = (time >= 12) ? "pm" : "am"
-        
-        return "\(time > 12 ? time - 12 : time):00 \(am_or_pm)"
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
