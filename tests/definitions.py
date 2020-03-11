@@ -11,6 +11,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 django.setup()
 from api.models import Account  # noqa
 
+
 def test_default(res, expected, data):
     """
     Test the default api endpoint
@@ -26,6 +27,7 @@ def test_default(res, expected, data):
 
     if res.text != expected:
         raise RuntimeError(f'api/ endpoint did not return {expected}')
+
 
 def test_sget(res, expected, data):
     """
@@ -59,12 +61,6 @@ def test_sget(res, expected, data):
 
 
 def test_account_create(res, expected, data):
-    account = Account.objects.get(user_id=data['user_id'])
-    if not account.is_valid():
-        raise RuntimeError(f'Account could not be created: {data}')
-
-
-def test_account_create(res, expected, data):
     """
     Tests whether the account has successfully been created.
 
@@ -81,12 +77,12 @@ def test_account_create(res, expected, data):
     """
 
     try:
-        account = Account.objects.get(user_id=data['user_id'])
+        account = Account.objects.get(email=data['email'])
     except Account.DoesNotExist:
         raise RuntimeError(f'Failed to create account. {data}')
 
-    if dict(res.json()) != str(expected):
-        return account
+    if res.json()['STATUS'] != expected['STATUS']:
+        account.delete()
         raise RuntimeError(f'Account creation did not return expected result {expected}')
 
     return account
@@ -106,7 +102,9 @@ def test_account_update(res, expected, data):
     """
 
     try:
-        account = Account.objects.get(user_id=data['user_id'])
+        account = Account.objects.get(email=data['email'])
+        if float(account.cur_loc.lat) != data['loc']['lat'] or float(account.cur_loc.lng) != data['loc']['lng']:
+            raise RuntimeError('Failed to update field within Account.')
     except Account.DoesNotExist:
         raise RuntimeError(f'Failed to update account because account does not exist. {data}')
 
