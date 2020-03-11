@@ -11,6 +11,26 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['swipex130.herokuapp.com']
 
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ]
+        },
+    }
+]
+
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware'
+]
+
 ROOT_URLCONF = "backend.urls"
 
 # Static files (CSS, JavaScript, Images)
@@ -18,10 +38,6 @@ ROOT_URLCONF = "backend.urls"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
-
-MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware'
-]
 
 SECRET_KEY = get_random_secret_key()
 
