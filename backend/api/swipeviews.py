@@ -63,9 +63,9 @@ def get_swipes(request):
 
         # lowest ask
         lowest = 0
-        sorted_bids = bids.order_by('bid_price')
-        if len(sorted_bids) >= 1:
-            lowest = sorted_bids[0].bid_price
+        sorted_swipes = swipes.order_by('price')
+        if len(sorted_swipes) >= 1:
+            lowest = sorted_swipes[0].price
 
         # insert cur_hall into hall_data
         cur_hall = {"hall_id": cur_id, "picture_link": hall.picture, "name": cur_name, "nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}
@@ -134,7 +134,7 @@ def lowestswipe_highestbid_info(request):
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED start ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
     if 'end' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED end ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     info = {}
 
     swipe_candidates = Swipe.objects.filter(hall_id=data['hall_id'], status=0).order_by('price')
@@ -154,11 +154,11 @@ def get_lowest_swipe(swipe_candidates, start, end):
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
             print("Swipe---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if int(curr_start) <= start and int(curr_end) >= end:
                 curr_price = min(curr_price, swipe.price)
-  
+
     return "0" if curr_price == "999999" else curr_price
 
 def get_highest_bid(bid_candidates, start, end):
@@ -166,9 +166,9 @@ def get_highest_bid(bid_candidates, start, end):
     for bid in bid_candidates:
         for hours in bid.visibility:
             print("Bid---:", hours['start'], hours['end'])
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if int(curr_start) <= start and int(curr_end) >= end:
                 curr_price = max(curr_price, bid.bid_price)
-  
+
     return "0" if curr_price == "999999" else curr_price
