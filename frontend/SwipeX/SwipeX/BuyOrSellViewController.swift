@@ -130,20 +130,37 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        let parameters:[String: Any] = [
-//            "hall_id":hallId,
-//            "desired_price":Int(priceField.text),
-//            "time_intervals": [
-//                [
-//                    "start":convertPickerTimeToJSONString(time:minimumTime!),
-//                    "end":convertPickerTimeToJSONString(time:maximumTime!)
-//                ]
-//            ]
-//        ]
+        let parameters:[String: Any] = [
+            "hall_id":hallId,
+            "desired_price":Int(priceField.text!),
+            "time_intervals": [
+                [
+                    "start":convertPickerTimeToJSONString(time:minimumTime!),
+                    "end":convertPickerTimeToJSONString(time:maximumTime!)
+                ]
+            ]
+        ]
+//
+//        hall_id (string): The dining hall identifier.
+//        time_intervals (Datatime, optional): The desired time intervals. Defaults to None.
+//        desired_price (Float, optional): The desired price. Defaults to None.
+//        pair_type:
         
-//        AF.request("\(NGROK_URL)/api/swipes/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON {
-//            
-//        }
+        AF.request("\(NGROK_URL)/api/buying/get_swipe/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+            switch response.result {
+                case .success:
+                    if let value = response.value as? NSDictionary {
+                        print(value)
+//                        if let data = value.data(using: String.Encoding.utf8) {
+//                            print(data)
+//                        }
+                    }
+                case let .failure(error):
+                    print(error)
+            }
+            
+            
+        }
     }
     
     override func viewDidLoad() {

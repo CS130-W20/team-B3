@@ -29,6 +29,10 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
     var isBuying:Bool!
     var hallId:Int!
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

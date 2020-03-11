@@ -203,10 +203,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if let destinationVC = segue.destination as? SwipePriceViewController {
                 if (didSelectDiningHall) {
                     destinationVC.diningHallName = halls[selectedDiningHallIndex]["name"].stringValue
-                    destinationVC.lowestAsk = halls[selectedDiningHallIndex]["lowest_ask"].intValue
+                    destinationVC.lowestAsk = 0
                     
                     // TODO
-                    destinationVC.highestBid = 5
+                    destinationVC.highestBid = 0
                     
                     destinationVC.numAsks = halls[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = halls[selectedDiningHallIndex]["nBids"].intValue
@@ -221,9 +221,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     
                 } else {
                     destinationVC.diningHallName = quicks[selectedDiningHallIndex]["name"].stringValue
-                    destinationVC.lowestAsk = quicks[selectedDiningHallIndex]["lowest_ask"].intValue
+                    destinationVC.lowestAsk = 0
                     
-                    destinationVC.highestBid = 5
+                    destinationVC.highestBid = 0
                     
                     destinationVC.numAsks = quicks[selectedDiningHallIndex]["nSwipes"].intValue
                     destinationVC.numBids = quicks[selectedDiningHallIndex]["nBids"].intValue
