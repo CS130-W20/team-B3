@@ -64,6 +64,8 @@ def get_best_pairing(request):
             else:
                 candidates = candidates.exclude(seller__user_id=data['user_id'])
         for candidate in candidates:
+            if paired is not None and ((pair_type == 'get_bid' and float(paired.bid_price) > float(candidate.bid_price)) or (pair_type == 'get_swipe' and float(paired.price) < float(candidate.price))): # If on a second iteration or more, check to see if this next candidate is worse than the current best
+                break # If the next potential candidate is a worse value (either lower bid price or higher swipe price), we don't care about checking location or even the interval overlaps
             # If a desired price has been specified and the highest priced bid is less than what the seller wants, we'll just create the Swipe object w/o tying the bid to it
             if desired_price is not None and ((pair_type == 'get_bid' and float(desired_price) > float(candidate.bid_price)) or (pair_type == 'get_swipe' and float(desired_price) < float(candidate.price))):
                 return Response({}, status=status.HTTP_200_OK)
@@ -79,8 +81,6 @@ def get_best_pairing(request):
                                 candidate_location = Account.objects.get(user_id=candidate_user_id).cur_loc
                             except Account.DoesNotExist:
                                 candidate_location = None # It really isn't a problem if they don't have a location paired, we'll just return the max float for distance so subsequent iterations of identically priced bids/swipes will prefer those with locations
-                        if paired is not None and ((pair_type == 'get_bid' and float(paired.bid_price) > float(candidate.bid_price)) or (pair_type == 'get_swipe' and float(paired.price) < float(candidate.price))): # We'll only go down this path if the requester provided a location and it's a second iteration or more
-                            break # If the next potential candidate is a worse value (either lower bid price or higher swipe price), we don't care about checking location
                         if paired is None or Location.distance(requester_location, candidate_location) < Location.distance(requester_location, paired_location): # Either first iteration or this candidate is closer
                             paired = candidate
                             paired_location = candidate_location # Only used if requester_location is set, since we'll only run one iteration if it's None
