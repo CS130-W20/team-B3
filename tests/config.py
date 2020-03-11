@@ -37,14 +37,14 @@ CASES = [
         "url": 'accounts/create/',
         'type': 'POST',
         'data': {
-            "loc": {
-                "lat": 6,
-                "lng": 7
-            },
-            "user_id": "test_name",
-            "pp_email": "test_name@gmail.com",
-            "pw": "password",
-            "phone": "4242705206"
+            'status': '0',
+            'name': 'test_name',
+            'phone': '12345678',
+            'email': 'test_email@email.com',
+            'loc': {
+                'lat': 1.0,
+                'lng': 1.0
+            }
         },
         'expected_result': {'STATUS': '0'},
         'func': test_account_create
@@ -54,8 +54,12 @@ CASES = [
         "url": 'accounts/update/',
         'type': 'POST',
         'data': {
-            "user_id": "test_name",
-            "pp_email": "test_name@gmail.com"
+            "name": "test_name",
+            "email": "test_email@email.com",
+            'loc': {
+                'lat': 2.0,
+                'lng': 2.0
+            }
         },
         'expected_result': {'STATUS': '0'},
         'func': test_account_update
