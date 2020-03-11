@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from api.models import DiningHall, Swipe, Bid, User
+from api.models import DiningHall, Swipe, Bid, User, Account
 from api.serializers import SwipeSerializer, BidSerializer
 import json
 import datetime
@@ -13,7 +13,7 @@ import pytz
 
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
-# TODO: Include location filtering
+# TODO: Test location filtering
 def get_best_pairing(request):
     """
     Finds all bids that match the specified swipe criteria and pairs them.
@@ -47,14 +47,18 @@ def get_best_pairing(request):
         overlap = None
         candidates = None
         paired = None
+        best_found = None
         serializer = None
         name = None
+        requester_location = None
+        paired_location = None
         # Get the potential bids or swipes by filtering to only unsold ones at the given location, filtered in order of highest/lowest price respectively.
         if pair_type == 'get_bid':
             candidates = Bid.objects.filter(status=0, hall_id=data['hall_id']).order_by('-bid_price', 'bid_id')
         else:
             candidates = Swipe.objects.filter(status=0, hall_id=data['hall_id']).order_by('price', 'swipe_id')
         if 'user_id' in data:
+            requester_location = Account.objects.get(user_id=data['user_id']).cur_loc # Go ahead and get the requester's location, it's okay if it's None because the distance function will handle it
             if pair_type == 'get_bid':
                 candidates = candidates.exclude(buyer__user_id=data['user_id'])
             else:
@@ -67,10 +71,21 @@ def get_best_pairing(request):
                 for desired_hours in time_intervals:
                     overlap_start = max(desired_hours['start'], potential_hours['start'].time())
                     overlap_end = min(desired_hours['end'], potential_hours['end'].time())
-                    if overlap_start <= overlap_end:
-                        paired = candidate
-                        overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
-            if paired is not None:
+                    if overlap_start <= overlap_end: # A potential candidate, intervals line up
+                        candidate_location = None
+                        if requester_location is not None: # Assuming the requester has a current location tied to their account
+                            candidate_user_id = candidate.buyer_id if pair_type == 'get_bid' else candidate.seller_id
+                            try:
+                                candidate_location = Account.objects.get(user_id=candidate_user_id).cur_loc
+                            except Account.DoesNotExist:
+                                candidate_location = None # It really isn't a problem if they don't have a location paired, we'll just return the max float for distance so subsequent iterations of identically priced bids/swipes will prefer those with locations
+                        if paired is not None and ((pair_type == 'get_bid' and float(paired.bid_price) > float(candidate.bid_price)) or (pair_type == 'get_swipe' and float(paired.price) < float(candidate.price))): # We'll only go down this path if the requester provided a location and it's a second iteration or more
+                            break # If the next potential candidate is a worse value (either lower bid price or higher swipe price), we don't care about checking location
+                        if paired is None or Location.distance(requester_location, candidate_location) < Location.distance(requester_location, paired_location): # Either first iteration or this candidate is closer
+                            paired = candidate
+                            paired_location = candidate_location # Only used if requester_location is set, since we'll only run one iteration if it's None
+                            overlap = {'start': overlap_start.strftime("%H:%M"), 'end': overlap_end.strftime("%H:%M")}
+            if paired is not None and requester_location is None:
                 break
         if pair_type == 'get_bid':
             serializer = BidSerializer(paired)
