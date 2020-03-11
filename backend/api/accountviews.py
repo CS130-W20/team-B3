@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from api.models import Account, User, Location
 from api.serializers import LocationSerializer, AccountSerializer
 
+
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
 def account_checkexistence(request):
@@ -17,6 +18,7 @@ def account_checkexistence(request):
         return Response({'exists': '1', 'user_id': acc_obj.user_id, 'STATUS': '0'}, status=status.HTTP_200_OK)
     except Account.DoesNotExist:
         return Response({'exists': '0', 'STATUS': '0'}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def account_create(request):
@@ -63,10 +65,10 @@ def account_update(request):
     """
 
     data = request.data
-    if 'user_id' not in data:
-        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'email' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED EMAIL ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
     try:
-        acc_obj = Account.objects.get(user_id=data['user_id'])
+        acc_obj = Account.objects.get(email=data['email'])
     except Account.DoesNotExist:
         return Response({'STATUS': '1', 'REASON': 'NO ACCOUNT EXISTS WITH GIVEN USER_ID'}, status=status.HTTP_400_BAD_REQUEST)
     if 'loc' in data:
