@@ -23,7 +23,7 @@ CASES = [
     },
     {
         "name": "sget",
-        "url": 'swipes/sget/',
+        "url": 'swipes/homescreen_info/',
         "type": "GET",
         'data': {},
         "expected_result": {
