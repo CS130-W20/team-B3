@@ -54,4 +54,7 @@ ROOT_URLCONF = "backend.urls"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
+USE_TZ = True
+TIME_ZONE = 'US/Pacific'
+
 # django_heroku.settings(locals())
