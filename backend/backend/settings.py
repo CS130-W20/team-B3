@@ -11,6 +11,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['swipex130.herokuapp.com']
 
+ROOT_URLCONF = "backend.urls"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
