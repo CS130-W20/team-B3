@@ -14,8 +14,6 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var OneSwipeLabel: UILabel!
 
-    @IBOutlet weak var priceField: UITextField!
-    var priceValue:Int!
     @IBOutlet weak var timeField: UITextField!
 
     
@@ -30,15 +28,6 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
     
     var isBuying:Bool!
     var hallId:Int!
-    
-    @IBAction func didFinishEditingPrice(_ sender: Any) {
-        var price = Int(priceField.text ?? "") ?? 0
-        if (price < priceValue!) {
-            parentVC?.changeSegment(newPrice: price)
-        }
-    }
-    
-//
     
     
     override func viewDidLoad() {
@@ -69,7 +58,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
         timePicker.minuteInterval = 15
         timePicker.toolbarDelegate = self
         
-        priceField.text = "\(priceValue!)"
+        
         
         var timeFormatter = DateFormatter()
         timeFormatter.dateStyle = DateFormatter.Style.none
@@ -78,18 +67,6 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate {
         self.timeField.text = timeFormatter.string(from: timePicker.minimumDate!)
         self.timeField.inputView = self.timePicker
         self.timeField.inputAccessoryView = self.timePicker.toolbar
-        
-        self.priceField.delegate = self
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        //For mobile numer validation
-        if textField == priceField {
-            let allowedCharacters = CharacterSet(charactersIn:"+0123456789 ")//Here change this characters based on your requirement
-            let characterSet = CharacterSet(charactersIn: string)
-            return allowedCharacters.isSuperset(of: characterSet)
-        }
-        return true
     }
     
 

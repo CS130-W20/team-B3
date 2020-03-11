@@ -10,7 +10,7 @@ import UIKit
 import GoogleSignIn
 import Stripe
 
-let NGROK_URL = "https://866918c1.ngrok.io"
+let NGROK_URL = "https://115c91ba.ngrok.io"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

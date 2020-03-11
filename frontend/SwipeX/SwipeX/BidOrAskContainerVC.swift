@@ -11,7 +11,7 @@ import Alamofire
 
 class BidOrAskContainerVC: UIViewController {
     
-    @IBOutlet weak var priceField: UITextField!
+    weak var parentVC: BuyOrSellViewController?
     
     let timePickerFrom = ToolbarDatePicker()
     let timePickerTo = ToolbarDatePicker()
@@ -21,7 +21,6 @@ class BidOrAskContainerVC: UIViewController {
     
     var isBidding:Bool?
     var didTapFrom: Bool?
-    var priceValue: Int!
     var hallId:Int!
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -37,6 +36,7 @@ class BidOrAskContainerVC: UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         if view.frame.origin.y == 0 {
             view.frame.origin.y -= timePickerTo.frame.height
+            print(timePickerTo.frame.height)
         }
     }
 
@@ -51,7 +51,7 @@ class BidOrAskContainerVC: UIViewController {
         let parameters = [
             "user_id": userId,
             "hall_id": hallId,
-            "desired_price": priceField.text!,
+            "desired_price": parentVC!.priceField.text,
             "time_intervals":[
                 [
                     "start":convertPickerTimeToJSONString(time: timePickerFrom.date),
@@ -88,10 +88,6 @@ class BidOrAskContainerVC: UIViewController {
                         }
                     }
             }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        priceField.text = "\(priceValue!)"
     }
     
     override func viewDidLoad() {
@@ -131,8 +127,6 @@ class BidOrAskContainerVC: UIViewController {
         
         fromTimeField.text = timeFormatter.string(from:timePickerFrom.date)
         toTimeField.text = timeFormatter.string(from:timePickerTo.date)
-        
-        priceField.text = "\(priceValue!)"
         // Do any additional setup after loading the view.
     }
     

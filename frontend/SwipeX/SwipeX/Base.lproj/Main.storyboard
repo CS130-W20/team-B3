@@ -423,6 +423,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6ov-RR-Ta1">
+                                <rect key="frame" x="10" y="270" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vr1-op-5TA">
+                                <rect key="frame" x="10" y="270" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="44"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wPW-I6-cj7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -469,6 +482,23 @@
                                     <segue destination="HGq-3H-dmH" kind="embed" identifier="toBuyOrSellContainer" id="Ua5-O9-MaC"/>
                                 </connections>
                             </containerView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k0Y-hO-Qho">
+                                <rect key="frame" x="71" y="349" width="272" height="62.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="didFinishEditingPrice:" destination="HGq-3H-dmH" eventType="editingDidEnd" id="9kE-mp-LEV"/>
+                                    <action selector="didFinishEditingPrice:" destination="d71-dQ-yRS" eventType="editingDidEnd" id="pu2-Jj-vP4"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVZ-8I-ndY">
+                                <rect key="frame" x="27" y="349" width="40" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="44"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.8662919402" green="0.89407271150000001" blue="0.90195322040000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="fvq-j3-Dde"/>
@@ -478,12 +508,14 @@
                         <outlet property="containerViewBidOrAsk" destination="4B7-ab-5Nz" id="D0b-TO-Ckj"/>
                         <outlet property="containerViewBuyOrSell" destination="yv0-mt-MBh" id="pKT-pU-6d8"/>
                         <outlet property="diningHallLabel" destination="prx-qm-5Ej" id="VQR-kb-wdK"/>
+                        <outlet property="dollarSignLabel" destination="EVZ-8I-ndY" id="B2U-P7-faf"/>
+                        <outlet property="priceField" destination="k0Y-hO-Qho" id="5Gg-5F-Yf4"/>
                         <outlet property="segmentedControl" destination="sYS-jf-DoQ" id="VJD-fh-AZp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbk-Er-KHG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4014" y="60"/>
+            <point key="canvasLocation" x="3684" y="-214"/>
         </scene>
         <!--Swipes-->
         <scene sceneID="gbq-zE-eF6">
@@ -703,19 +735,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="196"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ubS-DE-YSv">
-                                        <rect key="frame" x="74" y="94" width="267" height="63"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="44"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hiU-r9-Atc">
-                                        <rect key="frame" x="31" y="95" width="40" height="62"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="44"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Offer one swipe for..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmt-7a-ekm">
                                         <rect key="frame" x="-13" y="14" width="440" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -772,14 +791,13 @@
                     <connections>
                         <outlet property="actionButton" destination="NK3-uT-Edi" id="JBM-vH-pUF"/>
                         <outlet property="fromTimeField" destination="Uow-wS-ffR" id="e8D-hv-6tJ"/>
-                        <outlet property="priceField" destination="ubS-DE-YSv" id="MTx-z2-dcz"/>
                         <outlet property="titleLabel" destination="gmt-7a-ekm" id="o02-5E-DwW"/>
                         <outlet property="toTimeField" destination="ehM-XR-t6r" id="O4v-jE-YO5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MXl-uD-UqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4696" y="580"/>
+            <point key="canvasLocation" x="4471" y="8"/>
         </scene>
         <!--Buy Or Sell ContainerVC-->
         <scene sceneID="6J2-TA-dUD">
@@ -800,12 +818,6 @@
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CyG-Th-9gY">
-                                        <rect key="frame" x="71" y="88" width="272" height="62.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="44"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hi" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RbU-No-buH">
                                         <rect key="frame" x="71" y="178" width="272" height="62.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -816,13 +828,6 @@
                                         <rect key="frame" x="30" y="185" width="34" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="38"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMv-KU-cfy">
-                                        <rect key="frame" x="27" y="89" width="40" height="62"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="44"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -887,7 +892,6 @@
                         <outlet property="infoHeaderLabel" destination="ejX-nZ-7jk" id="uNW-OB-hfu"/>
                         <outlet property="infoPersonNameLabel" destination="DCl-Jc-6yY" id="3v0-x6-gmr"/>
                         <outlet property="infoRatingLabel" destination="mn5-YM-86A" id="ixX-xd-38j"/>
-                        <outlet property="priceField" destination="CyG-Th-9gY" id="RiC-sZ-N1r"/>
                         <outlet property="sellerInfoView" destination="cUf-CJ-ne6" id="Cit-5R-EcW"/>
                         <outlet property="timeField" destination="RbU-No-buH" id="H3o-2X-swK"/>
                     </connections>

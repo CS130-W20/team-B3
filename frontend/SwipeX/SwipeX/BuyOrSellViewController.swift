@@ -9,10 +9,12 @@
 import UIKit
 import Alamofire
 
-class BuyOrSellViewController: UIViewController {
+class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var containerViewBuyOrSell: UIView!
     @IBOutlet weak var containerViewBidOrAsk: UIView!
+    
+    @IBOutlet weak var priceField: UITextField!
     
     var isBuying:Bool?
     var priceValue:Int?
@@ -22,8 +24,16 @@ class BuyOrSellViewController: UIViewController {
     var matchAvailable:Bool?
     var diningHallName:String?
     var hallId:Int?
+    var originPriceField:CGFloat?
+    var dollarOrigin:CGFloat?
+    
+    var highestBid:Int?
+    var lowestAsk:Int?
     
     @IBOutlet weak var diningHallLabel: UILabel!
+    
+    @IBOutlet weak var dollarSignLabel: UILabel!
+    
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -40,41 +50,118 @@ class BuyOrSellViewController: UIViewController {
         }
     }
     
-    func changeSegment(newPrice : Int) {
-        priceValue = newPrice
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if priceField.frame.origin.y == originPriceField {
+            priceField.frame.origin.y -= 216
+        }
+        if dollarSignLabel.frame.origin.y == dollarOrigin {
+            dollarSignLabel.frame.origin.y -= 216
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if priceField.frame.origin.y != originPriceField {
+            priceField.frame.origin.y = originPriceField!
+        }
+        if dollarSignLabel.frame.origin.y != dollarOrigin {
+            dollarSignLabel.frame.origin.y = dollarOrigin!
+            
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //For mobile numer validation
+        if textField == priceField {
+            let allowedCharacters = CharacterSet(charactersIn:"+0123456789 ")//Here change this characters based on your requirement
+            let characterSet = CharacterSet(charactersIn: string)
+            return allowedCharacters.isSuperset(of: characterSet)
+        }
+        return true
+    }
+    
+    @IBAction func didFinishEditingPrice(_ sender: Any) {
+        var price = Int(priceField.text ?? "") ?? 0
         
+        if (priceValue == nil) {
+            return
+        }
+        
+        // Buying
+        if (isBuying! && segmentedControl.selectedSegmentIndex == 0) {
+            if (price >= priceValue!) {
+               priceField.text = String(priceValue!)
+            } else {
+                changeSegment(newPrice: price)
+                priceField.becomeFirstResponder()
+            }
+        }
+        
+        // Bidding
+        else if (isBuying! && segmentedControl.selectedSegmentIndex == 1) {
+            if (price >= priceValue!) {
+                changeSegment(newPrice: priceValue!)
+            }
+        }
+        
+        //Selling
+        if (!isBuying! && segmentedControl.selectedSegmentIndex == 0) {
+            if (price <= priceValue!) {
+                priceField.text = String(priceValue!)
+            } else {
+                changeSegment(newPrice: price)
+                priceField.becomeFirstResponder()
+            }
+        }
+        
+        // Asking
+        else if (!isBuying! && segmentedControl.selectedSegmentIndex == 1) {
+            if (price <= priceValue!) {
+                changeSegment(newPrice: priceValue!)
+            }
+        }
+    }
+    
+    func changeSegment(newPrice : Int) {
+//        priceValue = newPrice
+        
+        priceField.text = "\(newPrice)"
         segmentedControl.selectedSegmentIndex = 1 - segmentedControl.selectedSegmentIndex
         segmentedControl.sendActions(for: UIControl.Event.valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let parameters:[String: Any] = [
-            "hall_id":hallId,
-            "desired_price":priceValue,
-            "time_intervals": [
-                [
-                    "start":convertPickerTimeToJSONString(time:minimumTime!),
-                    "end":convertPickerTimeToJSONString(time:maximumTime!)
-                ]
-            ]
-        ]
+//        let parameters:[String: Any] = [
+//            "hall_id":hallId,
+//            "desired_price":Int(priceField.text),
+//            "time_intervals": [
+//                [
+//                    "start":convertPickerTimeToJSONString(time:minimumTime!),
+//                    "end":convertPickerTimeToJSONString(time:maximumTime!)
+//                ]
+//            ]
+//        ]
         
-        AF.request("\(NGROK_URL)/api/swipes/timeinterval_info/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
-                    switch response.result {
-                        case .success:
-                            if let value = response.value as? NSDictionary {
-                                print(value)
-                            }
-                        case let .failure(error):
-                            print(error)
-                    }
-                }
+//        AF.request("\(NGROK_URL)/api/swipes/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON {
+//            
+//        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        originPriceField = priceField.frame.origin.y
+        dollarOrigin = dollarSignLabel.frame.origin.y
+        
+        priceValue = isBuying! ? lowestAsk : highestBid
+        
+        priceField.text = "\(priceValue!)"
+        
+        if (priceValue == 0) {
+            priceValue = nil
+        }
+        
         diningHallLabel.text = diningHallName
         diningHallLabel.adjustsFontSizeToFitWidth = true
         let font = UIFont.boldSystemFont(ofSize: 18)
@@ -83,6 +170,12 @@ class BuyOrSellViewController: UIViewController {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
         
         segmentedControl.layer.cornerRadius = 30
+        
+        priceField.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         if (isBuying!) {
             segmentedControl.setTitle("Buy", forSegmentAt:0)
             segmentedControl.setTitle("Bid", forSegmentAt:1)
@@ -104,7 +197,6 @@ class BuyOrSellViewController: UIViewController {
             if (segue.identifier == "toBuyOrSellContainer")
             {
                 let vc: BuyOrSellContainerVC = segue.destination as! BuyOrSellContainerVC
-                vc.priceValue = priceValue!
                 vc.timePicker.minimumDate = minimumTime
                 vc.timePicker.maximumDate = maximumTime
                 vc.timePicker.date = minimumTime!
@@ -123,9 +215,10 @@ class BuyOrSellViewController: UIViewController {
                         vc.timePickerTo.minimumDate = maximumTime!.addingTimeInterval(15.0)
                         vc.timePickerFrom.date = minimumTime!
                         vc.timePickerTo.date = maximumTime!
-                        vc.priceValue = priceValue
                         vc.isBidding = isBuying
                         vc.hallId = hallId
+                        vc.parentVC = self
+//                        bidOrAskContainerVC = vc
                     }
         }
 

@@ -68,11 +68,13 @@ class SwipePriceViewController: UIViewController{
             let vc: BuyOrSellViewController = segue.destination as! BuyOrSellViewController
             vc.isBuying = didTapBuy
             vc.diningHallName = diningHallName
+            
+            vc.lowestAsk = lowestAsk
+            vc.highestBid = highestBid
+            
             if (didTapBuy!) {
-                vc.priceValue = lowestAsk
                 vc.matchAvailable = numAsks! > 0
             } else {
-                vc.priceValue = highestBid
                 vc.matchAvailable = numBids! > 0
             }
             
@@ -100,8 +102,7 @@ class SwipePriceViewController: UIViewController{
                                     print(self.minTimeInt)
                                     print(self.intervals!["\(self.minTimeInt!)"])
                                     
-                                    self.lowestAskLabel.text = "$\(self.intervals!["\(self.minTimeInt!)"]["\(self.maxTimeInt!)"]["swipe"])"
-                                    self.highestBidLabel.text = "$\(self.intervals!["\(self.minTimeInt!)"]["\(self.maxTimeInt!)"]["bid"])"
+                                    self.updateBidAndAskLabels(begin: self.minTimeInt!, end: self.maxTimeInt!)
                                 }
                             }
                         case let .failure(error):
@@ -115,11 +116,26 @@ class SwipePriceViewController: UIViewController{
         let la = self.intervals!["\(begin)"]["\(end)"]["swipe"]
         let hb = self.intervals!["\(begin)"]["\(end)"]["bid"]
         
-        self.lowestAskLabel.text = "$\(la.intValue)"
-        self.highestBidLabel.text = "$\(hb.intValue)"
-        
-        self.lowestAsk = la.intValue
-        self.highestBid = hb.intValue
+        if (la.intValue == 0) {
+            askImage.image = UIImage(named: "noAsks")
+            lowestAskLabel.isHidden = true
+        }
+        if (hb.intValue == 0) {
+            bidImage.image = UIImage(named: "noBids")
+            highestBidLabel.isHidden = true
+        }
+        if (la.intValue != 0) {
+            askImage.image = UIImage(named:"lowestAsk3")
+            self.lowestAsk = la.intValue
+            self.lowestAskLabel.text = "$\(la.intValue)"
+             lowestAskLabel.isHidden = false
+        }
+        if (hb.intValue != 0) {
+            bidImage.image = UIImage(named: "highestBid")
+            self.highestBidLabel.text = "$\(hb.intValue)"
+            highestBidLabel.isHidden = false
+            self.highestBid = hb.intValue
+        }
     }
     
     override func viewDidLoad() {
