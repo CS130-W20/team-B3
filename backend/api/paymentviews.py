@@ -28,6 +28,8 @@ def make_payment(request):
     """
 
     data = request.data
+    if 'amount' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED amount ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
     price = data["amount"]
 
     intent = stripe.PaymentIntent.create(

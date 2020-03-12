@@ -1,8 +1,8 @@
 language: python
 python:
-- 3.7.5
+  - 3.7.5
 install:
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
 env:
   global:
   - secure: IRdWzGiJ970FbP19kOcFmyHiMQIJS09/PKCdhmmjtgJw9FrZe5chrvAoGH797+f0SFRsc7WT51VyOLzRF55y+Pugp0j1mmRVhGt1G/71I0zYfe787Z+03dmA7ovqhyya76ft+BSfZP/J5XrpzwG2YmJo3kiY0e1SCCg/20Em9vl6J7qnCJku1LQJsLvVtaZX1PYOSAK45lFyBVvRInM95BytQA9b5qlxOdekVNGLHSDRIxAMNCZ7BM9nZqnwUqa1WMH7NV0cme/t1cYAp7JNzcmcH5BdYAdmw9uzTdH57dRC7IzzbOFmiihytIM+ZG3TGhTsXsQX614Y+YUVCzZ9lLZLH9CXAYptCTW06JAQrIdO/qVM1pCRnfDyMa6yzkc9igscIpwES5sxIebGUzr/XUssbwELmQtF/JwJx3FMx8q+zaSMhtL11oS7FXyxVc3T95Xo2X9gIT9dnZvNWYFB+cwynQAv+zdEax7pCBfPFYPB2Ez4vLVdBvc8IMEruWwb5N2UaJozGqWPIWQ/eI31Fg19DEyZyPhKywlGgtC+zRl3cFduflSPcxjnL0UWw4NSsfXuvwEYEpO2Ay7nyeTfOGPFfevvDmSJX/8pWDeEGfwFFY0ayifaDfVdqAR2vTYynYqvyZjyYgMu5WxVEPcpuK4gZAfgkUbunxC2wIA/Pxk=
