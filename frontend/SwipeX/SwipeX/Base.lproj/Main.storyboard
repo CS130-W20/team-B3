@@ -793,7 +793,7 @@
                         <outlet property="fromTimeField" destination="Uow-wS-ffR" id="e8D-hv-6tJ"/>
                         <outlet property="titleLabel" destination="gmt-7a-ekm" id="o02-5E-DwW"/>
                         <outlet property="toTimeField" destination="ehM-XR-t6r" id="O4v-jE-YO5"/>
-                        <segue destination="Imm-O6-6HG" kind="presentation" identifier="bidToPaymentSegue" id="nQD-2f-9QO"/>
+                        <segue destination="gQH-1E-YgH" kind="presentation" identifier="bidToPaymentSegue" id="JA9-Ht-hgN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MXl-uD-UqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1042,7 +1042,115 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbq-M5-rJI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5402.898550724638" y="-183.14732142857142"/>
+            <point key="canvasLocation" x="5494" y="-238"/>
+        </scene>
+        <!--Bid Confirmation View Controller-->
+        <scene sceneID="YHi-l0-0mM">
+            <objects>
+                <viewController id="gQH-1E-YgH" customClass="BidConfirmationViewController" customModule="SwipeX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UzD-yF-7Yf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="499"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7NH-LW-IaP">
+                                <rect key="frame" x="0.0" y="442" width="414" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.49956738950000001" green="0.63940095900000005" blue="0.34114027019999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="23"/>
+                                <state key="normal" title="Confirm Bid">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="confirmPressed:" destination="gQH-1E-YgH" eventType="touchUpInside" id="8t9-Yw-P9h"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cwH-3k-BDh">
+                                <rect key="frame" x="0.0" y="-47" width="414" height="185"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vMy-G5-E5I" customClass="STPPaymentCardTextField">
+                                        <rect key="frame" x="33" y="112" width="349" height="58"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Payment Info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLx-WC-a03">
+                                        <rect key="frame" x="30" y="54" width="201" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
+                                        <color key="textColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97646397350000003" green="0.97646433119999998" blue="0.9764626622" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MJn-YM-9M4">
+                                <rect key="frame" x="0.0" y="311" width="414" height="123"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="you will only be charged when a seller accepts your bid" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUf-xO-L8D">
+                                        <rect key="frame" x="36" y="33" width="342" height="56"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97646397350000003" green="0.97646433119999998" blue="0.9764626622" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bq9-AS-2yY">
+                                <rect key="frame" x="0.0" y="146" width="414" height="157"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Order Summary" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQL-h1-O85">
+                                        <rect key="frame" x="33" y="12" width="251" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="34"/>
+                                        <color key="textColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total (USD)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXJ-oM-Ts0">
+                                        <rect key="frame" x="24" y="120" width="108" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total (USD)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXX-GC-eEi">
+                                        <rect key="frame" x="283" y="120" width="108" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meet between:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duB-mD-NbL">
+                                        <rect key="frame" x="24" y="72" width="142" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Meetup Time:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Heu-Wp-obb">
+                                        <rect key="frame" x="179" y="72" width="212" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97646397350000003" green="0.97646433119999998" blue="0.9764626622" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.85038429500000001" green="0.89405733350000005" blue="0.90195292230000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <viewLayoutGuide key="safeArea" id="KjW-TQ-vcZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="meetupTimes" destination="Heu-Wp-obb" id="0Ea-w5-1zz"/>
+                        <outlet property="priceLabel" destination="JXX-GC-eEi" id="Ayt-Po-L40"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeJ-zy-ybf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5460.8695652173919" y="318.41517857142856"/>
         </scene>
     </scenes>
     <resources>
@@ -1058,7 +1166,4 @@
         <image name="person.crop.circle" catalog="system" width="64" height="60"/>
         <image name="person.crop.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="gFo-3m-cJG"/>
-    </inferredMetricsTieBreakers>
 </document>

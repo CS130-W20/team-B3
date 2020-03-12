@@ -9,7 +9,15 @@
 import UIKit
 import Alamofire
 
-class BidOrAskContainerVC: UIViewController {
+class BidOrAskContainerVC: UIViewController, SwipeInfoDelegate {
+    func gotSwipeInfo(info: NSDictionary) {
+        return
+    }
+    
+    func gotPrice(price: Int) {
+        self.price = price
+    }
+    
     
     weak var parentVC: BuyOrSellViewController?
     
@@ -22,6 +30,7 @@ class BidOrAskContainerVC: UIViewController {
     var isBidding:Bool?
     var didTapFrom: Bool?
     var hallId:Int!
+    var price:Int!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func didTapFrom(_ sender: Any) {
@@ -83,12 +92,28 @@ class BidOrAskContainerVC: UIViewController {
             //                        if let data = value.data(using: String.Encoding.utf8) {
             //                            let json = JSON(data)
                                     print(value)
+                                    self.navigationController?.popToRootViewController(animated: true)
                                 }
                             case let .failure(error):
                                 print(error)
                         }
                     }
             }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "bidToPaymentSegue") {
+            let vc: BidConfirmationViewController = segue.destination as! BidConfirmationViewController
+            
+            var timeFormatter = DateFormatter()
+
+            timeFormatter.dateStyle = DateFormatter.Style.none
+            timeFormatter.timeStyle = DateFormatter.Style.short
+            timeFormatter.dateFormat = "HH:mm"
+            
+            vc.meetupTimeString = "\(timeFormatter.string(from: timePickerFrom.date)) - \(timeFormatter.string(from: timePickerTo.date))"
+            vc.price = price
+        }
     }
     
     override func viewDidLoad() {

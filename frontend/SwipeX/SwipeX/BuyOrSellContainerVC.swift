@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDelegate {
     
     func gotSwipeInfo(info: NSDictionary) {
@@ -37,6 +39,10 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
         freeBetween.text = "Availability: \(convertTimeForPicker(time: convertPickerTimeToInt(time: timePicker.minimumDate!))) - \(convertTimeForPicker(time: convertPickerTimeToInt(time: timePicker.maximumDate!)))"
     }
     
+    func gotPrice(price: Int) {
+        self.price = price
+    }
+    
     weak var parentVC: BuyOrSellViewController?
     
     @IBOutlet weak var OneSwipeLabel: UILabel!
@@ -58,6 +64,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
     var hallId:Int!
     
     var sellerName:String?
+    var price:Int!
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -80,7 +87,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
             vc.meetupTime = timeFormatter.string(from: timePicker.date)
             
             vc.isBuying = isBuying
-            vc.price = "5"
+            vc.price = "\(price!)"
             vc.sellerName = sellerName
         }
     }

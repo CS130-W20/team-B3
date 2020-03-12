@@ -11,6 +11,7 @@ import Alamofire
 
 protocol SwipeInfoDelegate {
     func gotSwipeInfo(info: NSDictionary)
+    func gotPrice(price: Int)
 }
 
 class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
@@ -35,6 +36,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     var lowestAsk:Int?
     
     var delegate:SwipeInfoDelegate?
+    var secondDelegate:SwipeInfoDelegate?
     
     @IBOutlet weak var diningHallLabel: UILabel!
     
@@ -90,6 +92,8 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     @IBAction func didFinishEditingPrice(_ sender: Any) {
         var price = Int(priceField.text ?? "") ?? 0
         
+        self.secondDelegate?.gotPrice(price: Int(self.priceField.text!)!)
+        
         if (priceValue == nil) {
             return
         }
@@ -130,8 +134,6 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
     }
     
     func changeSegment(newPrice : Int) {
-//        priceValue = newPrice
-        
         priceField.text = "\(newPrice)"
         segmentedControl.selectedSegmentIndex = 1 - segmentedControl.selectedSegmentIndex
         segmentedControl.sendActions(for: UIControl.Event.valueChanged)
@@ -166,11 +168,10 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                 case .success:
                     if let value = response.value as? NSDictionary {
                         print(value)
-//                        if let data = value.data(using: String.Encoding.utf8) {
-//                            print(data)
-//                        }
+
                         print(value["name"])
                         self.delegate?.gotSwipeInfo(info: value)
+                        self.delegate?.gotPrice(price: Int(self.priceField.text!)!)
                         
                     }
                 case let .failure(error):
@@ -240,6 +241,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                 vc.parentVC = self
                 vc.hallId = hallId
                 delegate = vc
+                vc.price = priceValue
             }
             if (segue.identifier == "toBidOrAskContainer")
                     {
@@ -256,6 +258,7 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                         vc.hallId = hallId
                         vc.parentVC = self
 //                        bidOrAskContainerVC = vc
+                        secondDelegate = vc
                         
                     }
         }

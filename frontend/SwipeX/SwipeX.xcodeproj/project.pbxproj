@@ -26,6 +26,7 @@
 		77F171AB24106D4500DE33B4 /* BuyOrSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171AA24106D4500DE33B4 /* BuyOrSellViewController.swift */; };
 		77F171AD2410818F00DE33B4 /* BuyOrSellContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171AC2410818E00DE33B4 /* BuyOrSellContainerVC.swift */; };
 		77F171AF24108A8500DE33B4 /* BidOrAskContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F171AE24108A8400DE33B4 /* BidOrAskContainerVC.swift */; };
+		77F995822419A2DA00EB267B /* BidConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F995812419A2DA00EB267B /* BidConfirmationViewController.swift */; };
 		B95ECF9F836564EBBFDB7467 /* Pods_SwipeX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F63A1690E748E5B38D192C /* Pods_SwipeX.framework */; };
 		C944F442B650B9D784482526 /* Pods_SwipeXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E934AFF4E3DDA7DF3BDE09 /* Pods_SwipeXTests.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		77F171AA24106D4500DE33B4 /* BuyOrSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyOrSellViewController.swift; sourceTree = "<group>"; };
 		77F171AC2410818E00DE33B4 /* BuyOrSellContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyOrSellContainerVC.swift; sourceTree = "<group>"; };
 		77F171AE24108A8400DE33B4 /* BidOrAskContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BidOrAskContainerVC.swift; sourceTree = "<group>"; };
+		77F995812419A2DA00EB267B /* BidConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidConfirmationViewController.swift; sourceTree = "<group>"; };
 		7FADA92D4C6FFF16121A4CA5 /* Pods-SwipeXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXTests/Pods-SwipeXTests.release.xcconfig"; sourceTree = "<group>"; };
 		8408D5E674E4E276460A0393 /* Pods-SwipeXUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXUITests/Pods-SwipeXUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8B1C13524B0FE08FCFF057D9 /* Pods-SwipeXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeXTests/Pods-SwipeXTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				77F171A82410382000DE33B4 /* ToolbarDatePicker.swift */,
 				7755F2FF2415D43800F24C8A /* ProfileViewController.swift */,
 				778BBFE82417637000008937 /* PaymentViewController.swift */,
+				77F995812419A2DA00EB267B /* BidConfirmationViewController.swift */,
 				7755F3012415E3CD00F24C8A /* PhoneNumberViewController.swift */,
 				77F1717E240F79D100DE33B4 /* Info.plist */,
 			);
@@ -552,6 +555,7 @@
 				77F171A724102E5700DE33B4 /* SwipePriceViewController.swift in Sources */,
 				7755F3022415E3CD00F24C8A /* PhoneNumberViewController.swift in Sources */,
 				77F171AF24108A8500DE33B4 /* BidOrAskContainerVC.swift in Sources */,
+				77F995822419A2DA00EB267B /* BidConfirmationViewController.swift in Sources */,
 				77F171A5240F832200DE33B4 /* LoginViewController.swift in Sources */,
 				77F17173240F79CB00DE33B4 /* SceneDelegate.swift in Sources */,
 			);
