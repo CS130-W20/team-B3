@@ -63,5 +63,20 @@ CASES = [
         },
         'expected_result': {'STATUS': '0'},
         'func': test_account_update
+    },
+    {
+        'name': 'test_account_checkexistence',
+        'url': 'accounts/check/',
+        'type': 'POST',
+        'data': {
+            'name': 'test_name',
+            'email': 'test_email@email.com',
+            'loc': {
+                'lat': 2.0,
+                'lng': 2.0
+            }
+        },
+        'expected_result': {'exists': '1', 'STATUS': '0'},
+        'func': test_account_checkexistence
     }
 ]
