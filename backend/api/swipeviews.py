@@ -22,7 +22,7 @@ def get_best_pairing(request):
         hall_id (string): The dining hall identifier.
         time_intervals (Datatime, optional): The desired time intervals. Defaults to None.
         desired_price (Float, optional): The desired price. Defaults to None.
-        pair_type: 
+        pair_type:
     Returns:
         Bid/Swipe: The paired Bid or Swipe depending on which endpoint originated the request.
     """
@@ -168,9 +168,9 @@ def get_swipes(request):
 
         # lowest ask
         lowest = 0
-        sorted_bids = bids.order_by('bid_price')
-        if len(sorted_bids) >= 1:
-            lowest = sorted_bids[0].bid_price
+        sorted_swipes = swipes.order_by('price')
+        if len(sorted_swipes) >= 1:
+            lowest = sorted_swipes[0].price
 
         # insert cur_hall into hall_data
         cur_hall = {"hall_id": cur_id, "picture_link": hall.picture, "name": cur_name, "nBids": nBids, "nSwipes": nSwipes, "times": times, "lowest_ask": lowest}
@@ -258,8 +258,8 @@ def get_lowest_swipe(swipe_candidates, start, end):
     curr_price = float("inf")
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if max(int(curr_start), start) < min(int(curr_end), end):
                 curr_price = min(curr_price, float(swipe.price))
 
@@ -270,8 +270,8 @@ def get_highest_bid(bid_candidates, start, end):
     curr_price = 0
     for bid in bid_candidates:
         for hours in bid.visibility:
-            curr_start = str(hours['start']).split(" ")[1].split(":")[0] 
-            curr_end = str(hours['end']).split(" ")[1].split(":")[0] 
+            curr_start = str(hours['start']).split(" ")[1].split(":")[0]
+            curr_end = str(hours['end']).split(" ")[1].split(":")[0]
             if max(int(curr_start), start) < min(int(curr_end), end):
                 curr_price = max(curr_price, float(bid.bid_price))
 
