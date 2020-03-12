@@ -109,15 +109,15 @@ def account_create(request):
                 loc_obj = loc_serializer.save()
                 data['cur_loc'] = loc_obj.loc_id
             else:
-                return Response(loc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'STATUS': '1', 'REASON': 'LOCATION SERIALIZER ERROR', 'ERRORS': {**loc_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
         else:  # For testing purposes, don't create a Location object but just toss in an existing primary key
             data['cur_loc'] = loc_data
     acc_serializer = AccountSerializer(data=data)
     if acc_serializer.is_valid():
         acc_obj = acc_serializer.save()
-        return Response({'STATUS': '0', 'user_id': acc_obj.user_id}, status=status.HTTP_200_OK)
+        return Response({'STATUS': '0', 'REASON': 'SUCCESSFULLY CREATED ACCOUNT OBJECT', 'user_id': acc_obj.user_id}, status=status.HTTP_200_OK)
     else:
-        return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'STATUS': '1', 'REASON': 'ACCOUNT SERIALIZER ERROR', 'ERRORS': {**acc_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -143,15 +143,16 @@ def account_update(request):
         loc_data = data.pop('loc')
         loc_serializer = LocationSerializer(acc_obj.cur_loc, data=loc_data)
         if loc_serializer.is_valid():
-            loc_serializer.save()
+            loc_obj = loc_serializer.save()
+            if acc_obj.cur_loc is None: # Since location is optional on registration, we might need to assign a location ID if it's null in the existing object
+            	data['cur_loc'] = loc_obj.loc_id
         else:
-            return Response(loc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'STATUS': '1', 'REASON': 'LOCATION SERIALIZER ERROR', 'ERRORS': {**loc_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
     acc_serializer = AccountSerializer(acc_obj, data=data, partial=True)
     if acc_serializer.is_valid():
         acc_serializer.save()
-        return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
-    else:
-        return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'STATUS': '0', 'REASON': 'SUCCESSFULLY UPDATED ACCOUNT'}, status=status.HTTP_200_OK)
+    return Response({'STATUS': '1', 'REASON': 'ACCOUNT SERIALIZER ERROR', 'ERRORS': {**acc_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
