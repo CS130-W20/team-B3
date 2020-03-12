@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-from . import views, accountviews, sellviews, swipeviews, paymentviews, buyviews
+from . import views, accountviews, swipeviews, paymentviews
 
 router = routers.DefaultRouter()
 # Code to register API urls will go here
@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('buying/get_swipe/', swipeviews.get_best_pairing, name='get_swipe'),
     path('buying/buy/', swipeviews.create_and_pair, name='buy_swipe'),
-
+    
     path('swipes/homescreen_info/', swipeviews.get_swipes),
     path('swipes/timeinterval_info/', swipeviews.lowestswipe_highestbid_info),
 
