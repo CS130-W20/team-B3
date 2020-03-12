@@ -3,8 +3,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from api.models import Account, User, Location
+from api.models import Account, User, Location, Bid, Swipe
 from api.serializers import LocationSerializer, AccountSerializer
+
+from django.core import serializers
+import json
 
 
 @api_view(['POST'])
@@ -84,3 +87,67 @@ def account_update(request):
         return Response({'STATUS': '0'}, status=status.HTTP_200_OK)
     else:
         return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def account_data(request):
+    """
+    Returns the bids and swipes that a user is associated with to display in the frontend
+
+    Args:
+        request (Request): contains user_id
+
+    Returns:
+        a JSON whose format is r = {"Bids": {"Pending": [], "Accepted": [] }, "Swipes": {"Available": [], "Sold": [] }}
+    """
+
+    data = request.data
+    if 'user_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED user_id ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user_id = data['user_id']
+    r = {
+        "Bids": {
+            "Pending": [],
+            "Accepted": []
+        },
+        "Swipes": {
+            "Available": [],
+            "Sold": []
+        }
+    }
+
+    # Bids
+    bids_pending  = Bid.objects.filter(buyer=user_id, status=0)
+    r["Bids"]["Pending"] = bid_filter(bids_pending)
+
+    bids_accepted = Bid.objects.filter(buyer=user_id, status=1)
+    r["Bids"]["Accepted"] = bid_filder(bids_accepted)
+
+    # Swipes
+    swipes_available = Swipe.objects.filter(seller=user_id, status=0)
+    r["Swipes"]["Available"] = bid_filter(swipes_available)
+
+    swipes_sold = Swipe.objects.filter(seller=user_id, status=1)
+    r["Swipes"]["Sold"] = bid_filter(swipes_sold)
+
+    return Response(r, status=status.HTTP_200_OK)
+
+def bid_filter(bids):
+    """
+    Given a list of Bid objects, return a list with the serialized JSON Objects
+
+    Args:
+        bids - A list of Bid objects
+
+    Returns:
+        serialized_bids - list of Bid objects in JSON form
+    """
+
+    serialized_bids = []
+
+    for bid in bids:
+        serial = serializers.serialize("json", [bid])
+        serial = json.loads(serial)
+        serialized_bids.append(serial[0]["fields"])
+
+    return serialized_bids
