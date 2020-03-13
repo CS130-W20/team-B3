@@ -44,6 +44,24 @@
 <div class="section" id="module-api.accountviews">
 <span id="api-accountviews-module"></span><h2>api.accountviews module<a class="headerlink" href="#module-api.accountviews" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="api.accountviews.account_checkexistence">
+<code class="sig-name descname">account_checkexistence</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_checkexistence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether an account with the specified email exists in the database or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – Contains the email of the desired Account in the database.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HTTP_200_OK along with the user_id if it exists or HTTP_400_BAD_REQEST if the request data does not
+contain an email field.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="api.accountviews.account_create">
 <code class="sig-name descname">account_create</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new Account and saves it in the database.</p>
@@ -57,6 +75,40 @@ was an error and the Account object was not created.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.accountviews.account_data">
+<code class="sig-name descname">account_data</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bids and swipes that a user is associated with to display in the frontend</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – contains user_id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>{“Pending”: [], “Accepted”: [] }, “Swipes”: {“Available”: [], “Sold”: [] }}</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a JSON whose format is r = {“Bids”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.accountviews.account_shouldupdatelocation">
+<code class="sig-name descname">account_shouldupdatelocation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_shouldupdatelocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the location on an object should be updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – The Request containing the user_id of the user to whom the account belongs.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An HTTP Response that denotes an error in finding the account or if the location should be updated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Response</p>
 </dd>
 </dl>
 </dd></dl>
@@ -78,51 +130,40 @@ was an error and the Account object was not created.</p>
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="api.accountviews.account_updatelocation">
+<code class="sig-name descname">account_updatelocation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.account_updatelocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the location associated with an account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – The HTTP Request containing the user_id and lat/lng field that needs to be updated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The reponse denoting success or failure of the update.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Reponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.accountviews.bid_filter">
+<code class="sig-name descname">bid_filter</code><span class="sig-paren">(</span><em class="sig-param">bids</em>, <em class="sig-param">accepted</em><span class="sig-paren">)</span><a class="headerlink" href="#api.accountviews.bid_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of Bid or Swipe objects, return a list with the serialized JSON Objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>- A list of Bid objects</strong> (<em>bids</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>serialized_bids - list of Bid objects in JSON form</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="module-api.buyviews">
-<span id="api-buyviews-module"></span><h2>api.buyviews module<a class="headerlink" href="#module-api.buyviews" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="api.buyviews.bid_getcheapestswipe">
-<code class="sig-name descname">bid_getcheapestswipe</code><span class="sig-paren">(</span><em class="sig-param">hall_id</em>, <em class="sig-param">swipe_time=None</em>, <em class="sig-param">swipe_price=None</em><span class="sig-paren">)</span><a class="headerlink" href="#api.buyviews.bid_getcheapestswipe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the cheapest Swipe object that meets the criteria for a specific Bid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>hall_id</strong> (<em>string</em>) – The DiningHall identifier.</p></li>
-<li><p><strong>swipe_time</strong> (<em>DateTime</em><em>, </em><em>optional</em>) – The time range specified on the Bid. Defaults to None.</p></li>
-<li><p><strong>swipe_price</strong> (<em>Float</em><em>, </em><em>optional</em>) – The desired swipe price. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A swipe that meets the criteria specified in the Bid, or None if no Swipes meet the criteria.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#api.models.Swipe" title="api.models.Swipe">Swipe</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="api.buyviews.bid_placebid">
-<code class="sig-name descname">bid_placebid</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.buyviews.bid_placebid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new Bid object and saves it in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – An object containing the data needed to create a new Bid object.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>An HTTP response indicating that a new Bid was successfully created or an HTTP error reponse</dt><dd><p>indicating that the Bid was not created.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Response</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="api-buyviews-module">
+<h2>api.buyviews module<a class="headerlink" href="#api-buyviews-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-api.models">
 <span id="api-models-module"></span><h2>api.models module<a class="headerlink" href="#module-api.models" title="Permalink to this headline">¶</a></h2>
@@ -144,20 +185,28 @@ was an error and the Account object was not created.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Account.home_loc">
-<code class="sig-name descname">home_loc</code><a class="headerlink" href="#api.models.Account.home_loc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<dt id="api.models.Account.cur_loc">
+<code class="sig-name descname">cur_loc</code><a class="headerlink" href="#api.models.Account.cur_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Account.home_loc_id">
-<code class="sig-name descname">home_loc_id</code><a class="headerlink" href="#api.models.Account.home_loc_id" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.Account.cur_loc_id">
+<code class="sig-name descname">cur_loc_id</code><a class="headerlink" href="#api.models.Account.cur_loc_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Account.email">
+<code class="sig-name descname">email</code><a class="headerlink" href="#api.models.Account.email" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -165,13 +214,6 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="api.models.Account.phone">
 <code class="sig-name descname">phone</code><a class="headerlink" href="#api.models.Account.phone" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="api.models.Account.pw">
-<code class="sig-name descname">pw</code><a class="headerlink" href="#api.models.Account.pw" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -266,8 +308,8 @@ object the first time, the query is executed.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Bid.location">
-<code class="sig-name descname">location</code><a class="headerlink" href="#api.models.Bid.location" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.Bid.hall_id">
+<code class="sig-name descname">hall_id</code><a class="headerlink" href="#api.models.Bid.hall_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
@@ -279,8 +321,8 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Bid.location_id">
-<code class="sig-name descname">location_id</code><a class="headerlink" href="#api.models.Bid.location_id" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.Bid.hall_id_id">
+<code class="sig-name descname">hall_id_id</code><a class="headerlink" href="#api.models.Bid.hall_id_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -313,6 +355,13 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dl class="attribute">
 <dt id="api.models.Bid.swipe_id">
 <code class="sig-name descname">swipe_id</code><a class="headerlink" href="#api.models.Bid.swipe_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.Bid.visibility">
+<code class="sig-name descname">visibility</code><a class="headerlink" href="#api.models.Bid.visibility" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -442,16 +491,18 @@ users, and (later) current locations of sellers</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Location.account">
-<code class="sig-name descname">account</code><a class="headerlink" href="#api.models.Location.account" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the reverse side of a one-to-one
-relation.</p>
+<dt id="api.models.Location.account_set">
+<code class="sig-name descname">account_set</code><a class="headerlink" href="#api.models.Location.account_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -466,6 +517,11 @@ relation.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="api.models.Location.distance">
+<em class="property">static </em><code class="sig-name descname">distance</code><span class="sig-paren">(</span><em class="sig-param">loc1</em>, <em class="sig-param">loc2</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Location.distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="api.models.Location.lat">
@@ -538,8 +594,8 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Swipe.location">
-<code class="sig-name descname">location</code><a class="headerlink" href="#api.models.Swipe.location" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.Swipe.hall_id">
+<code class="sig-name descname">hall_id</code><a class="headerlink" href="#api.models.Swipe.hall_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
@@ -551,8 +607,8 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.Swipe.location_id">
-<code class="sig-name descname">location_id</code><a class="headerlink" href="#api.models.Swipe.location_id" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.Swipe.hall_id_id">
+<code class="sig-name descname">hall_id_id</code><a class="headerlink" href="#api.models.Swipe.hall_id_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
@@ -635,16 +691,6 @@ object the first time, the query is executed.</p>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="api.models.Transaction.get_next_by_paid">
-<code class="sig-name descname">get_next_by_paid</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: paid&gt;</em>, <em class="sig-param">is_next=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Transaction.get_next_by_paid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="api.models.Transaction.get_previous_by_paid">
-<code class="sig-name descname">get_previous_by_paid</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: paid&gt;</em>, <em class="sig-param">is_next=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Transaction.get_previous_by_paid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="api.models.Transaction.objects">
@@ -744,16 +790,16 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="api.models.User.objects">
-<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.User.objects" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="api.models.User.pp_email">
-<code class="sig-name descname">pp_email</code><a class="headerlink" href="#api.models.User.pp_email" title="Permalink to this definition">¶</a></dt>
+<dt id="api.models.User.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#api.models.User.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
 object the first time, the query is executed.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.objects">
+<code class="sig-name descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.User.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="api.models.User.status">
@@ -787,46 +833,8 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-api.sellviews">
-<span id="api-sellviews-module"></span><h2>api.sellviews module<a class="headerlink" href="#module-api.sellviews" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="api.sellviews.swipe_geteligiblebid">
-<code class="sig-name descname">swipe_geteligiblebid</code><span class="sig-paren">(</span><em class="sig-param">hall_id</em>, <em class="sig-param">time_intervals=None</em>, <em class="sig-param">desired_price=None</em><span class="sig-paren">)</span><a class="headerlink" href="#api.sellviews.swipe_geteligiblebid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds all bids that match the specified swipe criteria and pairs them.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>hall_id</strong> (<em>string</em>) – The dining hall identifier.</p></li>
-<li><p><strong>time_intervals</strong> (<em>Datatime</em><em>, </em><em>optional</em>) – The desired time intervals. Defaults to None.</p></li>
-<li><p><strong>desired_price</strong> (<em>Float</em><em>, </em><em>optional</em>) – The desired price. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The paired bid.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#api.models.Bid" title="api.models.Bid">Bid</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="api.sellviews.swipe_sellswipe">
-<code class="sig-name descname">swipe_sellswipe</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.sellviews.swipe_sellswipe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a swipe to sell.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – The data needed to create a new Swipe listing.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reponse saying either the swipe was successfully created or there was an error.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Reponse</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="api-sellviews-module">
+<h2>api.sellviews module<a class="headerlink" href="#api-sellviews-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-api.serializers">
 <span id="api-serializers-module"></span><h2>api.serializers module<a class="headerlink" href="#module-api.serializers" title="Permalink to this headline">¶</a></h2>
@@ -841,7 +849,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.Meta</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.AccountSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'pp_email', 'home_loc', 'pw', 'phone']</em><a class="headerlink" href="#api.serializers.AccountSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'name', 'cur_loc', 'phone', 'email']</em><a class="headerlink" href="#api.serializers.AccountSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -865,7 +873,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.BidSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['status', 'swipe', 'buyer', 'location', 'bid_price', 'desired_time']</em><a class="headerlink" href="#api.serializers.BidSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['bid_id', 'status', 'swipe', 'buyer', 'hall_id', 'bid_price', 'desired_time', 'visibility']</em><a class="headerlink" href="#api.serializers.BidSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -874,6 +882,43 @@ object the first time, the query is executed.</p>
 <dd><p>alias of <a class="reference internal" href="#api.models.Bid" title="api.models.Bid"><code class="xref py py-class docutils literal notranslate"><span class="pre">api.models.Bid</span></code></a></p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.BidSerializer.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.BidSerializer.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Bid object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>validated_data</strong> (<em>dict</em>) – The data used to create a new Bid object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new Bid object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Bid" title="api.models.Bid">Bid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.serializers.BidSerializer.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">instance</em>, <em class="sig-param">validated_data</em><span class="sig-paren">)</span><a class="headerlink" href="#api.serializers.BidSerializer.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing Bid object and the data corresponding to it in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instance</strong> (<a class="reference internal" href="#api.models.Bid" title="api.models.Bid"><em>Bid</em></a>) – The outdated Bid object.</p></li>
+<li><p><strong>validated_data</strong> (<em>dict</em>) – The new data to be placed in the outdated Bid object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The updated Bid object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#api.models.Bid" title="api.models.Bid">Bid</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -889,7 +934,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">api.serializers.Meta</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.DiningHallSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['lat', 'lng', 'hours', 'name', 'description', 'picture']</em><a class="headerlink" href="#api.serializers.DiningHallSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['lat', 'lng', 'hall_id', 'hours', 'name', 'description', 'picture']</em><a class="headerlink" href="#api.serializers.DiningHallSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -974,7 +1019,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.SwipeSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['status', 'seller', 'location', 'price', 'visibility']</em><a class="headerlink" href="#api.serializers.SwipeSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['swipe_id', 'status', 'seller', 'hall_id', 'price', 'visibility']</em><a class="headerlink" href="#api.serializers.SwipeSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1042,7 +1087,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.TransactionSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['sender', 'recipient', 'paid', 'total', 'details']</em><a class="headerlink" href="#api.serializers.TransactionSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['t_id', 'sender', 'recipient', 'paid', 'total', 'details']</em><a class="headerlink" href="#api.serializers.TransactionSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1066,7 +1111,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="api.serializers.UserSerializer.Meta.fields">
-<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'pp_email']</em><a class="headerlink" href="#api.serializers.UserSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fields</code><em class="property"> = ['status', 'user_id', 'name']</em><a class="headerlink" href="#api.serializers.UserSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1082,6 +1127,33 @@ object the first time, the query is executed.</p>
 </div>
 <div class="section" id="module-api.swipeviews">
 <span id="api-swipeviews-module"></span><h2>api.swipeviews module<a class="headerlink" href="#module-api.swipeviews" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="api.swipeviews.create_and_pair">
+<code class="sig-name descname">create_and_pair</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.create_and_pair" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="api.swipeviews.get_best_pairing">
+<code class="sig-name descname">get_best_pairing</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_best_pairing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all bids that match the specified swipe criteria and pairs them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hall_id</strong> (<em>string</em>) – The dining hall identifier.</p></li>
+<li><p><strong>time_intervals</strong> (<em>Datatime</em><em>, </em><em>optional</em>) – The desired time intervals. Defaults to None.</p></li>
+<li><p><strong>desired_price</strong> (<em>Float</em><em>, </em><em>optional</em>) – The desired price. Defaults to None.</p></li>
+<li><p><strong>pair_type</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The paired Bid or Swipe depending on which endpoint originated the request.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Bid/Swipe</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="function">
 <dt id="api.swipeviews.get_hall_stats">
 <code class="sig-name descname">get_hall_stats</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_hall_stats" title="Permalink to this definition">¶</a></dt>
@@ -1104,18 +1176,81 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="api.swipeviews.get_swipes">
-<code class="sig-name descname">get_swipes</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_swipes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets swipes that meet specified criteria.</p>
+<dt id="api.swipeviews.get_highest_bid">
+<code class="sig-name descname">get_highest_bid</code><span class="sig-paren">(</span><em class="sig-param">bid_candidates</em>, <em class="sig-param">start</em>, <em class="sig-param">end</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_highest_bid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for getting the highest big out of a list of bids in a desired time interval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – Object that contains the criteria for filtering swipes.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bid_candidates</strong> (<em>list</em>) – The list of bids</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The start of the desired time interval</p></li>
+<li><p><strong>end</strong> (<em>int</em>) – The end of the desired time interval</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An HTML response containing the filtered swipes or an error response.</p>
+<dd class="field-even"><p>The highest bid price.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Response</p>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.swipeviews.get_lowest_swipe">
+<code class="sig-name descname">get_lowest_swipe</code><span class="sig-paren">(</span><em class="sig-param">swipe_candidates</em>, <em class="sig-param">start</em>, <em class="sig-param">end</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_lowest_swipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for getting the lowest swipe in a given time range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>swipe_candidates</strong> (<em>list</em>) – The swipes</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The start of the desired time interval</p></li>
+<li><p><strong>end</strong> (<em>int</em>) – The end of the desired time interval</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The lowest price out of all swipes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.swipeviews.get_swipes">
+<code class="sig-name descname">get_swipes</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.get_swipes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return swipe data for each dining hall; used to populate main page</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – does’t need inputs</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dining halls with the lowest swipe available and total number of swipes {“Hall”: {“nBids”: 1, “nSwipes”: 1, “times”: {“start”: 17, “end”: 20}, “lowest_ask”: 5}}</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>JSON</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.swipeviews.lowestswipe_highestbid_info">
+<code class="sig-name descname">lowestswipe_highestbid_info</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">request</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.swipeviews.lowestswipe_highestbid_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the lowest swipe price and highest bid price in a time interval</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hall_id</strong> (<em>string</em>) – The DiningHall identifier.</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – start of the time interval</p></li>
+<li><p><strong>end</strong> (<em>int</em>) – end of the time interval</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(string: lowest swipe price),”high” : (string: highest bid price)}</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>{“low”</p>
 </dd>
 </dl>
 </dd></dl>
