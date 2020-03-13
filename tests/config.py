@@ -92,7 +92,7 @@ CASES = [
                 'end': '16:00'
             }]
         },
-        'expected_result': {'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'},
+        'expected_result': {'STATUS': '0', 'REASON': 'SWIPE/BID CREATED, NO ELIGIBLE COMPLEMENT PAIRED'},
         'func': test_bid_placebid
     },
     {

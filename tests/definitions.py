@@ -108,7 +108,7 @@ def test_account_update(res, expected, data):
     except Account.DoesNotExist:
         raise RuntimeError(f'Failed to update account because account does not exist. {data}')
 
-    if dict(res.json()) != expected:
+    if res.json()['STATUS'] != expected['STATUS']:
         raise RuntimeError(f'Account updating did not return expected result {expected}')
 
 
