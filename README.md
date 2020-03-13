@@ -1,5 +1,3 @@
-
-
 # SwipeX
 A simple online marketplace to exchange dining hall swipes here at UCLA.
 
@@ -33,6 +31,18 @@ and implement the function in either a new or existing view file, e.g. `swipevie
 - Documentation link
 - Working URL (if any)
 - anything else
+
+## Testing
+- We created a test oracle to define tests and call our endpoints
+- To run the tests,
+	- start the server locally
+	- navigate to ./tests
+	- run python test.py
+
+## Deployment
+- TravisCI deploys to Heroku on a successful build
+- Link: https://swipex130.herokuapp.com/
+	Default route is https://swipex130.herokuapp.com/api/
 
 ## Team
 Ashwin Vivekanandh
