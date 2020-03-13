@@ -183,26 +183,29 @@ def account_data(request):
         }
     }
 
+
+
     # Bids
     bids_pending = Bid.objects.filter(buyer=user_id, status=0)
-    r["Bids"]["Pending"] = bid_filter(bids_pending)
+    r["Bids"]["Pending"] = bid_filter(bids_pending, False)
 
     bids_accepted = Bid.objects.filter(buyer=user_id, status=1)
-    r["Bids"]["Accepted"] = bid_filter(bids_accepted)
+    r["Bids"]["Accepted"] = bid_filter(bids_accepted, True)
+
 
     # Swipes
     swipes_available = Swipe.objects.filter(seller=user_id, status=0)
-    r["Swipes"]["Available"] = bid_filter(swipes_available)
+    r["Swipes"]["Available"] = bid_filter(swipes_available, False)
 
     swipes_sold = Swipe.objects.filter(seller=user_id, status=1)
-    r["Swipes"]["Sold"] = bid_filter(swipes_sold)
+    r["Swipes"]["Sold"] = bid_filter(swipes_sold, False)
 
     return Response(r, status=status.HTTP_200_OK)
 
 
-def bid_filter(bids):
+def bid_filter(bids, accepted):
     """
-    Given a list of Bid objects, return a list with the serialized JSON Objects
+    Given a list of Bid or Swipe objects, return a list with the serialized JSON Objects
 
     Args:
         bids - A list of Bid objects
@@ -216,6 +219,9 @@ def bid_filter(bids):
     for bid in bids:
         serial = serializers.serialize("json", [bid])
         serial = json.loads(serial)
+        serial[0]["fields"]["hall_name"] = bid.hall_id.name
+        if accepted:
+                    serial[0]["fields"]['seller_name'] = bid.swipe.seller.name
         serialized_bids.append(serial[0]["fields"])
 
     return serialized_bids
