@@ -8,8 +8,14 @@ from api.models import DiningHall, Swipe, Bid, User, Account
 from api.serializers import SwipeSerializer, BidSerializer
 import json
 import datetime
-from pytz import timezone
+import re
 import pytz
+import os
+from pytz import timezone
+from twilio.rest import Client
+
+twilio_account_sid = os.environ.get("twilio_account_sid", None)
+twilio_auth_token = os.environ.get("twilio_auth_token", None)
 
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
@@ -97,12 +103,90 @@ def get_best_pairing(request):
     except ObjectDoesNotExist: # Generic Django exception for if either no bids or swipes exist meeting the hall/status criteria
         return Response({}, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+def create_and_pair(request):
+    data = request.data
+    if 'user_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED USER_ID ARGUMENT FOR ORIGINATING USER'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'hall_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BID/SWIPE'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        pair_type = request.resolver_match.url_name # Different endpoints call the same view, so we need to differentiate between them
+        paired = None
+        paired_serializer = None
+        paired_phone = None
+        serializer = None
+        creator_phone = Account.objects.get(user_id=data['user_id']).phone
+        serial_data = {'seller': data['user_id'], 'hall_id': data['hall_id'], 'price': data.get('desired_price', None), 'visibility': data.get('time_intervals', None)}
+        if pair_type == 'sell_swipe' and 'bid_id' in data:
+            paired = Bid.objects.get(bid_id=data['bid_id'])
+        elif pair_type == 'buy_swipe' and 'swipe_id' in data:
+            paired = Swipe.objects.get(swipe_id=data['swipe_id'])
+        if paired is not None:
+            if paired.status != '0':
+                return Response({'STATUS': '1', 'REASON': 'BID/SWIPE FOUND BUT HAS ALREADY BEEN SOLD, CAN\'T SELL IT AGAIN'}, status=status.HTTP_400_BAD_REQUEST)
+            if data.get('desired_time', None) is None:
+                return Response({'STATUS': '1', 'REASON': 'ELIGIBLE PAIRING, BUT NO SPECIFIC TIME FOR TRANSACTION GIVEN'}, status=status.HTTP_400_BAD_REQUEST)
+            serial_data['status'] = '1'
+            if pair_type == 'sell_swipe':
+                serial_data['price'] = paired.bid_price
+                paired_phone = Account.objects.get(user_id=paired.buyer_id).phone
+            else:
+                serial_data['price'] = paired.price
+                serial_data['swipe'] = paired.swipe_id
+                serial_data['desired_time'] = data['desired_time']
+                paired_phone = Account.objects.get(user_id=paired.seller_id).phone
+        else:
+            if serial_data['visibility'] is None:
+                return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE PAIRING, BUT NO DESIRED TIME RANGE TO CREATE STANDALONE OBJECT'}, status=status.HTTP_400_BAD_REQUEST)
+            if serial_data['price'] is None:
+                return Response({'STATUS': '1', 'REASON': 'NO ELIGIBLE PAIRING, BUT NO DESIRED PRICE TO CREATE STANDALONE OBJECT'}, status=status.HTTP_400_BAD_REQUEST)
+        if pair_type == 'sell_swipe':
+            serializer = SwipeSerializer(data=serial_data)
+        else:
+            serial_data['buyer'] = serial_data.pop('seller')
+            serial_data['bid_price'] = serial_data.pop('price')
+            serializer = BidSerializer(data=serial_data)
+        if serializer.is_valid():
+            saved = serializer.save()
+            if paired is not None:
+                if pair_type == 'sell_swipe':
+                    paired_serializer = BidSerializer(paired, data={'status': '1', 'swipe': saved.swipe_id, 'desired_time': data['desired_time']}, partial=True)
+                else:
+                    paired_serializer = SwipeSerializer(paired, data={'status': '1'}, partial=True)
+                if paired_serializer.is_valid():
+                    paired = paired_serializer.save()
+                else:
+                    return Response({'STATUS': '1', 'REASON': 'PAIRED OBJECT SERIALIZER ERROR', 'ERRORS': {**paired_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+            # Send confirmation texts to buyer and seller, respectively
+            if twilio_account_sid is not None and twilio_auth_token is not None:
+                twilio_client = Client(twilio_account_sid, twilio_auth_token)
+                creator_phone = re.sub('[^0-9]+', '', creator_phone) # Strip out any non-numeric characters
+                hall_name = saved.hall_id.name # Get the dining hall name for the text
+                meeting_time = datetime.datetime.strptime(data['desired_time'], "%H:%M").strftime("%I:%M%p") # And form a 12-hour string
+                creator_msg = "This is SwipeX, letting you know that while we haven't found a " + ("seller" if saved.__class__.__name__ == 'Bid' else "buyer") + " for your " + ("bid" if saved.__class__.__name__ == 'Bid' else "swipe sale") + " request at " + hall_name + " at this time, you've been entered into the queue and will be notified when a pairing occurs. Thank you for choosing SwipeX!"
+                if paired_phone is not None:
+                    paired_phone = re.sub('[^0-9]+', '', paired_phone)
+                    paired_phone_formatted = re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1-", "%d" % int(paired_phone[:-1])) + paired_phone[-1] # Add dashes in between phone numbers to send for communication purposes
+                    creator_phone_formatted = re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1-", "%d" % int(creator_phone[:-1])) + creator_phone[-1]
+                    creator_msg = "This is SwipeX, letting you know that we were able to find and match you with a " + ("buyer for your swipe" if saved.__class__.__name__ == 'Swipe' else "seller for your bid") + " that would like to meet at " + hall_name + " at " + meeting_time + ". You can contact them at " + paired_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
+                    paired_msg = "This is SwipeX with an update for you on your existing " + ("bid" if paired.__class__.__name__ == 'Bid' else "swipe sale") + " request. You've been paired with a " + ("seller" if paired.__class__.__name__ == 'Bid' else "buyer") + " that would like to meet at " + hall_name + " at " + meeting_time + ". You can contact them at " + creator_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
+                    paired_phone = "+" + ("1" if len(paired_phone) == 10 else "") + paired_phone # Assume 10-digit number is US without the 1 attached, just an easy test for right now
+                    twilio_client.messages.create(body=paired_msg, from_='+18563065093', to=paired_phone)
+                creator_phone = "+" + ("1" if len(creator_phone) == 10 else "") + creator_phone
+                twilio_client.messages.create(body=creator_msg, from_='+18563065093', to=creator_phone)
+            if paired is not None:
+                return Response({'STATUS': '0', 'REASON': 'SWIPE/BID CREATED, PAIRED WITH COMPLEMENT'}, status=status.HTTP_200_OK)
+            return Response({'STATUS': '0', 'REASON': 'SWIPE/BID CREATED, NO ELIGIBLE COMPLEMENT PAIRED'}, status=status.HTTP_200_OK)
+        return Response({'STATUS': '1', 'REASON': 'ORIGINATING SERIALIZER ERROR', 'ERRORS': {**serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist:
+        return Response({'STATUS': '1', 'REASON': 'NO BID/SWIPE EXISTS WITH GIVEN ID'}, status=status.HTTP_400_BAD_REQUEST)
+
 # @param request Has a desired time and we return the swipes available
 #                at each dining hall
 # TODO: implement location filtering too
 # returns a JSON of dining hall names with lowest ask and highest bid
-
-
 @api_view(['GET'])
 @renderer_classes([JSONRenderer])
 def get_swipes(request):

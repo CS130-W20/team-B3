@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import DiningHall, Account, User, Swipe, Bid
-from api.serializers import SwipeSerializer, BidSerializer
+from api.serializers import SwipeSerializer, BidSerializer, TransactionSerializer
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -19,9 +19,10 @@ stripe.api_key = os.environ.get("stripe_test_key")
 def make_payment(request):
     """
     A buyer begins the process of purchasing a swipe on the frontend, create a Stripe PaymentIntent
+    Create  Transaction object to track the purchase
 
     Args:
-        request (Request): specifies the price of the transaction
+        request (Request): specifies the price of the transaction, swipe_id, type("BID" or "ASK") and user_id
 
     Returns:
         JSON: an object with the client_secret for the frontend to use to complete the purchase
@@ -30,7 +31,17 @@ def make_payment(request):
     data = request.data
     if 'amount' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED amount ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
-    price = data["amount"]
+    if 'swipe_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED swipe_id ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'user_id' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED user_id ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+    if 'type' not in data:
+        return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED type ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
+
+    price  = data["amount"]
+    swipe  = data['swipe_id']
+    sender = data["user_id"]
+    type   = data["type"]
 
     intent = stripe.PaymentIntent.create(
       amount   = price,
@@ -39,6 +50,24 @@ def make_payment(request):
     client_secret = intent.client_secret
 
     res = {"client_secret": client_secret}
+
+    # Get reciepient of money
+    recipient = ""
+    if type == "ASK":
+        # get seller user_id
+        swipe_obj = Swipe.objects.filter(swipe_id=swipe)
+        if len(swipe_obj) != 0:
+            recipient = swipe_obj[0].seller.user_id
+        else:
+            return Response({'STATUS': 'swipe_id does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Make Transaction object
+    transaction = {"sender": sender, "total": price, "details": client_secret, "recipient": recipient}
+    transaction_serializer = TransactionSerializer(data=transaction)
+    if transaction_serializer.is_valid():
+        t = transaction_serializer.save()
+    else:
+        print(transaction_serializer.errors)
 
     return Response(json.dumps(res), status=status.HTTP_200_OK)
 
@@ -55,18 +84,36 @@ def confirm_payment(request):
         JSON: acknowledge that the backend has updated the database with {'STATUS': "OK"}
     """
 
-    data = request.data
-    bid_id = data["bid_id"]
+    payload = request.body
+    event = None
 
     try:
-        bid = Bid.objects.filter(bid_id=bid_id)
-    except ObjectDoesNotExist:
-        return Response({'STATUS': 'bid_id does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        event = stripe.Event.construct_from(
+          json.loads(payload), stripe.api_key
+        )
+    except ValueError as e:
+        # Invalid payload
+        return Response({'STATUS': e}, status=status.HTTP_400_BAD_REQUEST)
 
-    # update bid state to pending
-    # bid.
+    # Handle the event
+    if event.type == 'payment_intent.succeeded':
+        payment_intent = event.data.object # contains a stripe.PaymentIntent
+        # Then define and call a method to handle the successful payment intent.
+        # handle_payment_intent_succeeded(payment_intent)
+        print("1")
+    elif event.type == 'payment_method.attached':
+        payment_method = event.data.object # contains a stripe.PaymentMethod
+        # Then define and call a method to handle the successful attachment of a PaymentMethod.
+        # handle_payment_method_attached(payment_method)
+        print("2")
+        # ... handle other event types
+    else:
+        # Unexpected event type
+        print("3")
+        return HttpResponse(status=400)
 
-    # todo - notify seller
+    print("hi world")
+
 
     return Response(json.dumps(res), status=status.HTTP_200_OK)
 

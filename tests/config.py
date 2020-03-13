@@ -92,7 +92,7 @@ CASES = [
                 'end': '16:00'
             }]
         },
-        'expected_result': {'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'},
+        'expected_result': {'STATUS': '0', 'REASON': 'SWIPE/BID CREATED, NO ELIGIBLE COMPLEMENT PAIRED'},
         'func': test_bid_placebid
     },
     {
@@ -109,5 +109,33 @@ CASES = [
         },
         'expected_result': {'buyer': 1, 'hall_id': 1},
         'func': test_get_best_pairing
+    },
+		{
+        'name': 'test_timeinterval_info',
+        'url': 'swipes/timeinterval_info/',
+        'type': 'POST',
+        'data': {
+            'hall_id': 1,
+            'start': '12',
+            'end': '16'
+        },
+        'expected_result': {"len":5},
+        'func': test_timeinterval_info
+    },
+		{
+        'name': 'test_get_swipe',
+        'url': 'buying/get_swipe/',
+        'type': 'POST',
+        'data': {
+            'hall_id': 1,
+            'time_intervals': [{
+                'start': '12:00',
+                'end': '16:00'
+            }],
+            'pair_type' : 'get_bid',
+            'desired_price': 7.00
+        },
+        'expected_result': {},
+        'func': test_get_swipe
     }
 ]

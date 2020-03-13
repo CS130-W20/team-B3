@@ -108,7 +108,7 @@ def test_account_update(res, expected, data):
     except Account.DoesNotExist:
         raise RuntimeError(f'Failed to update account because account does not exist. {data}')
 
-    if dict(res.json()) != expected:
+    if res.json()['STATUS'] != expected['STATUS']:
         raise RuntimeError(f'Account updating did not return expected result {expected}')
 
 
@@ -180,3 +180,37 @@ def test_get_best_pairing(res, expected, data):
     res_json = res.json()
     if res_json['buyer'] != expected['buyer'] or res_json['hall_id'] != expected['hall_id']:
         raise RuntimeError(f'get_best_pairing did not return the expected best pairing .')
+
+def test_timeinterval_info(res, expected, data):
+    """
+    Tests the timeinterval_info endpoint at url swipes/timeinterval_info/.
+
+    Args:
+        res (HTTP Reponse): The response from the server.
+        expected (Dict): The expected response.
+        data (Dict): The data used to issue the test.
+
+    Raises:
+        RuntimeError: when the reponse data is empty
+    """
+
+    res_json = res.json()
+    if not res_json:
+        raise RuntimeError(f'The timeinterval_info endpoint return bad value' )
+
+def test_get_swipe(res, expected, data):
+    """
+    Tests the get_swipe endpoint at url buying/get_swipe/.
+
+    Args:
+        res (HTTP Reponse): The response from the server.
+        expected (Dict): The expected response.
+        data (Dict): The data used to issue the test.
+
+    Raises:
+        RuntimeError: when the reponse data is empty
+    """
+
+    res_json = res.json()
+    if not res_json:
+        raise RuntimeError(f'The get_swipe endpoint return bad value' )
