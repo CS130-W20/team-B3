@@ -94,5 +94,20 @@ CASES = [
         },
         'expected_result': {'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'},
         'func': test_bid_placebid
+    },
+    {
+        'name': 'test_get_best_pairing',
+        'url': 'selling/get_bid/',
+        'type': 'POST',
+        'data': {
+            'hall_id': 1,
+            'time_intervals': [{
+                'start': '15:00',
+                'end': '16:00'
+            }],
+            'desired_price': 7.00
+        },
+        'expected_result': {'buyer': 1, 'hall_id': 1},
+        'func': test_get_best_pairing
     }
 ]
