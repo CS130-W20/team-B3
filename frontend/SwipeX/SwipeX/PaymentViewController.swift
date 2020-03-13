@@ -91,7 +91,7 @@ class PaymentViewController: UIViewController {
                         case .success:
                             if let value = response.value as? NSDictionary {
                                 print(value)
-                                self.navigationController?.popToRootViewController(animated: true)
+                                self.dismiss(animated: true, completion: nil)
                             }
                         case let .failure(error):
                             print(error)
