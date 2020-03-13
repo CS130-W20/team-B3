@@ -138,3 +138,9 @@ def test_bid_placebid(res, expected, data):
         raise RuntimeError(f'Bid creation did not return expected result {expected}')
 
     return bid
+
+
+def test_get_best_pairing(res, expected, data):
+    res_json = res.json()
+    if res_json['buyer'] != expected['buyer'] or res_json['hall_id'] != expected['hall_id']:
+        raise RuntimeError(f'get_best_pairing did not return the expected best pairing .')
