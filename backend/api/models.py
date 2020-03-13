@@ -103,7 +103,7 @@ class Transaction(models.Model):
     """
     t_id = models.AutoField(primary_key=True)
     sender = models.CharField(max_length=255)
-    recipient = models.CharField(max_length=255)
-    paid = models.DateTimeField()
+    recipient = models.CharField(null=True, max_length=255)
+    paid = models.DateTimeField(null=True)
     total = models.DecimalField(max_digits=5, decimal_places=2)
     details = models.CharField(max_length=255)

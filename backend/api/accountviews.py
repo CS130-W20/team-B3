@@ -121,7 +121,7 @@ def account_data(request):
     r["Bids"]["Pending"] = bid_filter(bids_pending)
 
     bids_accepted = Bid.objects.filter(buyer=user_id, status=1)
-    r["Bids"]["Accepted"] = bid_filder(bids_accepted)
+    r["Bids"]["Accepted"] = bid_filter(bids_accepted)
 
     # Swipes
     swipes_available = Swipe.objects.filter(seller=user_id, status=0)
