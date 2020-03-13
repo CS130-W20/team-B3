@@ -9,7 +9,7 @@ import django
 sys.path.insert(0, os.path.abspath('../backend'))  # noqa
 os.environ['DJANGO_SETTINGS_MODULE'] = 'backend.settings'
 django.setup()
-from api.models import Account  # noqa
+from api.models import Account, Bid  # noqa
 
 
 def test_default(res, expected, data):
@@ -123,3 +123,18 @@ def test_account_checkexistence(res, expected, data):
 
     if res_json['exists'] != expected['exists'] or res_json['STATUS'] != expected['STATUS']:
         raise RuntimeError(f'Account checking did not return expected result {expected}')
+
+
+def test_bid_placebid(res, expected, data):
+
+    try:
+        bid = Bid.objects.get(buyer_id=data['user_id'], hall_id=data['hall_id'])
+    except Bid.DoesNotExist:
+        raise RuntimeError(f'Bid was not created.')
+
+    res_json = dict(res.json())
+    if res_json['STATUS'] != expected['STATUS'] or res_json['REASON'] != expected['REASON']:
+        bid.delete()
+        raise RuntimeError(f'Bid creation did not return expected result {expected}')
+
+    return bid

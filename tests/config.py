@@ -78,5 +78,21 @@ CASES = [
         },
         'expected_result': {'exists': '1', 'STATUS': '0'},
         'func': test_account_checkexistence
+    },
+    {
+        'name': 'test_bid_placebid',
+        'url': 'buying/buy/',
+        'type': 'POST',
+        'data': {
+            'user_id': 1,
+            'hall_id': 1,
+            'desired_price': 7.00,
+            'time_intervals': [{
+                'start': '15:00',
+                'end': '16:00'
+            }]
+        },
+        'expected_result': {'STATUS': '0', 'REASON': 'BID CREATED, NO ELIGIBLE SWIPE PAIRED'},
+        'func': test_bid_placebid
     }
 ]
