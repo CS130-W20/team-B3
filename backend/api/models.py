@@ -53,7 +53,7 @@ class Account(User):
     Account object. Each user has an account. Inherits from User.
     """
     # We don't wanna reveal these fields to anything except our specific backend functions
-    cur_loc = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True, blank=True)
+    cur_loc = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
     # Doesn't make sense to use numerical, we'll need to validate on the front-end though
     phone = models.CharField(max_length=30)
     email = models.CharField(max_length=255, unique=True)
