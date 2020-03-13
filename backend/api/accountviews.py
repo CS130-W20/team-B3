@@ -13,6 +13,17 @@ import json
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])
 def account_checkexistence(request):
+    """
+    Checks whether an account with the specified email exists in the database or not.
+
+    Args:
+        request (Request): Contains the email of the desired Account in the database.
+
+    Returns:
+        Reponse: HTTP_200_OK along with the user_id if it exists or HTTP_400_BAD_REQEST if the request data does not
+        contain an email field.
+    """
+
     data = request.data
     if 'email' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED EMAIL ARGUMENT'}, status=status.HTTP_400_BAD_REQUEST)
@@ -88,6 +99,7 @@ def account_update(request):
     else:
         return Response(acc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def account_data(request):
     """
@@ -117,7 +129,7 @@ def account_data(request):
     }
 
     # Bids
-    bids_pending  = Bid.objects.filter(buyer=user_id, status=0)
+    bids_pending = Bid.objects.filter(buyer=user_id, status=0)
     r["Bids"]["Pending"] = bid_filter(bids_pending)
 
     bids_accepted = Bid.objects.filter(buyer=user_id, status=1)
@@ -131,6 +143,7 @@ def account_data(request):
     r["Swipes"]["Sold"] = bid_filter(swipes_sold)
 
     return Response(r, status=status.HTTP_200_OK)
+
 
 def bid_filter(bids):
     """
