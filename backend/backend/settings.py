@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     'swipex130.herokuapp.com',
-    '62796330.ngrok.io'
+    'a41e9e78.ngrok.io'
 ]
 
 # Application definition

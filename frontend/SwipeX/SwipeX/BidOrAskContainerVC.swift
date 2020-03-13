@@ -70,35 +70,31 @@ class BidOrAskContainerVC: UIViewController, SwipeInfoDelegate {
         ]
             as [String : Any]
         if (isBidding!) {
-            AF.request("\(NGROK_URL)/api/buying/buy/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+            self.performSegue(withIdentifier: "bidToPaymentSegue", sender: self)
+        } else {
+            let alert = UIAlertController(title: "Confirmation", message: "Offer one swipe for \(parentVC!.priceField.text!)? You can cancel this offer on the swipes tab.", preferredStyle: UIAlertController.Style.alert)
+
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { result in
+                
+                AF.request("\(NGROK_URL)/api/selling/sell/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
                     switch response.result {
                         case .success:
                             if let value = response.value as? NSDictionary {
-        //                        if let data = value.data(using: String.Encoding.utf8) {
-        //                            let json = JSON(data)
                                 print(value)
-                                self.performSegue(withIdentifier: "bidToPaymentSegue", sender: self)
+                                self.navigationController?.popToRootViewController(animated: true)
                             }
                         case let .failure(error):
                             print(error)
                     }
                 }
-        } else {
-            
-            AF.request("\(NGROK_URL)/api/selling/sell/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
-                        switch response.result {
-                            case .success:
-                                if let value = response.value as? NSDictionary {
-            //                        if let data = value.data(using: String.Encoding.utf8) {
-            //                            let json = JSON(data)
-                                    print(value)
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                }
-                            case let .failure(error):
-                                print(error)
-                        }
-                    }
-            }
+                
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,6 +109,9 @@ class BidOrAskContainerVC: UIViewController, SwipeInfoDelegate {
             
             vc.meetupTimeString = "\(timeFormatter.string(from: timePickerFrom.date)) - \(timeFormatter.string(from: timePickerTo.date))"
             vc.price = price
+            vc.hallId = hallId
+            vc.startTime = convertPickerTimeToJSONString(time: timePickerFrom.date)
+            vc.endTime = convertPickerTimeToJSONString(time: timePickerTo.date)
         }
     }
     

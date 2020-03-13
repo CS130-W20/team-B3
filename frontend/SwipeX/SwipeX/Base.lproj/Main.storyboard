@@ -524,6 +524,22 @@
                     <view key="view" contentMode="scaleToFill" id="Twf-XA-90K">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pending requests" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dep-hY-wKf">
+                                <rect key="frame" x="20" y="421" width="321" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="42"/>
+                                <color key="textColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Matches" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wC1-9p-exh">
+                                <rect key="frame" x="20" y="77" width="162" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="42"/>
+                                <color key="textColor" red="0.50213345740000004" green="0.67448835389999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="NZg-uS-iQZ"/>
                     </view>
@@ -929,6 +945,9 @@
                                 <state key="normal" title="Confirm Purchase">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="confirmPressed:" destination="Imm-O6-6HG" eventType="touchUpInside" id="AUC-IW-oBO"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sez-4Y-6H3">
                                 <rect key="frame" x="0.0" y="-47" width="414" height="185"/>
@@ -1035,6 +1054,7 @@
                         <viewLayoutGuide key="safeArea" id="kfX-j9-Obj"/>
                     </view>
                     <connections>
+                        <outlet property="cardTextField" destination="m3P-Jg-dwF" id="9Wa-ao-9GS"/>
                         <outlet property="meetupTimeLabel" destination="FaD-7p-625" id="9Sy-Zl-AhA"/>
                         <outlet property="priceLabel" destination="i1Y-ZN-geu" id="o7l-RQ-5iS"/>
                         <outlet property="sellerNameLabel" destination="d9A-X2-i8w" id="sEM-zi-r3T"/>

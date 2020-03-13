@@ -205,7 +205,6 @@ class SwipePriceViewController: UIViewController{
         toTime.text = timeFormatter.string(from: timeFormatter.date(from: maxTimeString!)!)
     }
 
-
     /*
     // MARK: - Navigation
 
@@ -215,7 +214,6 @@ class SwipePriceViewController: UIViewController{
         // Pass the selected object to the new view controller.
     }
     */
-
 }
 
 extension SwipePriceViewController: ToolbarDatePickerDelegate {

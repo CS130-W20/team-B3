@@ -265,6 +265,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 print(error)
             }
         }
+        
+        AF.request("\(NGROK_URL)/api/swipes/homescreen_info/", method:.get).responseJSON { response in
+            switch response.result {
+            case .success:
+                if let value = response.value as? String {
+                    if let data = value.data(using: String.Encoding.utf8) {
+                        let json = JSON(data)
+                        print(json)
+                        if let quickService =  json["quick"].arrayValue as [JSON]? {
+                            self.quicks = quickService
+                            print(self.quicks)
+                            self.quickServiceCollection.reloadData()
+                        }
+                        if let dining =  json["halls"].arrayValue as [JSON]? {
+                            self.halls = dining
+                            print(self.halls)
+                            self.diningHallCollection.reloadData()
+                        }
+                    }
+                }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
     
     override func viewDidLoad() {

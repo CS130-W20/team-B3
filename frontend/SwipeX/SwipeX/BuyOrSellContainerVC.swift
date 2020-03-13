@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-
+import Alamofire
 
 class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDelegate {
     
@@ -24,6 +23,13 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
         infoPersonNameLabel.text = info["name"] as! String
         
         sellerName = info["name"] as! String
+        
+        if (isBuying) {
+            bidId = info["swipe_id"] as! Int
+        } else {
+            bidId = info["bid_id"] as! Int
+        }
+        
         
        let overlap = info["overlap"] as? NSDictionary
         
@@ -65,13 +71,49 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
     
     var sellerName:String?
     var price:Int!
+    var bidId:Int!
     
     override func viewWillAppear(_ animated: Bool) {
         
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
-        self.performSegue(withIdentifier: "buyToPaymentSegue", sender: self)
+        if (isBuying) {
+            self.performSegue(withIdentifier: "buyToPaymentSegue", sender: self)
+        } else {
+            
+            let userId = UserDefaults.standard.integer(forKey: "userId")
+            let parameters = [
+                "user_id": userId,
+                "hall_id": hallId,
+                "bid_id": bidId,
+                "desired_price": price,
+                "desired_time": convertPickerTimeToJSONString(time: timePicker.date)
+                ] as [String : Any]
+                
+            
+            let alert = UIAlertController(title: "Confirmation", message: "Sell one swipe for $\(parentVC!.priceField.text!)? All sales are final.", preferredStyle: UIAlertController.Style.alert)
+
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { result in
+                
+                AF.request("\(NGROK_URL)/api/selling/sell/", method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
+                    switch response.result {
+                        case .success:
+                            if let value = response.value as? NSDictionary {
+                                print(value)
+                                self.navigationController?.popToRootViewController(animated: true)
+                            }
+                        case let .failure(error):
+                            print(error)
+                    }
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,6 +131,9 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
             vc.isBuying = isBuying
             vc.price = "\(price!)"
             vc.sellerName = sellerName
+            vc.hallId = hallId
+            vc.bidId = bidId
+            vc.meetupTimeJSONString = convertPickerTimeToJSONString(time: timePicker.date)
         }
     }
     

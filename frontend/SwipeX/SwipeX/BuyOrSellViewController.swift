@@ -172,7 +172,6 @@ class BuyOrSellViewController: UIViewController, UITextFieldDelegate {
                         print(value["name"])
                         self.delegate?.gotSwipeInfo(info: value)
                         self.delegate?.gotPrice(price: Int(self.priceField.text!)!)
-                        
                     }
                 case let .failure(error):
                     print(error)
