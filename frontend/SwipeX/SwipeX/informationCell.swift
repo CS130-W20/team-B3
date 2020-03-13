@@ -23,7 +23,6 @@ class informationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
         diningHallNameLabel.text = diningHallName
         nameLabel.text = name
         timeLabel.text = time

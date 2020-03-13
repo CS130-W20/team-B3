@@ -41,6 +41,12 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
                             self.pendingSwipesArray = swipesDict!["Available"] as! [NSDictionary]
                             
                             print(self.pendingBidsArray)
+                            
+                            self.pendingBids.reloadData()
+                            self.pendingAsks.reloadData()
+                            self.acceptedBids.reloadData()
+                            self.acceptedAsks.reloadData()
+                            
                            }
                        case let .failure(error):
                            print(error)
@@ -60,6 +66,11 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
         pendingAsks.dataSource = self
         pendingBids.delegate = self
         pendingBids.dataSource = self
+        
+        pendingAsks.register(informationCell.self, forCellReuseIdentifier: "Ic")
+        pendingBids.register(informationCell.self, forCellReuseIdentifier: "Ic")
+        acceptedBids.register(informationCell.self, forCellReuseIdentifier: "Ic")
+        acceptedAsks.register(informationCell.self, forCellReuseIdentifier: "Ic")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,20 +90,23 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "informationCell", for: indexPath) as! informationCell
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Ic", for: indexPath) as! informationCell
         
-        print(self.pendingBids)
-        print(self.pendingAsks)
-        return cell
+//        print(self.pendingBidsArray)
+//        print(self.pendingAsksArray)
+        
         if(tableView == self.acceptedAsks) {
-//            cell.name =
-        }
-        else if(tableView == self.acceptedBids) {
-        }
-        else if(tableView == self.pendingAsks) {
-        }
-        else if(tableView == self.pendingBids) {
-        }
+        //            cell.name =
+                }
+                else if(tableView == self.acceptedBids) {
+                }
+                else if(tableView == self.pendingAsks) {
+                }
+                else if(tableView == self.pendingBids) {
+                }
+        
+        return cell
         
     }
 
