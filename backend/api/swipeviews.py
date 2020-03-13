@@ -14,7 +14,6 @@ import os
 from pytz import timezone
 from twilio.rest import Client
 
-stripe_test_key = os.environ.get("stripe_test_key")
 twilio_account_sid = os.environ.get("twilio_account_sid")
 twilio_auth_token = os.environ.get("twilio_auth_token")
 
@@ -113,7 +112,7 @@ def create_and_pair(request):
     if 'hall_id' not in data:
         return Response({'STATUS': '1', 'REASON': 'MISSING REQUIRED HALL_ID ARGUMENT FOR BID/SWIPE'}, status=status.HTTP_400_BAD_REQUEST)
     try:
-        pair_type = request.resolver_match.url_name
+        pair_type = request.resolver_match.url_name # Different endpoints call the same view, so we need to differentiate between them
         paired = None
         paired_serializer = None
         paired_phone = None
@@ -125,6 +124,8 @@ def create_and_pair(request):
         elif pair_type == 'buy_swipe' and 'swipe_id' in data:
             paired = Swipe.objects.get(swipe_id=data['swipe_id'])
         if paired is not None:
+            if paired.status != '0':
+                return Response({'STATUS': '1', 'REASON': 'BID/SWIPE FOUND BUT HAS ALREADY BEEN SOLD, CAN\'T SELL IT AGAIN'}, status=status.HTTP_400_BAD_REQUEST)
             if data.get('desired_time', None) is None:
                 return Response({'STATUS': '1', 'REASON': 'ELIGIBLE PAIRING, BUT NO SPECIFIC TIME FOR TRANSACTION GIVEN'}, status=status.HTTP_400_BAD_REQUEST)
             serial_data['status'] = '1'
@@ -158,16 +159,19 @@ def create_and_pair(request):
                     paired = paired_serializer.save()
                 else:
                     return Response({'STATUS': '1', 'REASON': 'PAIRED OBJECT SERIALIZER ERROR', 'ERRORS': {**paired_serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+            # Send confirmation texts to buyer and seller, respectively
             twilio_client = Client(twilio_account_sid, twilio_auth_token)
-            creator_phone = re.sub('[^0-9]+', '', creator_phone)
-            creator_msg = "This is SwipeX, letting you know that while we haven't found a " + ("seller" if saved.__class__.__name__ == 'Bid' else "buyer") + " for your " + ("bid" if saved.__class__.__name__ == 'Bid' else "swipe sale") + " request at this time, you've been entered into the queue and will be notified when a pairing occurs. Thank you for choosing SwipeX!"
+            creator_phone = re.sub('[^0-9]+', '', creator_phone) # Strip out any non-numeric characters
+            hall_name = saved.hall_id.name # Get the dining hall name for the text
+            meeting_time = datetime.datetime.strptime(data['desired_time'], "%H:%M").strftime("%I:%M%p") # And form a 12-hour string
+            creator_msg = "This is SwipeX, letting you know that while we haven't found a " + ("seller" if saved.__class__.__name__ == 'Bid' else "buyer") + " for your " + ("bid" if saved.__class__.__name__ == 'Bid' else "swipe sale") + " request at " + hall_name + " at this time, you've been entered into the queue and will be notified when a pairing occurs. Thank you for choosing SwipeX!"
             if paired_phone is not None:
                 paired_phone = re.sub('[^0-9]+', '', paired_phone)
-                paired_phone_formatted = re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1-", "%d" % int(paired_phone[:-1])) + paired_phone[-1]
+                paired_phone_formatted = re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1-", "%d" % int(paired_phone[:-1])) + paired_phone[-1] # Add dashes in between phone numbers to send for communication purposes
                 creator_phone_formatted = re.sub("(\d)(?=(\d{3})+(?!\d))", r"\1-", "%d" % int(creator_phone[:-1])) + creator_phone[-1]
-                creator_msg = "This is SwipeX, letting you know that we were able to find and match you with a " + ("buyer for your swipe" if saved.__class__.__name__ == 'Swipe' else "seller for your bid") + " that would like to meet at *ADD TIME HERE*. You can contact them at " + paired_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
-                paired_msg = "This is SwipeX with an update for you on your existing " + ("bid" if paired.__class__.__name__ == 'Bid' else "swipe sale") + " request. You've been paired with a " + ("seller" if paired.__class__.__name__ == 'Bid' else "buyer") + " that would like to meet at *ADD TIME HERE*. You can contact them at " + creator_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
-                paired_phone = "+" + ("1" if len(paired_phone) == 10 else "") + paired_phone
+                creator_msg = "This is SwipeX, letting you know that we were able to find and match you with a " + ("buyer for your swipe" if saved.__class__.__name__ == 'Swipe' else "seller for your bid") + " that would like to meet at " + hall_name + " at " + meeting_time + ". You can contact them at " + paired_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
+                paired_msg = "This is SwipeX with an update for you on your existing " + ("bid" if paired.__class__.__name__ == 'Bid' else "swipe sale") + " request. You've been paired with a " + ("seller" if paired.__class__.__name__ == 'Bid' else "buyer") + " that would like to meet at " + hall_name + " at " + meeting_time + ". You can contact them at " + creator_phone_formatted + " to coordinate more details. Thank you for choosing SwipeX!"
+                paired_phone = "+" + ("1" if len(paired_phone) == 10 else "") + paired_phone # Assume 10-digit number is US without the 1 attached, just an easy test for right now
                 twilio_client.messages.create(body=paired_msg, from_='+18563065093', to=paired_phone)
             creator_phone = "+" + ("1" if len(creator_phone) == 10 else "") + creator_phone
             twilio_client.messages.create(body=creator_msg, from_='+18563065093', to=creator_phone)
