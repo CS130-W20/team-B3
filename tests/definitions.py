@@ -66,8 +66,8 @@ def test_account_create(res, expected, data):
 
     Args:
         res (HTTP Reponse): The response from attempting to create the Account object.
-        expected (Dict): The expected response
-        data (Dict): The data used to create the object
+        expected (Dict): The expected response.
+        data (Dict): The data used to issue the test.
 
     Raises:
         RuntimeError: If the account creation failed or if the expected response is different than the actual response.
@@ -93,9 +93,9 @@ def test_account_update(res, expected, data):
     Tests account update endpoint.
 
     Args:
-        res (HTTP Reponse): The response from attempting to create the Account object.
-        expected (Dict): The expected response
-        data (Dict): The data used to create the object
+        res (HTTP Reponse): The response from attempting to update the Account object.
+        expected (Dict): The expected response.
+        data (Dict): TThe data used to issue the test.
 
     Raises:
         RuntimeError: If the account update failed or if the expected response is different than the actual response.
@@ -113,6 +113,17 @@ def test_account_update(res, expected, data):
 
 
 def test_account_checkexistence(res, expected, data):
+    """
+    Tests the account_checkexistence endpoint at url accounts/check/
+
+    Args:
+        res (HTTP Reponse): The response from attempting to check for existence.
+        expected (Dict): The expected response
+        data (Dict): The data used to issue the test.
+
+    Raises:
+        RuntimeError: If the account check failed or if the expected response is different than the actual response.
+    """
 
     try:
         account = Account.objects.get(email=data['email'])
@@ -126,7 +137,20 @@ def test_account_checkexistence(res, expected, data):
 
 
 def test_bid_placebid(res, expected, data):
+    """
+    Tests the place bid endpoint at url buying/buy/.
 
+    Args:
+        res (HTTP Reponse): The response from attempting to place a Bid.
+        expected (Dict): The expected response.
+        data (Dict): The data used to issue the test.
+
+    Raises:
+        RuntimeError: If the bid creation failed or if the expected response is different than the actual response.
+
+    Returns:
+        Bid: The Bid object.
+    """
     try:
         bid = Bid.objects.get(buyer_id=data['user_id'], hall_id=data['hall_id'])
     except Bid.DoesNotExist:
@@ -141,6 +165,18 @@ def test_bid_placebid(res, expected, data):
 
 
 def test_get_best_pairing(res, expected, data):
+    """
+    Tests the get_best_pairing endpoint at url selling/get_bid/.
+
+    Args:
+        res (HTTP Reponse): The response from attempting to match the Bid.
+        expected (Dict): The expected response.
+        data (Dict): The data used to issue the test.
+
+    Raises:
+        RuntimeError: If the bid matching fails to return the expected Bid.
+    """
+
     res_json = res.json()
     if res_json['buyer'] != expected['buyer'] or res_json['hall_id'] != expected['hall_id']:
         raise RuntimeError(f'get_best_pairing did not return the expected best pairing .')
