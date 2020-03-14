@@ -168,7 +168,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 cell.numBids.text = arrayEmpty ? "" : "\(quicks[indexPath.row]["nBids"]) bids"
 
-                let lowestAsk = arrayEmpty ? 0 : halls[indexPath.row]["lowest_ask"]
+                let lowestAsk = arrayEmpty ? 0 : quicks[indexPath.row]["lowest_ask"]
                 
                 cell.lowestAsk.text = (arrayEmpty || lowestAsk.intValue == 0) ? "0 asks" : "$\(quicks[indexPath.row]["lowest_ask"]) lowest ask"
                 

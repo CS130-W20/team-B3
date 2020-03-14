@@ -761,7 +761,7 @@
                     <tabBarItem key="tabBarItem" title="Swipes" image="creditcard" catalog="system" selectedImage="creditcard.fill" id="LLI-K0-w53"/>
                     <connections>
                         <outlet property="acceptedAsks" destination="eP8-8n-Fsk" id="4fa-Mq-SXU"/>
-                        <outlet property="acceptedBids" destination="eU9-Ja-epO" id="7cd-gH-SIK"/>
+                        <outlet property="acceptedBids" destination="eU9-Ja-epO" id="ddd-J3-M6Q"/>
                         <outlet property="pendingAsks" destination="BHd-xr-G7G" id="zHo-4J-5ym"/>
                         <outlet property="pendingBids" destination="vQL-Gq-fPV" id="UIF-Fi-weP"/>
                     </connections>
@@ -1092,7 +1092,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Doe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCl-Jc-6yY">
-                                                <rect key="frame" x="148" y="12" width="186" height="31"/>
+                                                <rect key="frame" x="148" y="12" width="236" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1258,7 +1258,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Doe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9A-X2-i8w">
-                                                <rect key="frame" x="148" y="34" width="186" height="31"/>
+                                                <rect key="frame" x="148" y="34" width="218" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="25"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1276,6 +1276,7 @@
                     </view>
                     <connections>
                         <outlet property="cardTextField" destination="m3P-Jg-dwF" id="9Wa-ao-9GS"/>
+                        <outlet property="confirmButton" destination="c8X-hx-x1f" id="Ey6-iE-ZZ6"/>
                         <outlet property="meetupTimeLabel" destination="FaD-7p-625" id="9Sy-Zl-AhA"/>
                         <outlet property="priceLabel" destination="i1Y-ZN-geu" id="o7l-RQ-5iS"/>
                         <outlet property="sellerNameLabel" destination="d9A-X2-i8w" id="sEM-zi-r3T"/>
@@ -1283,7 +1284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbq-M5-rJI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5494" y="-238"/>
+            <point key="canvasLocation" x="5492.753623188406" y="-238.05803571428569"/>
         </scene>
         <!--Bid Confirmation View Controller-->
         <scene sceneID="YHi-l0-0mM">

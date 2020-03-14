@@ -142,6 +142,7 @@ class BuyOrSellContainerVC: UIViewController, UITextFieldDelegate, SwipeInfoDele
 
         // Do any additional setup after loading the view.
         
+        infoPersonNameLabel.adjustsFontSizeToFitWidth = true
         self.hideKeyboardWhenTappedAround()
         if (isBuying) {
             OneSwipeLabel.text = "Buy one swipe for..."

@@ -22,6 +22,7 @@ class PaymentViewController: UIViewController {
     @IBOutlet weak var sellerNameLabel: UILabel!
     
     var meetupTimeJSONString:String?
+    @IBOutlet weak var confirmButton: UIButton!
     
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var meetupTimeLabel: UILabel!
@@ -29,15 +30,17 @@ class PaymentViewController: UIViewController {
     
     var paymentIntentClientSecret: String?
     
+    let userId = UserDefaults.standard.integer(forKey: "userId")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
         sellerNameLabel.text = sellerName
+        sellerNameLabel.adjustsFontSizeToFitWidth = true
         meetupTimeLabel.text = meetupTime
         priceLabel.text = "$ \(price!)"
-        
+        confirmButton.isEnabled = false
         startCheckout()
     }
     
@@ -68,7 +71,6 @@ class PaymentViewController: UIViewController {
         
         let paymentHandler = STPPaymentHandler.shared()
         
-        let userId = UserDefaults.standard.integer(forKey: "userId")
         let parameters = [
             "user_id": userId,
             "hall_id": hallId,
@@ -112,7 +114,10 @@ class PaymentViewController: UIViewController {
         
         print(price)
         let parameters: [String: Any] = [
-            "amount": (Int(price!)!*100)
+            "amount": (Int(price!)!*100),
+            "swipe_id": bidId,
+            "user_id": userId,
+            "type": isBuying! ? "ASK" : "BID"
         ]
         
         AF.request(url, method:.post, parameters: parameters, encoding:JSONEncoding.default).responseJSON { response in
@@ -128,6 +133,8 @@ class PaymentViewController: UIViewController {
                             self.paymentIntentClientSecret = json["client_secret"].stringValue
                             
                             Stripe.setDefaultPublishableKey("pk_test_d3JzWCczi1nb43jv9y1Kpvrg00XSfsIYXE")
+                            
+                            self.confirmButton.isEnabled = true
                         }
                     }
                 case let .failure(error):

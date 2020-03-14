@@ -40,8 +40,6 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
                             self.acceptedSwipesArray = swipesDict!["Sold"] as! [NSDictionary]
                             self.pendingSwipesArray = swipesDict!["Available"] as! [NSDictionary]
                             
-                            print(self.pendingBidsArray)
-                            
                             self.pendingBids.reloadData()
                             self.pendingAsks.reloadData()
                             self.acceptedBids.reloadData()
@@ -73,6 +71,10 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
         acceptedAsks.register(informationCell.self, forCellReuseIdentifier: "Ic")
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(tableView == self.acceptedAsks) {
             return acceptedSwipesArray.count
@@ -93,17 +95,32 @@ class SwipeSummaryViewController: UIViewController, UITableViewDelegate, UITable
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "Ic", for: indexPath) as! informationCell
         
-//        print(self.pendingBidsArray)
-//        print(self.pendingAsksArray)
+        print(self.pendingBidsArray)
+        print(self.pendingSwipesArray)
+        print(self.acceptedBidsArray)
+        print(self.acceptedSwipesArray)
         
         if(tableView == self.acceptedAsks) {
         //            cell.name =
-                }
+            cell.name = "John Doe"
+            cell.diningHallName = self.acceptedSwipesArray[indexPath.row]["hall_name"] as! String
+            cell.price = self.acceptedSwipesArray[indexPath.row]["price"] as! String
+            
+        }
                 else if(tableView == self.acceptedBids) {
+            cell.name = "John Doe"
+            cell.diningHallName = self.acceptedBidsArray[indexPath.row]["hall_name"] as! String
+            cell.price = self.acceptedBidsArray[indexPath.row]["bid_price"] as! String
                 }
                 else if(tableView == self.pendingAsks) {
+            cell.name = "John Doe"
+            cell.diningHallName = self.pendingSwipesArray[indexPath.row]["hall_name"] as! String
+            cell.price = self.pendingSwipesArray[indexPath.row]["price"] as! String
                 }
                 else if(tableView == self.pendingBids) {
+            cell.name = "John Doe"
+            cell.diningHallName = self.pendingBidsArray[indexPath.row]["hall_name"] as! String
+            cell.price = self.pendingBidsArray[indexPath.row]["bid_price"] as! String
                 }
         
         return cell
