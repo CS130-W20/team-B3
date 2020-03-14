@@ -113,4 +113,11 @@ dist
 
 # API Keys
 backend/keys.py
+
+# Frontend
+frontend/SwipeX/Pods/
+frontend/SwipeX/SwipeX.xcodeproj/project.xcworkspace/xcuserdata/ashwinvivek.xcuserdatad/UserInterfaceState.xcuserstate
+frontend/SwipeX/SwipeX.xcworkspace/xcuserdata/ashwinvivek.xcuserdatad/UserInterfaceState.xcuserstate
+
 .env
+
