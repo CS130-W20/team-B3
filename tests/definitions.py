@@ -162,7 +162,7 @@ def test_bid_placebid(res, expected, data):
             bid.delete()
             raise RuntimeError(f'Bid creation did not return expected result {expected}')
 
-    return bid
+        return bid
 
 
 def test_get_best_pairing(res, expected, data):
