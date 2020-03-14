@@ -339,6 +339,17 @@ def lowestswipe_highestbid_info(request):
     return Response(json.dumps(info), status=status.HTTP_200_OK)
 
 def get_lowest_swipe(swipe_candidates, start, end):
+    """
+    Function for getting the lowest swipe in a given time range.
+
+    Args:
+        swipe_candidates (list): The swipes
+        start (int): The start of the desired time interval
+        end (int): The end of the desired time interval
+
+    Returns:
+        float: The lowest price out of all swipes
+    """
     curr_price = float("inf")
     for swipe in swipe_candidates:
         for hours in swipe.visibility:
@@ -351,6 +362,17 @@ def get_lowest_swipe(swipe_candidates, start, end):
 
 
 def get_highest_bid(bid_candidates, start, end):
+    """
+    Function for getting the highest big out of a list of bids in a desired time interval.
+
+    Args:
+        bid_candidates (list): The list of bids
+        start (int): The start of the desired time interval
+        end (int): The end of the desired time interval
+
+    Returns:
+        float: The highest bid price.
+    """
     curr_price = 0
     for bid in bid_candidates:
         for hours in bid.visibility:

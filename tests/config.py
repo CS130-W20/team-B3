@@ -110,7 +110,7 @@ CASES = [
         'expected_result': {'buyer': 1, 'hall_id': 1},
         'func': test_get_best_pairing
     },
-		{
+    {
         'name': 'test_timeinterval_info',
         'url': 'swipes/timeinterval_info/',
         'type': 'POST',
@@ -119,10 +119,10 @@ CASES = [
             'start': '12',
             'end': '16'
         },
-        'expected_result': {"len":5},
+        'expected_result': {"len": 5},
         'func': test_timeinterval_info
     },
-		{
+    {
         'name': 'test_get_swipe',
         'url': 'buying/get_swipe/',
         'type': 'POST',
@@ -132,7 +132,7 @@ CASES = [
                 'start': '12:00',
                 'end': '16:00'
             }],
-            'pair_type' : 'get_bid',
+            'pair_type': 'get_bid',
             'desired_price': 7.00
         },
         'expected_result': {},

@@ -39,6 +39,7 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
@@ -59,35 +60,37 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.Account">Account (class in api.models)</a>
 </li>
-      <li><a href="api.html#api.models.Location.account">account (Location attribute)</a>
-
-      <ul>
-        <li><a href="api.html#api.models.User.account">(User attribute)</a>
+      <li><a href="api.html#api.models.User.account">account (User attribute)</a>
 </li>
-      </ul></li>
       <li><a href="api.html#api.models.Account.DoesNotExist">Account.DoesNotExist</a>
 </li>
       <li><a href="api.html#api.models.Account.MultipleObjectsReturned">Account.MultipleObjectsReturned</a>
 </li>
+      <li><a href="api.html#api.accountviews.account_checkexistence">account_checkexistence() (in module api.accountviews)</a>
+</li>
       <li><a href="api.html#api.accountviews.account_create">account_create() (in module api.accountviews)</a>
 </li>
-      <li><a href="api.html#api.accountviews.account_update">account_update() (in module api.accountviews)</a>
+      <li><a href="api.html#api.accountviews.account_data">account_data() (in module api.accountviews)</a>
 </li>
-      <li><a href="api.html#api.serializers.AccountSerializer">AccountSerializer (class in api.serializers)</a>
+      <li><a href="api.html#api.models.Location.account_set">account_set (Location attribute)</a>
+</li>
+      <li><a href="api.html#api.accountviews.account_shouldupdatelocation">account_shouldupdatelocation() (in module api.accountviews)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#api.accountviews.account_update">account_update() (in module api.accountviews)</a>
+</li>
+      <li><a href="api.html#api.accountviews.account_updatelocation">account_updatelocation() (in module api.accountviews)</a>
+</li>
+      <li><a href="api.html#api.serializers.AccountSerializer">AccountSerializer (class in api.serializers)</a>
+</li>
       <li><a href="api.html#api.serializers.AccountSerializer.Meta">AccountSerializer.Meta (class in api.serializers)</a>
 </li>
       <li><a href="api.html#module-api">api (module)</a>
 </li>
       <li><a href="api.html#module-api.accountviews">api.accountviews (module)</a>
 </li>
-      <li><a href="api.html#module-api.buyviews">api.buyviews (module)</a>
-</li>
       <li><a href="api.html#module-api.models">api.models (module)</a>
-</li>
-      <li><a href="api.html#module-api.sellviews">api.sellviews (module)</a>
 </li>
       <li><a href="api.html#module-api.serializers">api.serializers (module)</a>
 </li>
@@ -107,16 +110,12 @@
 </li>
       <li><a href="api.html#api.models.Bid.MultipleObjectsReturned">Bid.MultipleObjectsReturned</a>
 </li>
-      <li><a href="api.html#api.buyviews.bid_getcheapestswipe">bid_getcheapestswipe() (in module api.buyviews)</a>
+      <li><a href="api.html#api.accountviews.bid_filter">bid_filter() (in module api.accountviews)</a>
 </li>
       <li><a href="api.html#api.models.Bid.bid_id">bid_id (Bid attribute)</a>
 </li>
-      <li><a href="api.html#api.buyviews.bid_placebid">bid_placebid() (in module api.buyviews)</a>
-</li>
       <li><a href="api.html#api.models.Bid.bid_price">bid_price (Bid attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.DiningHall.bid_set">bid_set (DiningHall attribute)</a>
 
       <ul>
@@ -125,6 +124,8 @@
         <li><a href="api.html#api.models.User.bid_set">(User attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.Bid.BID_STATES">BID_STATES (Bid attribute)</a>
 </li>
       <li><a href="api.html#api.serializers.BidSerializer">BidSerializer (class in api.serializers)</a>
@@ -141,12 +142,22 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.serializers.DiningHallSerializer.create">create() (DiningHallSerializer method)</a>
+      <li><a href="api.html#api.serializers.BidSerializer.create">create() (BidSerializer method)</a>
 
       <ul>
+        <li><a href="api.html#api.serializers.DiningHallSerializer.create">(DiningHallSerializer method)</a>
+</li>
         <li><a href="api.html#api.serializers.SwipeSerializer.create">(SwipeSerializer method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#api.swipeviews.create_and_pair">create_and_pair() (in module api.swipeviews)</a>
+</li>
+      <li><a href="api.html#api.models.Account.cur_loc">cur_loc (Account attribute)</a>
+</li>
+      <li><a href="api.html#api.models.Account.cur_loc_id">cur_loc_id (Account attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -161,10 +172,10 @@
 </li>
       <li><a href="api.html#api.models.DiningHall">DiningHall (class in api.models)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.Location.dininghall">dininghall (Location attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.DiningHall.DoesNotExist">DiningHall.DoesNotExist</a>
 </li>
       <li><a href="api.html#api.models.DiningHall.MultipleObjectsReturned">DiningHall.MultipleObjectsReturned</a>
@@ -172,6 +183,16 @@
       <li><a href="api.html#api.serializers.DiningHallSerializer">DiningHallSerializer (class in api.serializers)</a>
 </li>
       <li><a href="api.html#api.serializers.DiningHallSerializer.Meta">DiningHallSerializer.Meta (class in api.serializers)</a>
+</li>
+      <li><a href="api.html#api.models.Location.distance">distance() (Location static method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#api.models.Account.email">email (Account attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -201,11 +222,13 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#api.swipeviews.get_best_pairing">get_best_pairing() (in module api.swipeviews)</a>
+</li>
       <li><a href="api.html#api.swipeviews.get_hall_stats">get_hall_stats() (in module api.swipeviews)</a>
 </li>
-      <li><a href="api.html#api.models.Transaction.get_next_by_paid">get_next_by_paid() (Transaction method)</a>
+      <li><a href="api.html#api.swipeviews.get_highest_bid">get_highest_bid() (in module api.swipeviews)</a>
 </li>
-      <li><a href="api.html#api.models.Transaction.get_previous_by_paid">get_previous_by_paid() (Transaction method)</a>
+      <li><a href="api.html#api.swipeviews.get_lowest_swipe">get_lowest_swipe() (in module api.swipeviews)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -225,14 +248,22 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.models.DiningHall.hall_id">hall_id (DiningHall attribute)</a>
+      <li><a href="api.html#api.models.Bid.hall_id">hall_id (Bid attribute)</a>
+
+      <ul>
+        <li><a href="api.html#api.models.DiningHall.hall_id">(DiningHall attribute)</a>
 </li>
-      <li><a href="api.html#api.models.Account.home_loc">home_loc (Account attribute)</a>
+        <li><a href="api.html#api.models.Swipe.hall_id">(Swipe attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.models.Account.home_loc_id">home_loc_id (Account attribute)</a>
+      <li><a href="api.html#api.models.Bid.hall_id_id">hall_id_id (Bid attribute)</a>
+
+      <ul>
+        <li><a href="api.html#api.models.Swipe.hall_id_id">(Swipe attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api.html#api.models.DiningHall.hours">hours (DiningHall attribute)</a>
 </li>
   </ul></td>
@@ -247,11 +278,7 @@
 </li>
       <li><a href="api.html#api.models.Location.loc_id">loc_id (Location attribute)</a>
 </li>
-      <li><a href="api.html#api.models.Bid.location">location (Bid attribute)</a>
-</li>
       <li><a href="api.html#api.models.Location">Location (class in api.models)</a>
-</li>
-      <li><a href="api.html#api.models.Swipe.location">location (Swipe attribute)</a>
 </li>
       <li><a href="api.html#api.models.Location.DoesNotExist">Location.DoesNotExist</a>
 </li>
@@ -259,12 +286,6 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.Location.MultipleObjectsReturned">Location.MultipleObjectsReturned</a>
 </li>
-      <li><a href="api.html#api.models.Bid.location_id">location_id (Bid attribute)</a>
-
-      <ul>
-        <li><a href="api.html#api.models.Swipe.location_id">(Swipe attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api.html#api.models.DiningHall.location_ptr">location_ptr (DiningHall attribute)</a>
 </li>
       <li><a href="api.html#api.models.DiningHall.location_ptr_id">location_ptr_id (DiningHall attribute)</a>
@@ -272,6 +293,8 @@
       <li><a href="api.html#api.serializers.LocationSerializer">LocationSerializer (class in api.serializers)</a>
 </li>
       <li><a href="api.html#api.serializers.LocationSerializer.Meta">LocationSerializer.Meta (class in api.serializers)</a>
+</li>
+      <li><a href="api.html#api.swipeviews.lowestswipe_highestbid_info">lowestswipe_highestbid_info() (in module api.swipeviews)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -302,7 +325,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#api.models.DiningHall.name">name (DiningHall attribute)</a>
+
+      <ul>
+        <li><a href="api.html#api.models.User.name">(User attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -331,15 +358,11 @@
 </li>
       <li><a href="api.html#api.models.Account.phone">phone (Account attribute)</a>
 </li>
-      <li><a href="api.html#api.models.DiningHall.picture">picture (DiningHall attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.models.User.pp_email">pp_email (User attribute)</a>
+      <li><a href="api.html#api.models.DiningHall.picture">picture (DiningHall attribute)</a>
 </li>
       <li><a href="api.html#api.models.Swipe.price">price (Swipe attribute)</a>
-</li>
-      <li><a href="api.html#api.models.Account.pw">pw (Account attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -373,13 +396,11 @@
 </li>
       <li><a href="api.html#api.models.Swipe">Swipe (class in api.models)</a>
 </li>
-      <li><a href="api.html#api.models.Swipe.DoesNotExist">Swipe.DoesNotExist</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.models.Swipe.MultipleObjectsReturned">Swipe.MultipleObjectsReturned</a>
+      <li><a href="api.html#api.models.Swipe.DoesNotExist">Swipe.DoesNotExist</a>
 </li>
-      <li><a href="api.html#api.sellviews.swipe_geteligiblebid">swipe_geteligiblebid() (in module api.sellviews)</a>
+      <li><a href="api.html#api.models.Swipe.MultipleObjectsReturned">Swipe.MultipleObjectsReturned</a>
 </li>
       <li><a href="api.html#api.models.Bid.swipe_id">swipe_id (Bid attribute)</a>
 
@@ -387,8 +408,6 @@
         <li><a href="api.html#api.models.Swipe.swipe_id">(Swipe attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api.html#api.sellviews.swipe_sellswipe">swipe_sellswipe() (in module api.sellviews)</a>
-</li>
       <li><a href="api.html#api.models.DiningHall.swipe_set">swipe_set (DiningHall attribute)</a>
 
       <ul>
@@ -431,9 +450,11 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.serializers.DiningHallSerializer.update">update() (DiningHallSerializer method)</a>
+      <li><a href="api.html#api.serializers.BidSerializer.update">update() (BidSerializer method)</a>
 
       <ul>
+        <li><a href="api.html#api.serializers.DiningHallSerializer.update">(DiningHallSerializer method)</a>
+</li>
         <li><a href="api.html#api.serializers.SwipeSerializer.update">(SwipeSerializer method)</a>
 </li>
       </ul></li>
@@ -463,8 +484,12 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#api.models.Swipe.visibility">visibility (Swipe attribute)</a>
+      <li><a href="api.html#api.models.Bid.visibility">visibility (Bid attribute)</a>
+
+      <ul>
+        <li><a href="api.html#api.models.Swipe.visibility">(Swipe attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
