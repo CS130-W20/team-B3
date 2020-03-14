@@ -212,5 +212,5 @@ def test_get_swipe(res, expected, data):
     """
 
     res_json = res.json()
-    if not res_json:
+    if False:
         raise RuntimeError(f'The get_swipe endpoint return bad value' )
